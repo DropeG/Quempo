@@ -124,7 +124,7 @@ export default function PublishModal({
         <div className="flex items-center justify-between pb-4 border-b border-slate-800">
           <div>
             <h2 className="text-xl font-bold text-white flex items-center gap-2">
-              <Car className="w-5 h-5 text-sky-400" /> Publicar Viaje
+              <Car className="w-5 h-5 text-emerald-400" /> Publicar Viaje
             </h2>
             <p className="text-xs text-slate-400">Comparte tu auto y amortiza los costos de subida/bajada</p>
           </div>
@@ -139,7 +139,7 @@ export default function PublishModal({
         {/* Require Auth State */}
         {!user ? (
           <div className="py-8 text-center space-y-4">
-            <div className="w-12 h-12 rounded-full bg-sky-500/10 text-sky-400 mx-auto flex items-center justify-center">
+            <div className="w-12 h-12 rounded-full bg-emerald-500/10 text-emerald-400 mx-auto flex items-center justify-center">
               <ShieldCheck className="w-6 h-6" />
             </div>
             <div>
@@ -150,7 +150,7 @@ export default function PublishModal({
             </div>
             <button
               onClick={handleLoginGoogle}
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-medium text-sm px-5 py-2.5 rounded-xl transition shadow-lg shadow-sky-500/25 active:scale-95"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-bold text-sm px-5 py-2.5 rounded-xl transition shadow-lg shadow-emerald-500/25 active:scale-95"
             >
               <LogIn className="w-4 h-4" /> Iniciar Sesión con Google
             </button>
@@ -180,7 +180,7 @@ export default function PublishModal({
                     onClick={() => setDirection(item.id as TripDirection)}
                     className={`py-2 px-2 text-xs font-semibold rounded-xl border transition ${
                       direction === item.id
-                        ? 'bg-sky-500/20 border-sky-400 text-sky-300'
+                        ? 'bg-emerald-500/20 border-emerald-400 text-emerald-300'
                         : 'bg-slate-800/60 border-slate-700/60 text-slate-400 hover:text-slate-200'
                     }`}
                   >
@@ -197,7 +197,7 @@ export default function PublishModal({
                 <select
                   value={destination}
                   onChange={(e) => setDestination(e.target.value as SkiResort)}
-                  className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-sky-500"
+                  className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500"
                 >
                   <option value="FARELLONES">Farellones</option>
                   <option value="EL_COLORADO">El Colorado</option>
@@ -217,7 +217,7 @@ export default function PublishModal({
                     placeholder="Ej: Cantagallo, Mall Sport, Metro Escuela Militar"
                     value={origin}
                     onChange={(e) => setOrigin(e.target.value)}
-                    className="w-full bg-slate-800 border border-slate-700 rounded-xl pl-8 pr-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-sky-500"
+                    className="w-full bg-slate-800 border border-slate-700 rounded-xl pl-8 pr-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
                   />
                 </div>
               </div>
@@ -233,7 +233,7 @@ export default function PublishModal({
                     type="date"
                     value={departureDate}
                     onChange={(e) => setDepartureDate(e.target.value)}
-                    className="w-full bg-slate-800 border border-slate-700 rounded-xl pl-8 pr-3 py-2 text-xs text-white focus:outline-none focus:border-sky-500"
+                    className="w-full bg-slate-800 border border-slate-700 rounded-xl pl-8 pr-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500"
                   />
                 </div>
               </div>
@@ -246,7 +246,7 @@ export default function PublishModal({
                     type="time"
                     value={departureTime}
                     onChange={(e) => setDepartureTime(e.target.value)}
-                    className="w-full bg-slate-800 border border-slate-700 rounded-xl pl-8 pr-3 py-2 text-xs text-white focus:outline-none focus:border-sky-500"
+                    className="w-full bg-slate-800 border border-slate-700 rounded-xl pl-8 pr-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500"
                   />
                 </div>
               </div>
@@ -264,7 +264,7 @@ export default function PublishModal({
                     max="8"
                     value={seatsAvailable}
                     onChange={(e) => setSeatsAvailable(Number(e.target.value))}
-                    className="w-full bg-slate-800 border border-slate-700 rounded-xl pl-8 pr-3 py-2 text-xs text-white focus:outline-none focus:border-sky-500"
+                    className="w-full bg-slate-800 border border-slate-700 rounded-xl pl-8 pr-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500"
                   />
                 </div>
               </div>
@@ -280,7 +280,7 @@ export default function PublishModal({
                     placeholder="10000"
                     value={pricePerSeat}
                     onChange={(e) => setPricePerSeat(Number(e.target.value))}
-                    className="w-full bg-slate-800 border border-slate-700 rounded-xl pl-8 pr-3 py-2 text-xs text-white focus:outline-none focus:border-sky-500"
+                    className="w-full bg-slate-800 border border-slate-700 rounded-xl pl-8 pr-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500"
                   />
                 </div>
               </div>
@@ -295,7 +295,7 @@ export default function PublishModal({
                   onClick={() => setHas4x4(!has4x4)}
                   className={`px-3 py-1.5 rounded-xl text-xs font-medium border flex items-center gap-1.5 transition ${
                     has4x4
-                      ? 'bg-sky-500/20 border-sky-400 text-sky-300'
+                      ? 'bg-emerald-500/20 border-emerald-400 text-emerald-300'
                       : 'bg-slate-800/60 border-slate-700 text-slate-400'
                   }`}
                 >
@@ -319,7 +319,7 @@ export default function PublishModal({
                   onClick={() => setHasRack(!hasRack)}
                   className={`px-3 py-1.5 rounded-xl text-xs font-medium border flex items-center gap-1.5 transition ${
                     hasRack
-                      ? 'bg-indigo-500/20 border-indigo-400 text-indigo-300'
+                      ? 'bg-teal-500/20 border-teal-400 text-teal-300'
                       : 'bg-slate-800/60 border-slate-700 text-slate-400'
                   }`}
                 >
@@ -338,7 +338,7 @@ export default function PublishModal({
                 placeholder="+56912345678"
                 value={whatsappNumber}
                 onChange={(e) => setWhatsappNumber(e.target.value)}
-                className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-sky-500"
+                className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
               />
             </div>
 
@@ -350,7 +350,7 @@ export default function PublishModal({
                 placeholder="Ej: Salgo puntual a las 7:00 AM. Espacio para botas en maletero."
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
-                className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-sky-500"
+                className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
               />
             </div>
 
@@ -359,7 +359,7 @@ export default function PublishModal({
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 disabled:opacity-50 text-white font-semibold text-sm py-2.5 rounded-xl shadow-lg shadow-sky-500/25 transition active:scale-95 cursor-pointer"
+                className="w-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 disabled:opacity-50 text-slate-950 font-bold text-sm py-2.5 rounded-xl shadow-lg shadow-emerald-500/25 transition active:scale-95 cursor-pointer"
               >
                 {submitting ? 'Publicando viaje...' : 'Publicar Viaje'}
               </button>

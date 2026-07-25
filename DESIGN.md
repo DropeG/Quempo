@@ -1,12 +1,12 @@
 # DESIGN.md — Sistema de Diseño Impeccable para Faredeo ❄️🏔️
 
-Este documento define el Sistema de Diseño Visual **Impeccable** para **Faredeo**, con el concepto **"Monocromático Nieve & Contraste Puro"**.
+Este documento define el Sistema de Diseño Visual **Impeccable** oficial para **Faredeo**, bajo el concepto **"Deep Andes Emerald & Solar Gold"**.
 
 ---
 
-## 1. Concepto Visual & Estética ("Snow Crisp & Obsidian Night")
+## 1. Concepto Visual & Estética ("Deep Andes Emerald")
 
-Faredeo utiliza una estética de alto contraste inspirada en aplicaciones deportivas de alta gama (Strava, Slopes, Red Bull Snow). Reemplaza los azules genéricos de plantilla por una base ultra oscura **Negro Obsidiana** (`#09090b`), tarjetas traslúcidas de blanco hielo con bordes definidos y acentos limpios de alto impacto.
+Faredeo utiliza una estética inspirada en la naturaleza viva de la cordillera de los Andes, las aguas glaciales de vertiente y los rayos de sol matutinos. Combina una base profunda **Azul Pizarra Cordillerano** (`#0a1118`) con cristales traslúcidos y acentos vibrantes de **Verde Esmeralda Glaciar** (`#00c9a7`) y **Dorado Solar** (`#f7b731`).
 
 ---
 
@@ -16,26 +16,25 @@ Faredeo utiliza una estética de alto contraste inspirada en aplicaciones deport
 
 | Categoría | Nombre | Hex / Valor | Uso / Propósito |
 | :--- | :--- | :--- | :--- |
-| **Background / Base** | Obsidian Night | `#09090b` | Fondo principal profundo y puro |
-| **Surface / Card** | Pure Snow Glass | `rgba(255, 255, 255, 0.05)` | Tarjetas traslúcidas de alto contraste |
-| **Surface Hover** | Snow Glass Hover | `rgba(255, 255, 255, 0.08)` | Estado hover táctil con borde blanco nítido |
-| **Primary Accent** | Electric Glacier Cyan | `#38bdf8` / `#06b6d4` | Destacados sutiles de Subida ⬆️ y estado activo |
-| **Secondary Accent** | Alpine Amber Sunset | `#fb923c` | Sentido Bajada ⬇️ |
-| **Text Primary** | Pure Snow White | `#ffffff` | Títulos y datos clave con contraste 100% nítido |
-| **Text Secondary** | Muted Ice Slate | `#a1a1aa` | Leyendas y etiquetas secundarias |
-| **Borders & Dividers** | Snow Border | `rgba(255, 255, 255, 0.15)` | Delimitadores nítidos de alta definición |
+| **Background / Base** | Deep Andes Slate | `#0a1118` | Fondo principal profundo y elegante |
+| **Surface / Card** | Emerald Frost Glass | `rgba(14, 22, 32, 0.85)` | Tarjetas de cristal traslúcido con blur |
+| **Primary Accent** | Glacier Emerald | `#00c9a7` | Botones de acción principal, estado Subida ⬆️, badges de verificación |
+| **Secondary Accent** | Solar Gold | `#f7b731` | Precios por cupo y estado Bajada ⬇️ |
+| **Text Primary** | Pure Snow White | `#f8fafc` | Títulos y datos principales |
+| **Text Secondary** | Muted Slate | `#94a3b8` | Subtítulos y etiquetas secundarias |
+| **Borders & Glass** | Emerald Glow Border | `rgba(0, 201, 167, 0.22)` | Bordes sutiles con resplandor esmeralda |
 
 ### 2.2 Variables CSS (`globals.css`)
 
 ```css
 :root {
-  --background: #09090b;
-  --foreground: #ffffff;
-  --card-bg: rgba(255, 255, 255, 0.04);
-  --border-color: rgba(255, 255, 255, 0.14);
-  --accent-cyan: #38bdf8;
-  --accent-orange: #fb923c;
-  --text-muted: #a1a1aa;
+  --background: #0a1118;
+  --foreground: #f8fafc;
+  --card-bg: rgba(14, 22, 32, 0.85);
+  --border-color: rgba(0, 201, 167, 0.22);
+  --accent-primary: #00c9a7;
+  --accent-primary-hover: #00e0b8;
+  --accent-gold: #f7b731;
 }
 ```
 
@@ -43,5 +42,6 @@ Faredeo utiliza una estética de alto contraste inspirada en aplicaciones deport
 
 ## 3. Tipografía y Jerarquía
 
-* **Fuente**: Geist / System-UI.
-* **Contraste**: Blanco puro `#ffffff` sobre fondos oscuros para lectura perfecta al aire libre en la nieve.
+* **Fuente**: System-UI / Inter / Sans.
+* **Contraste**: Texto `#f8fafc` sobre cristal `#0a1118` para máxima legibilidad táctil en smartphones bajo el sol de la montaña.
+

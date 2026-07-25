@@ -131,7 +131,7 @@ export default function Home() {
       <select
         value={selectedResort}
         onChange={(e) => setSelectedResort(e.target.value as any)}
-        className="w-full bg-slate-950/90 text-sky-300 font-bold text-xs sm:text-sm border border-sky-500/30 rounded-lg px-2 py-1 focus:outline-none focus:border-sky-400 cursor-pointer text-center"
+        className="w-full bg-slate-950/90 text-emerald-300 font-bold text-xs sm:text-sm border border-emerald-500/40 rounded-lg px-2 py-1 focus:outline-none focus:border-emerald-400 cursor-pointer text-center"
       >
         <option value="ALL">🏔️ Todos los Centros</option>
         <option value="EL_COLORADO">El Colorado</option>
@@ -152,7 +152,7 @@ export default function Home() {
         <section className="text-center py-4 sm:py-6 space-y-2">
           <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight drop-shadow-md">
             Sube y baja de la cordillera <br />
-            <span className="bg-gradient-to-r from-sky-400 via-sky-300 to-indigo-300 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-amber-300 bg-clip-text text-transparent">
               sin complicaciones
             </span>
           </h1>
@@ -165,7 +165,7 @@ export default function Home() {
         <div>
           <button
             onClick={() => setIsPublishModalOpen(true)}
-            className="w-full inline-flex items-center justify-center gap-3 bg-white hover:bg-zinc-200 text-black font-black text-base sm:text-lg py-4 px-6 rounded-2xl shadow-xl shadow-white/10 transition-all transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer border border-white/40"
+            className="w-full inline-flex items-center justify-center gap-3 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-black text-base sm:text-lg py-4 px-6 rounded-2xl shadow-xl shadow-emerald-500/20 transition-all transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer border border-emerald-400/40"
           >
             <Plus className="w-6 h-6 stroke-[3]" />
             <span>Publicar Viaje</span>
@@ -173,7 +173,7 @@ export default function Home() {
         </div>
 
         {/* Selector de Sentido de Ruta 1-Tap */}
-        <section className="glass-card rounded-3xl p-4 sm:p-5 space-y-3 border border-white/15 shadow-2xl">
+        <section className="glass-card rounded-3xl p-4 sm:p-5 space-y-3 border border-emerald-500/20 shadow-2xl">
           <div className="text-[11px] font-bold text-zinc-400 uppercase tracking-widest text-center">
             Sentido de la Ruta
           </div>
@@ -198,9 +198,9 @@ export default function Home() {
             <button
               onClick={toggleDirectionSwap}
               title="Cambiar sentido (Subida ⬆️ / Bajada ⬇️)"
-              className="p-3.5 rounded-2xl bg-zinc-800 hover:bg-zinc-700 text-white border border-zinc-600 shadow-md transition-transform active:scale-90 cursor-pointer"
+              className="p-3.5 rounded-2xl bg-zinc-800 hover:bg-zinc-700 text-white border border-emerald-500/40 shadow-md transition-transform active:scale-90 cursor-pointer"
             >
-              <ArrowRightLeft className="w-5 h-5 text-sky-400" />
+              <ArrowRightLeft className="w-5 h-5 text-emerald-400" />
             </button>
 
             {/* Destino */}
@@ -208,7 +208,7 @@ export default function Home() {
               <span className="text-[10px] text-zinc-400 block uppercase font-medium">Destino</span>
               {selectedDirection === 'SUBIDA' ? (
                 <div>
-                  <span className="text-xs font-semibold text-sky-400 block">🏔️ Centro de Ski</span>
+                  <span className="text-xs font-semibold text-emerald-400 block">🏔️ Centro de Ski</span>
                   {renderResortDropdown()}
                 </div>
               ) : selectedDirection === 'BAJADA' ? (
@@ -235,7 +235,7 @@ export default function Home() {
               }}
               className={`px-4 py-2 rounded-2xl text-xs font-semibold whitespace-nowrap transition cursor-pointer ${
                 filterDate === '' && !showDatePicker
-                  ? 'bg-white text-black shadow-md border border-white'
+                  ? 'bg-emerald-500 text-slate-950 font-bold shadow-md border border-emerald-400'
                   : 'bg-zinc-900/90 border border-zinc-800 text-zinc-300 hover:bg-zinc-800'
               }`}
             >
@@ -254,11 +254,11 @@ export default function Home() {
                   }}
                   className={`px-4 py-2 rounded-2xl text-xs font-semibold whitespace-nowrap transition cursor-pointer flex items-center gap-1.5 ${
                     isSelected
-                      ? 'bg-white text-black shadow-md border border-white'
+                      ? 'bg-emerald-500 text-slate-950 font-bold shadow-md border border-emerald-400'
                       : 'bg-zinc-900/90 border border-zinc-800 text-zinc-300 hover:bg-zinc-800'
                   }`}
                 >
-                  {isSelected && <Check className="w-3.5 h-3.5" />}
+                  {isSelected && <Check className="w-3.5 h-3.5 stroke-[3]" />}
                   {item.label}
                 </button>
               );
@@ -270,7 +270,7 @@ export default function Home() {
                 onClick={() => setShowDatePicker(!showDatePicker)}
                 className={`px-4 py-2 rounded-2xl text-xs font-semibold whitespace-nowrap transition cursor-pointer flex items-center gap-1.5 ${
                   showDatePicker || (filterDate && !quickDates.some((q) => q.dateStr === filterDate))
-                    ? 'bg-sky-500 text-white'
+                    ? 'bg-emerald-500 text-slate-950 font-bold border border-emerald-400'
                     : 'bg-slate-900/80 border border-slate-800 text-slate-400 hover:text-slate-200'
                 }`}
               >
@@ -289,7 +289,7 @@ export default function Home() {
                 type="date"
                 value={filterDate}
                 onChange={(e) => setFilterDate(e.target.value)}
-                className="bg-slate-800 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-sky-500"
+                className="bg-slate-800 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-emerald-500"
               />
               <button
                 onClick={() => {
@@ -321,7 +321,7 @@ export default function Home() {
               </p>
               <button
                 onClick={() => setIsPublishModalOpen(true)}
-                className="inline-flex items-center gap-2 bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition shadow-lg shadow-sky-500/25 cursor-pointer"
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-bold text-xs px-4 py-2.5 rounded-xl transition shadow-lg shadow-emerald-500/25 cursor-pointer"
               >
                 <Plus className="w-4 h-4" /> Publicar Viaje
               </button>

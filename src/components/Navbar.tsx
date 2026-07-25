@@ -44,11 +44,11 @@ export default function Navbar() {
       <div className="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-xl bg-white text-black flex items-center justify-center shadow-lg shadow-white/10 font-bold border border-white/20">
-            <Mountain className="w-5 h-5 text-black stroke-[2.5]" />
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 text-slate-950 flex items-center justify-center shadow-lg shadow-emerald-500/20 font-bold border border-emerald-400/30">
+            <Mountain className="w-5 h-5 text-slate-950 stroke-[2.5]" />
           </div>
           <span className="font-black text-xl tracking-tight text-white flex items-center gap-0.5">
-            Fare<span className="text-sky-400">deo</span>
+            Fare<span className="text-emerald-400">deo</span>
           </span>
         </div>
 
@@ -63,7 +63,7 @@ export default function Navbar() {
                 <img
                   src={user.user_metadata.avatar_url}
                   alt={user.user_metadata.full_name || 'User'}
-                  className="w-8 h-8 rounded-full ring-2 ring-white/30 object-cover"
+                  className="w-8 h-8 rounded-full ring-2 ring-emerald-500/40 object-cover"
                 />
               ) : (
                 <div className="w-8 h-8 rounded-full bg-white/10 text-white flex items-center justify-center font-bold text-xs">
@@ -81,9 +81,9 @@ export default function Navbar() {
           ) : (
             <button
               onClick={handleLogin}
-              className="flex items-center gap-1.5 bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-semibold px-3.5 py-2 rounded-xl border border-zinc-700/80 transition cursor-pointer shadow-sm"
+              className="flex items-center gap-1.5 bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-semibold px-3.5 py-2 rounded-xl border border-emerald-500/30 transition cursor-pointer shadow-sm"
             >
-              <LogIn className="w-3.5 h-3.5 text-sky-400" />
+              <LogIn className="w-3.5 h-3.5 text-emerald-400" />
               <span>Entrar</span>
             </button>
           )}

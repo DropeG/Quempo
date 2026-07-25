@@ -18,9 +18,9 @@ const DESTINATION_NAMES: Record<string, string> = {
 };
 
 const DIRECTION_BADGES: Record<string, { label: string; color: string }> = {
-  SUBIDA: { label: '⬆️ Subida', color: 'bg-sky-500/15 border-sky-400/40 text-sky-300' },
+  SUBIDA: { label: '⬆️ Subida', color: 'bg-emerald-500/15 border-emerald-400/40 text-emerald-300' },
   BAJADA: { label: '⬇️ Bajada', color: 'bg-amber-500/15 border-amber-400/40 text-amber-300' },
-  ROUND_TRIP: { label: '🔄 Ida y Vuelta', color: 'bg-emerald-500/15 border-emerald-400/40 text-emerald-300' },
+  ROUND_TRIP: { label: '🔄 Ida y Vuelta', color: 'bg-teal-500/15 border-teal-400/40 text-teal-300' },
 };
 
 export default function TripCard({ trip, currentUser, onDeleteTrip }: TripCardProps) {
@@ -51,12 +51,12 @@ export default function TripCard({ trip, currentUser, onDeleteTrip }: TripCardPr
   const whatsappUrl = `https://wa.me/${cleanPhone}?text=${encodedMsg}`;
 
   return (
-    <div className="glass-card rounded-3xl p-5 hover:border-white/30 transition-all duration-300 shadow-xl flex flex-col justify-between border border-zinc-800 relative overflow-hidden">
+    <div className="glass-card rounded-3xl p-5 hover:border-emerald-500/40 transition-all duration-300 shadow-xl flex flex-col justify-between border border-zinc-800 relative overflow-hidden">
       <div>
         {/* Top Header: Time Badge & Direction Tag */}
         <div className="flex items-center justify-between mb-3.5">
           <span className="text-xs font-bold text-white bg-zinc-900 border border-zinc-700 px-3 py-1 rounded-xl shadow-sm flex items-center gap-1.5">
-            <Clock className="w-3.5 h-3.5 text-sky-400" />
+            <Clock className="w-3.5 h-3.5 text-emerald-400" />
             {trip.departure_time.slice(0, 5)} hrs
           </span>
 
@@ -73,10 +73,10 @@ export default function TripCard({ trip, currentUser, onDeleteTrip }: TripCardPr
               <img
                 src={trip.driver_avatar}
                 alt={trip.driver_name}
-                className="w-9 h-9 rounded-full ring-2 ring-white/20 object-cover"
+                className="w-9 h-9 rounded-full ring-2 ring-emerald-500/40 object-cover"
               />
             ) : (
-              <div className="w-9 h-9 rounded-full bg-white text-black flex items-center justify-center font-black text-xs shadow-sm">
+              <div className="w-9 h-9 rounded-full bg-emerald-500 text-slate-950 flex items-center justify-center font-black text-xs shadow-sm">
                 {trip.driver_name.charAt(0).toUpperCase()}
               </div>
             )}
@@ -84,7 +84,7 @@ export default function TripCard({ trip, currentUser, onDeleteTrip }: TripCardPr
               <h3 className="font-bold text-xs text-white flex items-center gap-1">
                 {trip.driver_name}
                 <span title="Verificado con Google">
-                  <ShieldCheck className="w-3.5 h-3.5 text-sky-400" />
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
                 </span>
               </h3>
               <p className="text-[10px] text-zinc-400">Conductor Verificado</p>
@@ -92,7 +92,7 @@ export default function TripCard({ trip, currentUser, onDeleteTrip }: TripCardPr
           </div>
 
           <div className="text-right">
-            <div className="text-sm font-black text-white">{formattedPrice}</div>
+            <div className="text-sm font-black text-emerald-400">{formattedPrice}</div>
             <div className="text-[10px] text-zinc-400">por cupo</div>
           </div>
         </div>
@@ -108,7 +108,7 @@ export default function TripCard({ trip, currentUser, onDeleteTrip }: TripCardPr
 
           <div className="flex items-center justify-between text-xs">
             <span className="text-zinc-400 flex items-center gap-1">
-              <MapPin className="w-3.5 h-3.5 text-sky-400" /> Destino:
+              <MapPin className="w-3.5 h-3.5 text-emerald-400" /> Destino:
             </span>
             <span className="font-bold text-white">{destName}</span>
           </div>
