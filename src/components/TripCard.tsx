@@ -51,93 +51,93 @@ export default function TripCard({ trip, currentUser, onDeleteTrip }: TripCardPr
   const whatsappUrl = `https://wa.me/${cleanPhone}?text=${encodedMsg}`;
 
   return (
-    <div className="glass-card rounded-3xl p-5 hover:border-emerald-500/40 transition-all duration-300 shadow-xl flex flex-col justify-between border border-zinc-800 relative overflow-hidden">
-      <div>
+    <div className="glass-card rounded-2xl p-3.5 hover:border-emerald-500/40 transition-all duration-300 shadow-lg flex flex-col justify-between border border-zinc-800 relative overflow-hidden text-xs">
+      <div className="space-y-2.5">
         {/* Top Header: Time Badge & Direction Tag */}
-        <div className="flex items-center justify-between mb-3.5">
-          <span className="text-xs font-bold text-white bg-zinc-900 border border-zinc-700 px-3 py-1 rounded-xl shadow-sm flex items-center gap-1.5">
-            <Clock className="w-3.5 h-3.5 text-emerald-400" />
+        <div className="flex items-center justify-between">
+          <span className="text-[11px] font-bold text-white bg-zinc-900 border border-zinc-700 px-2.5 py-0.5 rounded-lg shadow-sm flex items-center gap-1">
+            <Clock className="w-3 h-3 text-emerald-400" />
             {trip.departure_time.slice(0, 5)} hrs
           </span>
 
-          <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full border ${DIRECTION_BADGES[trip.direction]?.color}`}>
+          <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${DIRECTION_BADGES[trip.direction]?.color}`}>
             {DIRECTION_BADGES[trip.direction]?.label}
           </span>
         </div>
 
         {/* Driver Profile Bar */}
-        <div className="flex items-center justify-between gap-3 mb-3.5 bg-zinc-900/90 p-2.5 rounded-2xl border border-zinc-800">
-          <div className="flex items-center gap-2.5">
+        <div className="flex items-center justify-between gap-2 bg-zinc-900/90 p-2 rounded-xl border border-zinc-800">
+          <div className="flex items-center gap-2">
             {trip.driver_avatar ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={trip.driver_avatar}
                 alt={trip.driver_name}
-                className="w-9 h-9 rounded-full ring-2 ring-emerald-500/40 object-cover"
+                className="w-7 h-7 rounded-full ring-2 ring-emerald-500/40 object-cover"
               />
             ) : (
-              <div className="w-9 h-9 rounded-full bg-emerald-500 text-slate-950 flex items-center justify-center font-black text-xs shadow-sm">
+              <div className="w-7 h-7 rounded-full bg-emerald-500 text-slate-950 flex items-center justify-center font-black text-[10px] shadow-sm">
                 {trip.driver_name.charAt(0).toUpperCase()}
               </div>
             )}
             <div>
-              <h3 className="font-bold text-xs text-white flex items-center gap-1">
+              <h3 className="font-bold text-[11px] text-white flex items-center gap-1">
                 {trip.driver_name}
                 <span title="Verificado con Google">
-                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                  <ShieldCheck className="w-3 h-3 text-emerald-400" />
                 </span>
               </h3>
-              <p className="text-[10px] text-zinc-400">Conductor Verificado</p>
+              <p className="text-[9px] text-zinc-400">Verificado</p>
             </div>
           </div>
 
           <div className="text-right">
-            <div className="text-sm font-black text-emerald-400">{formattedPrice}</div>
-            <div className="text-[10px] text-zinc-400">por cupo</div>
+            <div className="text-xs font-black text-emerald-400">{formattedPrice}</div>
+            <div className="text-[9px] text-zinc-400">por cupo</div>
           </div>
         </div>
 
         {/* Route Details */}
-        <div className="space-y-2 mb-3 bg-zinc-950/80 rounded-2xl p-3 border border-zinc-800/80">
-          <div className="flex items-center justify-between text-xs">
+        <div className="space-y-1.5 bg-zinc-950/80 rounded-xl p-2.5 border border-zinc-800/80">
+          <div className="flex items-center justify-between text-[11px]">
             <span className="text-zinc-400 flex items-center gap-1">
-              <MapPin className="w-3.5 h-3.5 text-zinc-400" /> Salida:
+              <MapPin className="w-3 h-3 text-zinc-400" /> Salida:
             </span>
-            <span className="font-semibold text-zinc-200">{trip.origin}</span>
+            <span className="font-semibold text-zinc-200 truncate max-w-[110px]">{trip.origin}</span>
           </div>
 
-          <div className="flex items-center justify-between text-xs">
+          <div className="flex items-center justify-between text-[11px]">
             <span className="text-zinc-400 flex items-center gap-1">
-              <MapPin className="w-3.5 h-3.5 text-emerald-400" /> Destino:
+              <MapPin className="w-3 h-3 text-emerald-400" /> Destino:
             </span>
-            <span className="font-bold text-white">{destName}</span>
+            <span className="font-bold text-white truncate max-w-[110px]">{destName}</span>
           </div>
 
-          <div className="flex items-center justify-between text-xs pt-1.5 border-t border-zinc-800">
+          <div className="flex items-center justify-between text-[10px] pt-1 border-t border-zinc-800">
             <span className="text-zinc-300 flex items-center gap-1">
-              <Calendar className="w-3.5 h-3.5 text-zinc-400" /> {trip.departure_date}
+              <Calendar className="w-3 h-3 text-zinc-400" /> {trip.departure_date}
             </span>
-            <span className="text-emerald-400 font-bold flex items-center gap-1 text-[11px] bg-emerald-500/10 px-2 py-0.5 rounded-lg border border-emerald-500/20">
-              <Users className="w-3 h-3" /> {trip.seats_available} cupo{trip.seats_available > 1 ? 's' : ''} libre{trip.seats_available > 1 ? 's' : ''}
+            <span className="text-emerald-400 font-bold flex items-center gap-1 text-[10px] bg-emerald-500/10 px-1.5 py-0.5 rounded-md border border-emerald-500/20">
+              <Users className="w-2.5 h-2.5" /> {trip.seats_available} cupo{trip.seats_available > 1 ? 's' : ''}
             </span>
           </div>
         </div>
 
         {/* Mountain Equipment Badges */}
-        <div className="flex flex-wrap gap-1.5 mb-3">
+        <div className="flex flex-wrap gap-1">
           {trip.has_4x4 && (
-            <span className="text-[10px] font-semibold bg-zinc-900 text-zinc-200 border border-zinc-700 px-2.5 py-0.5 rounded-lg">
-              🚙 4x4 / AWD
+            <span className="text-[9px] font-semibold bg-zinc-900 text-zinc-200 border border-zinc-700 px-2 py-0.5 rounded-md">
+              🚙 4x4
             </span>
           )}
           {trip.has_chains && (
-            <span className="text-[10px] font-semibold bg-zinc-900 text-zinc-200 border border-zinc-700 px-2.5 py-0.5 rounded-lg">
+            <span className="text-[9px] font-semibold bg-zinc-900 text-zinc-200 border border-zinc-700 px-2 py-0.5 rounded-md">
               ⛓️ Cadenas
             </span>
           )}
           {trip.has_rack && (
-            <span className="text-[10px] font-semibold bg-zinc-900 text-zinc-200 border border-zinc-700 px-2.5 py-0.5 rounded-lg">
-              🎿 Porta-esquís
+            <span className="text-[9px] font-semibold bg-zinc-900 text-zinc-200 border border-zinc-700 px-2 py-0.5 rounded-md">
+              🎿 Porta-ski
             </span>
           )}
         </div>

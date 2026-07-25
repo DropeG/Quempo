@@ -41,39 +41,54 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 glass-nav">
-      <div className="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
-        {/* Logo */}
-        <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 text-slate-950 flex items-center justify-center shadow-lg shadow-emerald-500/20 font-bold border border-emerald-400/30">
-            <Mountain className="w-5 h-5 text-slate-950 stroke-[2.5]" />
+      <div className="max-w-5xl mx-auto px-3 sm:px-4 py-3 flex items-center justify-between gap-3">
+        {/* Brand Logo & Integrated Tagline */}
+        <div className="flex flex-col">
+          <div className="flex items-center gap-2.5">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 text-slate-950 flex items-center justify-center shadow-lg shadow-emerald-500/25 font-bold border border-emerald-400/40 shrink-0">
+              <Mountain className="w-5 h-5 text-slate-950 stroke-[2.5]" />
+            </div>
+            <span className="font-black text-2xl sm:text-3xl tracking-tight text-white flex items-center gap-0.5 leading-none drop-shadow-md">
+              Fare<span className="text-emerald-400">deo</span>
+            </span>
           </div>
-          <span className="font-black text-xl tracking-tight text-white flex items-center gap-0.5">
-            Fare<span className="text-emerald-400">deo</span>
-          </span>
+          <p className="text-[11px] sm:text-xs text-slate-300 font-medium mt-1 drop-shadow-sm">
+            Conecta viajes a Farellones, El Colorado, La Parva y Valle Nevado en segundos
+          </p>
         </div>
 
-        {/* User Profile / Auth */}
-        <div className="flex items-center gap-3">
+        {/* User Profile / Auth (Opción C: Píldora de Perfil Encapsulada) */}
+        <div className="flex items-center gap-3 shrink-0">
           {loading ? (
-            <div className="w-8 h-8 rounded-full bg-zinc-800 animate-pulse" />
+            <div className="w-28 h-12 rounded-2xl bg-zinc-800 animate-pulse" />
           ) : user ? (
-            <div className="flex items-center gap-2 pl-2 border-l border-zinc-800">
-              {user.user_metadata?.avatar_url ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={user.user_metadata.avatar_url}
-                  alt={user.user_metadata.full_name || 'User'}
-                  className="w-8 h-8 rounded-full ring-2 ring-emerald-500/40 object-cover"
-                />
-              ) : (
-                <div className="w-8 h-8 rounded-full bg-white/10 text-white flex items-center justify-center font-bold text-xs">
-                  {user.email?.charAt(0).toUpperCase()}
+            <div className="flex items-center gap-2 bg-zinc-900/90 border border-emerald-500/30 p-1.5 pl-2.5 rounded-2xl shadow-xl">
+              <div className="flex items-center gap-2">
+                {user.user_metadata?.avatar_url ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={user.user_metadata.avatar_url}
+                    alt={user.user_metadata.full_name || 'User'}
+                    className="w-10 h-10 rounded-xl ring-2 ring-emerald-500/60 object-cover"
+                  />
+                ) : (
+                  <div className="w-10 h-10 rounded-xl bg-emerald-500 text-slate-950 flex items-center justify-center font-black text-sm ring-2 ring-emerald-400/50">
+                    {user.email?.charAt(0).toUpperCase()}
+                  </div>
+                )}
+                <div className="hidden sm:block text-left pr-1">
+                  <div className="text-xs font-bold text-white truncate max-w-[100px]">
+                    {user.user_metadata?.full_name?.split(' ')[0] || user.email?.split('@')[0]}
+                  </div>
+                  <div className="text-[10px] font-semibold text-emerald-400 flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" /> Activo
+                  </div>
                 </div>
-              )}
+              </div>
               <button
                 onClick={handleLogout}
                 title="Cerrar Sesión"
-                className="text-zinc-400 hover:text-rose-400 p-1.5 rounded-lg hover:bg-zinc-800/60 transition cursor-pointer"
+                className="text-zinc-400 hover:text-rose-400 p-2 rounded-xl hover:bg-zinc-800/80 transition cursor-pointer border-l border-zinc-800/80 ml-1"
               >
                 <LogOut className="w-4 h-4" />
               </button>
@@ -81,9 +96,9 @@ export default function Navbar() {
           ) : (
             <button
               onClick={handleLogin}
-              className="flex items-center gap-1.5 bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-semibold px-3.5 py-2 rounded-xl border border-emerald-500/30 transition cursor-pointer shadow-sm"
+              className="flex items-center gap-2 bg-zinc-900 hover:bg-zinc-800 text-white text-xs sm:text-sm font-bold px-4 py-2.5 rounded-xl border border-emerald-500/40 transition cursor-pointer shadow-md active:scale-95"
             >
-              <LogIn className="w-3.5 h-3.5 text-emerald-400" />
+              <LogIn className="w-4 h-4 text-emerald-400" />
               <span>Entrar</span>
             </button>
           )}
