@@ -1,10 +1,26 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { User } from '@supabase/supabase-js';
 import { TripDirection, SkiResort } from '@/types/trip';
 import { X, Calendar, Clock, MapPin, DollarSign, Users, ShieldCheck, Car, Check, LogIn } from 'lucide-react';
+
+const InstagramIcon = ({ className = "w-3.5 h-3.5" }: { className?: string }) => (
+  <svg
+    className={className}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+  </svg>
+);
 
 interface PublishModalProps {
   isOpen: boolean;
@@ -38,19 +54,23 @@ export default function PublishModal({
   const [hasChains, setHasChains] = useState(true);
   const [hasRack, setHasRack] = useState(false);
   const [whatsappNumber, setWhatsappNumber] = useState('');
+  const [instagramHandle, setInstagramHandle] = useState('');
   const [notes, setNotes] = useState('');
 
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
 
-  // Sync defaults when opening modal
-  useEffect(() => {
+  const [prevIsOpen, setPrevIsOpen] = useState(isOpen);
+
+  // Sync defaults when modal opens
+  if (isOpen !== prevIsOpen) {
+    setPrevIsOpen(isOpen);
     if (isOpen) {
       setDirection(defaultDirection);
       if (defaultDestination) setDestination(defaultDestination);
       if (defaultDate) setDepartureDate(defaultDate);
     }
-  }, [isOpen, defaultDirection, defaultDestination, defaultDate]);
+  }
 
   if (!isOpen) return null;
 
@@ -82,6 +102,15 @@ export default function PublishModal({
     // Clean phone number (keep digits and optional plus)
     const cleanPhone = whatsappNumber.replace(/[^0-9+]/g, '');
 
+    // Clean instagram handle (remove @, url prefixes, query params)
+    const cleanInstagram = instagramHandle
+      .trim()
+      .replace(/^https?:\/\/(www\.)?instagram\.com\//i, '')
+      .replace(/^instagram\.com\//i, '')
+      .replace(/^@+/, '')
+      .split('/')[0]
+      .split('?')[0];
+
     setSubmitting(true);
 
     try {
@@ -101,6 +130,7 @@ export default function PublishModal({
         has_rack: hasRack,
         notes: notes.trim() || null,
         whatsapp_number: cleanPhone,
+        instagram_handle: cleanInstagram || null,
       });
 
       if (insertError) {
@@ -109,9 +139,10 @@ export default function PublishModal({
 
       onTripPublished();
       onClose();
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
-      setError(err.message || 'Error al publicar el viaje. Intenta nuevamente.');
+      const message = err instanceof Error ? err.message : 'Error al publicar el viaje. Intenta nuevamente.';
+      setError(message);
     } finally {
       setSubmitting(false);
     }
@@ -374,6 +405,23 @@ export default function PublishModal({
                 onChange={(e) => setWhatsappNumber(e.target.value)}
                 className="w-full bg-[#0e292b] border border-[#2a575a] rounded-xl px-3 py-2 text-xs text-[#EFEEEC] placeholder-[#6B8B86] focus:outline-none focus:border-[#DAAF9E] font-medium"
               />
+            </div>
+
+            {/* Instagram (Opcional) */}
+            <div>
+              <label className="block text-xs font-semibold text-[#F0CDC4] mb-1 flex items-center gap-1.5">
+                <InstagramIcon className="w-3.5 h-3.5 text-[#DAAF9E]" /> Usuario de Instagram <span className="text-[#6B8B86] font-normal">(Opcional - da mayor confianza)</span>
+              </label>
+              <div className="relative">
+                <span className="absolute left-3 top-2 text-xs text-[#6B8B86] font-semibold">@</span>
+                <input
+                  type="text"
+                  placeholder="usuario_instagram"
+                  value={instagramHandle}
+                  onChange={(e) => setInstagramHandle(e.target.value)}
+                  className="w-full bg-[#0e292b] border border-[#2a575a] rounded-xl pl-7 pr-3 py-2 text-xs text-[#EFEEEC] placeholder-[#6B8B86] focus:outline-none focus:border-[#DAAF9E] font-medium"
+                />
+              </div>
             </div>
 
             {/* Notas opcionales */}

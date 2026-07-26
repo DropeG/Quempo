@@ -2,7 +2,23 @@
 
 import { Trip } from '@/types/trip';
 import { User } from '@supabase/supabase-js';
-import { X, MapPin, Calendar, Clock, Users, ShieldCheck, Trash2, MessageCircle, Car, ArrowRight } from 'lucide-react';
+import { X, MapPin, Calendar, Clock, Users, ShieldCheck, Trash2, MessageCircle, Car, ArrowRight, ExternalLink } from 'lucide-react';
+
+const InstagramIcon = ({ className = "w-3.5 h-3.5" }: { className?: string }) => (
+  <svg
+    className={className}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+  </svg>
+);
 
 interface TripDetailModalProps {
   isOpen: boolean;
@@ -96,11 +112,52 @@ export default function TripDetailModal({
                 </div>
               )}
               <div>
-                <h3 className="font-bold text-sm text-[#EFEEEC] flex items-center gap-1.5">
+                <h3 className="font-bold text-sm text-[#EFEEEC] flex items-center gap-1.5 flex-wrap">
                   {trip.driver_name}
                   <span title="Verificado con Google">
                     <ShieldCheck className="w-4 h-4 text-[#F0CDC4]" />
                   </span>
+
+                  {trip.instagram_handle && (
+                    <div className="relative group inline-block ml-1">
+                      <a
+                        href={`https://instagram.com/${trip.instagram_handle}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="p-1 rounded-full bg-[#163F41] hover:bg-[#DAAF9E]/20 text-[#DAAF9E] hover:text-[#EFEEEC] border border-[#2a575a] transition flex items-center justify-center cursor-pointer"
+                        title={`@${trip.instagram_handle} en Instagram`}
+                      >
+                        <InstagramIcon className="w-3.5 h-3.5" />
+                      </a>
+
+                      {/* Hover Card Preview */}
+                      <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 hidden group-hover:flex flex-col items-center bg-[#0e292b]/95 backdrop-blur-md border border-[#2a575a] p-3 rounded-2xl shadow-2xl z-30 min-w-[210px] text-center animate-fadeIn pointer-events-none group-hover:pointer-events-auto">
+                        {/* Arrow */}
+                        <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-[#0e292b] border-t border-l border-[#2a575a] rotate-45"></div>
+
+                        <div className="flex items-center gap-2 mb-2 w-full text-left">
+                          <div className="p-2 rounded-full bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 text-white shrink-0">
+                            <InstagramIcon className="w-4 h-4" />
+                          </div>
+                          <div className="overflow-hidden">
+                            <p className="text-xs font-bold text-[#EFEEEC] truncate">@{trip.instagram_handle}</p>
+                            <p className="text-[10px] text-[#F0CDC4]">Perfil de Instagram</p>
+                          </div>
+                        </div>
+
+                        <a
+                          href={`https://instagram.com/${trip.instagram_handle}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="w-full text-center bg-[#DAAF9E] hover:bg-[#C79987] text-[#163F41] font-bold text-[11px] py-1.5 px-3 rounded-xl transition flex items-center justify-center gap-1.5"
+                        >
+                          Ver en Instagram <ExternalLink className="w-3 h-3" />
+                        </a>
+                      </div>
+                    </div>
+                  )}
                 </h3>
                 <p className="text-xs text-[#F0CDC4] flex items-center gap-1">
                   <span className="w-2 h-2 rounded-full bg-[#DAAF9E] inline-block animate-pulse"></span>

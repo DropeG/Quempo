@@ -18,11 +18,7 @@ const DESTINATION_NAMES: Record<string, string> = {
   VALLE_NEVADO: 'Valle Nevado',
 };
 
-const DIRECTION_BADGES: Record<string, { label: string; color: string }> = {
-  SUBIDA: { label: '⬆️ Subida', color: 'bg-emerald-500/15 border-emerald-400/40 text-emerald-300' },
-  BAJADA: { label: '⬇️ Bajada', color: 'bg-amber-500/15 border-amber-400/40 text-amber-300' },
-  ROUND_TRIP: { label: '🔄 Ida y Vuelta', color: 'bg-teal-500/15 border-teal-400/40 text-teal-300' },
-};
+
 
 export default function TripCardAccordion({ trip, currentUser, onDeleteTrip }: TripCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -90,10 +86,8 @@ export default function TripCardAccordion({ trip, currentUser, onDeleteTrip }: T
               </span>
             </div>
 
-            <div className="flex items-center gap-1 text-[10px] text-zinc-300 truncate">
-              <span className="font-semibold text-emerald-400">🏔️ {destName}</span>
-              <span className="text-zinc-600">•</span>
-              <span className="text-zinc-400">{DIRECTION_BADGES[trip.direction]?.label}</span>
+            <div className="flex items-center gap-1 text-[10px] text-zinc-300 min-w-0">
+              <span className="font-semibold text-emerald-400 truncate">🏔️ {destName}</span>
             </div>
           </div>
         </div>

@@ -18,11 +18,7 @@ const DESTINATION_NAMES: Record<string, string> = {
   VALLE_NEVADO: 'Valle Nevado',
 };
 
-const DIRECTION_BADGES: Record<string, { label: string; color: string }> = {
-  SUBIDA: { label: '⬆️ Subida', color: 'bg-[#DAAF9E]/20 border-[#DAAF9E]/40 text-[#DAAF9E]' },
-  BAJADA: { label: '⬇️ Bajada', color: 'bg-[#F0CDC4]/20 border-[#F0CDC4]/40 text-[#F0CDC4]' },
-  ROUND_TRIP: { label: '🔄 Ida y Vuelta', color: 'bg-teal-500/20 border-teal-500/40 text-teal-200' },
-};
+
 
 export default function TripCard({ trip, onSelectTrip }: TripCardProps) {
   // Format currency CLP
@@ -68,12 +64,8 @@ export default function TripCard({ trip, onSelectTrip }: TripCardProps) {
             </span>
           </div>
 
-          <div className="flex items-center gap-1.5 text-xs text-[#6B8B86] truncate">
-            <span className="font-bold text-[#EFEEEC]">🏔️ {destName}</span>
-            <span className="text-[#6B8B86]">•</span>
-            <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full border ${DIRECTION_BADGES[trip.direction]?.color}`}>
-              {DIRECTION_BADGES[trip.direction]?.label}
-            </span>
+          <div className="flex items-center gap-1.5 text-xs text-[#6B8B86] min-w-0">
+            <span className="font-bold text-[#EFEEEC] truncate">🏔️ {destName}</span>
           </div>
         </div>
       </div>

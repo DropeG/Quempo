@@ -18,5 +18,6 @@ export interface Trip {
   has_rack: boolean;
   notes?: string;
   whatsapp_number: string;
+  instagram_handle?: string;
   created_at: string;
 }

@@ -8,7 +8,7 @@ import Navbar from '@/components/Navbar';
 import TripCard from '@/components/TripCard';
 import PublishModal from '@/components/PublishModal';
 import TripDetailModal from '@/components/TripDetailModal';
-import { Mountain, Plus, Sparkles, ArrowUpDown, Calendar as CalendarIcon, Check, Info } from 'lucide-react';
+import { Mountain, Plus, Sparkles, ArrowUpDown } from 'lucide-react';
 
 export default function Home() {
   const supabase = createClient();
@@ -50,9 +50,9 @@ export default function Home() {
       const d = new Date(now);
       d.setDate(now.getDate() + offset);
 
-      let tag = offset === 0 ? 'Hoy' : offset === 1 ? 'Mañana' : days[d.getDay()];
-      let dayNumber = `${days[d.getDay()]} ${d.getDate()}`;
-      let icon = offset === 0 ? '⚡' : offset === 1 ? '☀️' : '🏂';
+      const tag = offset === 0 ? 'Hoy' : offset === 1 ? 'Mañana' : days[d.getDay()];
+      const dayNumber = `${days[d.getDay()]} ${d.getDate()}`;
+      const icon = offset === 0 ? '⚡' : offset === 1 ? '☀️' : '🏂';
 
       return {
         dateStr: formatDate(d),
@@ -65,7 +65,6 @@ export default function Home() {
 
   // Fetch trips from Supabase
   const fetchTrips = useCallback(async () => {
-    setLoading(true);
     try {
       let query = supabase
         .from('trips')
@@ -96,7 +95,13 @@ export default function Home() {
   }, [supabase, selectedDirection, selectedResort, filterDate]);
 
   useEffect(() => {
-    // Check current user session
+    const load = async () => {
+      await fetchTrips();
+    };
+    load();
+  }, [fetchTrips]);
+
+  useEffect(() => {
     supabase.auth.getUser().then(({ data: { user } }) => {
       setUser(user);
     });
@@ -108,10 +113,6 @@ export default function Home() {
     return () => subscription.unsubscribe();
   }, [supabase]);
 
-  useEffect(() => {
-    fetchTrips();
-  }, [fetchTrips]);
-
   const handleDeleteTrip = async (tripId: string) => {
     if (!confirm('¿Estás seguro de que deseas eliminar esta publicación de viaje?')) return;
 
@@ -119,8 +120,9 @@ export default function Home() {
       const { error } = await supabase.from('trips').delete().eq('id', tripId);
       if (error) throw error;
       setTrips((prev) => prev.filter((t) => t.id !== tripId));
-    } catch (err: any) {
-      alert(err.message || 'Error al eliminar el viaje.');
+    } catch (err: unknown) {
+      const errorMsg = err instanceof Error ? err.message : 'Error al eliminar el viaje.';
+      alert(errorMsg);
     }
   };
 
@@ -140,7 +142,7 @@ export default function Home() {
   const renderResortDropdown = () => (
     <select
       value={selectedResort}
-      onChange={(e) => setSelectedResort(e.target.value as any)}
+      onChange={(e) => setSelectedResort(e.target.value as SkiResort | 'ALL')}
       className="bg-[#0e292b] text-[#F0CDC4] font-bold text-xs sm:text-sm border border-[#2a575a] rounded-xl px-2.5 py-1.5 focus:outline-none focus:border-[#DAAF9E] cursor-pointer w-full mt-1 shadow-xs"
     >
       <option value="ALL">🏔️ Todos los Centros</option>
