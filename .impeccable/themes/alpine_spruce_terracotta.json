@@ -1,0 +1,14 @@
+{
+  "name": "Alpine Spruce & Terracotta Blush",
+  "concept": "Alpine Spruce & Terracotta Blush",
+  "palette": {
+    "background": "#0e292b",
+    "card": "#163F41",
+    "muted": "#6B8B86",
+    "primary": "#DAAF9E",
+    "primaryHover": "#C79987",
+    "secondary": "#F0CDC4",
+    "foreground": "#EFEEEC",
+    "border": "#2a575a"
+  }
+}

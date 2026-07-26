@@ -141,7 +141,7 @@ export default function Home() {
     <select
       value={selectedResort}
       onChange={(e) => setSelectedResort(e.target.value as any)}
-      className="bg-slate-950/90 text-emerald-300 font-bold text-xs sm:text-sm border border-emerald-500/40 rounded-xl px-2.5 py-1.5 focus:outline-none focus:border-emerald-400 cursor-pointer w-full mt-1"
+      className="bg-[#0e292b] text-[#F0CDC4] font-bold text-xs sm:text-sm border border-[#2a575a] rounded-xl px-2.5 py-1.5 focus:outline-none focus:border-[#DAAF9E] cursor-pointer w-full mt-1 shadow-xs"
     >
       <option value="ALL">🏔️ Todos los Centros</option>
       <option value="EL_COLORADO">El Colorado</option>
@@ -152,38 +152,58 @@ export default function Home() {
   );
 
   return (
-    <div className="min-h-screen flex flex-col pb-10 relative">
+    <div className="min-h-screen flex flex-col pb-10 relative bg-[var(--background)] overflow-x-hidden">
+      {/* Background Image Container with Responsive Desktop/Mobile switching */}
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        {/* Mobile Background: plomoMobile1.webp */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/plomo/mobile/plomoMobile1.webp"
+          alt="Fondo Cerro Plomo Móvil"
+          className="block md:hidden absolute inset-0 w-full h-full object-cover object-center opacity-90"
+        />
+        {/* Desktop Background: plomoDesktop2.webp */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/plomo/desktop/plomoDesktop2.webp"
+          alt="Fondo Cerro Plomo Desktop"
+          className="hidden md:block absolute inset-0 w-full h-full object-cover object-center opacity-90"
+        />
+        {/* Dynamic theme gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--background)]/40 to-[var(--background)]/95" />
+      </div>
+
       {/* Navigation */}
       <Navbar />
 
-      <main className="flex-1 max-w-6xl w-full mx-auto px-3 sm:px-4 pt-3">
+      <main className="flex-1 max-w-6xl w-full mx-auto px-3 sm:px-4 pt-4 relative z-10">
         <div className="lg:grid lg:grid-cols-12 lg:gap-6 lg:items-start space-y-4 lg:space-y-0">
           
           {/* Left Column / Control Sidebar (Sticky in Desktop) */}
           <aside className="lg:col-span-4 lg:sticky lg:top-20 space-y-4">
             {/* Panel 1: Selector de Ruta Vertical con Animación de Intercambio */}
-            <div className="glass-card rounded-3xl p-4 border border-emerald-500/30 shadow-xl space-y-3 bg-slate-950/80">
+            <div className="glass-card rounded-3xl p-4 border border-[#2a575a] shadow-xs space-y-3 bg-[#163F41]">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-black text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
+                <span className="text-xs font-black text-[#DAAF9E] uppercase tracking-wider flex items-center gap-1.5">
                   📍 Ruta de Viaje
                 </span>
-                <span className="text-[10px] font-semibold text-zinc-300 bg-zinc-900 border border-zinc-800 px-2 py-0.5 rounded-full">
+                <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full border ${selectedDirection === 'SUBIDA' ? 'bg-[#DAAF9E]/20 border-[#DAAF9E]/40 text-[#DAAF9E]' : 'bg-[#F0CDC4]/20 border-[#F0CDC4]/40 text-[#F0CDC4]'}`}>
                   {selectedDirection === 'SUBIDA' ? '⬆️ Subida' : '⬇️ Bajada'}
                 </span>
               </div>
 
               {/* Origen Box (Arriba) */}
-              <div className="bg-zinc-900/90 rounded-2xl p-3 border border-zinc-800 space-y-1">
-                <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">
+              <div className="bg-[#0e292b] rounded-2xl p-3 border border-[#2a575a] space-y-1">
+                <span className="text-[10px] font-bold text-[#6B8B86] uppercase tracking-wider block">
                   📍 Origen (Salida)
                 </span>
                 {selectedDirection === 'SUBIDA' ? (
-                  <div className="text-sm font-extrabold text-white flex items-center gap-2 py-1">
+                  <div className="text-sm font-extrabold text-[#EFEEEC] flex items-center gap-2 py-1">
                     <span>📍 Santiago (RM)</span>
                   </div>
                 ) : (
                   <div className="space-y-1 pt-0.5">
-                    <div className="text-xs font-semibold text-amber-300">🏔️ Centro de Ski</div>
+                    <div className="text-xs font-semibold text-[#F0CDC4]">🏔️ Centro de Ski</div>
                     {renderResortDropdown()}
                   </div>
                 )}
@@ -192,32 +212,32 @@ export default function Home() {
               {/* Central Swap Divider & Animated Button */}
               <div className="relative flex items-center justify-center my-1">
                 <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-zinc-800/80"></div>
+                  <div className="w-full border-t border-[#2a575a]"></div>
                 </div>
                 <button
                   onClick={toggleDirectionSwap}
                   title="Intercambiar Origen y Destino"
-                  className="relative z-10 p-2.5 rounded-full bg-zinc-800 hover:bg-emerald-500 text-white hover:text-slate-950 border border-emerald-500/40 shadow-lg transition-all duration-300 active:scale-90 cursor-pointer group ring-2 ring-emerald-500/20"
+                  className="relative z-10 p-2.5 rounded-full bg-[#0e292b] hover:bg-[#DAAF9E]/20 text-[#F0CDC4] hover:text-[#DAAF9E] border border-[#2a575a] hover:border-[#DAAF9E]/40 shadow-xs transition-all duration-300 active:scale-90 cursor-pointer group"
                 >
                   <ArrowUpDown
-                    className="w-4 h-4 text-emerald-400 group-hover:text-slate-950 transition-transform duration-500 ease-in-out"
+                    className="w-4 h-4 text-[#DAAF9E] group-hover:text-[#DAAF9E] transition-transform duration-500 ease-in-out"
                     style={{ transform: `rotate(${swapRotation}deg)` }}
                   />
                 </button>
               </div>
 
               {/* Destino Box (Abajo) */}
-              <div className="bg-zinc-900/90 rounded-2xl p-3 border border-zinc-800 space-y-1">
-                <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">
+              <div className="bg-[#0e292b] rounded-2xl p-3 border border-[#2a575a] space-y-1">
+                <span className="text-[10px] font-bold text-[#6B8B86] uppercase tracking-wider block">
                   🏔️ Destino (Llegada)
                 </span>
                 {selectedDirection === 'SUBIDA' ? (
                   <div className="space-y-1 pt-0.5">
-                    <div className="text-xs font-semibold text-emerald-400">🏔️ Centro de Ski</div>
+                    <div className="text-xs font-semibold text-[#DAAF9E]">🏔️ Centro de Ski</div>
                     {renderResortDropdown()}
                   </div>
                 ) : (
-                  <div className="text-sm font-extrabold text-white flex items-center gap-2 py-1">
+                  <div className="text-sm font-extrabold text-[#EFEEEC] flex items-center gap-2 py-1">
                     <span>📍 Santiago (RM)</span>
                   </div>
                 )}
@@ -225,23 +245,23 @@ export default function Home() {
             </div>
 
             {/* Panel 2: Botón Destacado de Publicar Viaje (Conductor) */}
-            <div className="glass-card rounded-3xl p-4 border border-emerald-500/30 shadow-xl bg-gradient-to-br from-emerald-950/40 via-zinc-900/90 to-zinc-950 space-y-3">
-              <div className="flex items-center justify-between text-xs font-bold text-zinc-200">
-                <span className="flex items-center gap-1.5 text-emerald-300">
-                  <Sparkles className="w-4 h-4 text-emerald-400" /> ¿Conduces a la cordillera?
+            <div className="glass-card rounded-3xl p-4 shadow-xs space-y-3 bg-[#163F41] border border-[#2a575a]">
+              <div className="flex items-center justify-between text-xs font-bold text-[#EFEEEC]">
+                <span className="flex items-center gap-1.5 text-[#DAAF9E] font-extrabold">
+                  <Sparkles className="w-4 h-4 text-[#DAAF9E]" /> ¿Conduces a la cordillera?
                 </span>
-                <span className="text-[10px] bg-emerald-500/20 text-emerald-300 px-2.5 py-0.5 rounded-full border border-emerald-500/30 font-extrabold">
+                <span className="text-[10px] bg-[#DAAF9E]/20 text-[#DAAF9E] px-2.5 py-0.5 rounded-full border border-[#DAAF9E]/40 font-extrabold">
                   $0 costo
                 </span>
               </div>
-              <p className="text-xs text-zinc-400 leading-relaxed">
+              <p className="text-xs text-[#F0CDC4] leading-relaxed">
                 Publica tus asientos libres en 30 segundos y comparte gastos de combustible y peajes con esquiadores de la comunidad.
               </p>
               <button
                 onClick={() => setIsPublishModalOpen(true)}
-                className="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-400 text-slate-950 font-black text-sm py-3.5 px-4 rounded-2xl shadow-lg shadow-emerald-500/25 border border-emerald-300/60 hover:scale-[1.02] active:scale-95 transition-all cursor-pointer ring-2 ring-emerald-500/30"
+                className="w-full inline-flex items-center justify-center gap-2 bg-[#DAAF9E] hover:bg-[#C79987] text-[#163F41] font-black text-sm py-3.5 px-4 rounded-2xl shadow-sm transition-all cursor-pointer"
               >
-                <Plus className="w-5 h-5 stroke-[3]" />
+                <Plus className="w-5 h-5 stroke-[3] text-[#163F41]" />
                 <span>Publicar Mi Viaje</span>
               </button>
             </div>
@@ -250,15 +270,15 @@ export default function Home() {
           {/* Right Column / Trips List & Filters (Pasajero) */}
           <section className="lg:col-span-8 space-y-3">
             {/* Header de la Sección & Tira de Calendario de Montaña (High Engagement Date Strip) */}
-            <div className="glass-card rounded-3xl p-3 sm:p-4 border border-emerald-500/20 shadow-xl space-y-3 bg-slate-950/80">
+            <div className="glass-card rounded-3xl p-3 sm:p-4 border border-[#2a575a] shadow-xs space-y-3 bg-[#163F41]">
               <div className="flex items-center justify-between px-1">
-                <span className="text-xs font-black text-white uppercase tracking-wider flex items-center gap-2">
+                <span className="text-xs font-black text-[#EFEEEC] uppercase tracking-wider flex items-center gap-2">
                   <span>🔍 Viajes Disponibles ({trips.length})</span>
                 </span>
                 {filterDate && (
                   <button
                     onClick={() => setFilterDate('')}
-                    className="text-[10px] font-semibold text-zinc-400 hover:text-emerald-400 transition cursor-pointer underline"
+                    className="text-[10px] font-semibold text-[#F0CDC4] hover:text-[#DAAF9E] transition cursor-pointer underline"
                   >
                     Ver todas las fechas
                   </button>
@@ -275,13 +295,13 @@ export default function Home() {
                   }}
                   className={`flex flex-col items-center justify-center p-2.5 rounded-2xl min-w-[78px] sm:min-w-[86px] transition-all duration-300 cursor-pointer border ${
                     filterDate === '' && !showDatePicker
-                      ? 'bg-gradient-to-br from-emerald-400 via-teal-300 to-emerald-400 text-slate-950 font-black shadow-lg shadow-emerald-500/30 scale-105 border-emerald-300 ring-2 ring-emerald-400/40'
-                      : 'bg-zinc-900/90 border-zinc-800 text-zinc-300 hover:bg-zinc-800 hover:border-zinc-700'
+                      ? 'bg-[#DAAF9E] text-[#163F41] font-black shadow-sm scale-105 border-[#DAAF9E]'
+                      : 'bg-[#0e292b] border-[#2a575a] text-[#F0CDC4] hover:bg-[#163F41]'
                   }`}
                 >
                   <span className="text-[10px] font-extrabold uppercase tracking-wider">Todas</span>
                   <span className="text-xs font-black mt-0.5">🏔️ Rutas</span>
-                  <span className={`text-[9px] mt-0.5 font-bold ${filterDate === '' && !showDatePicker ? 'text-slate-950' : 'text-emerald-400'}`}>
+                  <span className={`text-[9px] mt-0.5 font-bold ${filterDate === '' && !showDatePicker ? 'text-[#163F41] font-black' : 'text-[#DAAF9E]'}`}>
                     Ver todo
                   </span>
                 </button>
@@ -298,15 +318,15 @@ export default function Home() {
                       }}
                       className={`flex flex-col items-center justify-center p-2.5 rounded-2xl min-w-[78px] sm:min-w-[86px] transition-all duration-300 cursor-pointer border ${
                         isSelected
-                          ? 'bg-gradient-to-br from-emerald-400 via-teal-300 to-emerald-400 text-slate-950 font-black shadow-lg shadow-emerald-500/30 scale-105 border-emerald-300 ring-2 ring-emerald-400/40'
-                          : 'bg-zinc-900/90 border-zinc-800 text-zinc-300 hover:bg-zinc-800 hover:border-zinc-700'
+                          ? 'bg-[#DAAF9E] text-[#163F41] font-black shadow-sm scale-105 border-[#DAAF9E]'
+                          : 'bg-[#0e292b] border-[#2a575a] text-[#F0CDC4] hover:bg-[#163F41]'
                       }`}
                     >
                       <span className="text-[10px] font-extrabold uppercase tracking-wider flex items-center gap-0.5">
                         <span>{item.icon}</span> {item.tag}
                       </span>
                       <span className="text-xs font-black mt-0.5">{item.dayNumber}</span>
-                      <span className={`text-[9px] mt-0.5 font-bold ${isSelected ? 'text-slate-950 font-extrabold' : 'text-emerald-400'}`}>
+                      <span className={`text-[9px] mt-0.5 font-bold ${isSelected ? 'text-[#163F41] font-extrabold' : 'text-[#DAAF9E]'}`}>
                         {isSelected ? 'Seleccionado' : 'Disponible'}
                       </span>
                     </button>
@@ -318,13 +338,13 @@ export default function Home() {
                   onClick={() => setShowDatePicker(!showDatePicker)}
                   className={`flex flex-col items-center justify-center p-2.5 rounded-2xl min-w-[78px] sm:min-w-[86px] transition-all duration-300 cursor-pointer border ${
                     showDatePicker || (filterDate && !quickDates.some((q) => q.dateStr === filterDate))
-                      ? 'bg-gradient-to-br from-emerald-400 via-teal-300 to-emerald-400 text-slate-950 font-black shadow-lg shadow-emerald-500/30 scale-105 border-emerald-300 ring-2 ring-emerald-400/40'
-                      : 'bg-zinc-900/90 border-zinc-800 text-zinc-400 hover:text-white hover:bg-zinc-800'
+                      ? 'bg-emerald-600 text-white font-black shadow-xs scale-105 border-emerald-500'
+                      : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:text-white hover:bg-zinc-800'
                   }`}
                 >
                   <span className="text-[10px] font-extrabold uppercase tracking-wider">📅 Más</span>
                   <span className="text-xs font-black mt-0.5">Fecha</span>
-                  <span className={`text-[9px] mt-0.5 font-bold ${showDatePicker || (filterDate && !quickDates.some((q) => q.dateStr === filterDate)) ? 'text-slate-950' : 'text-zinc-500'}`}>
+                  <span className={`text-[9px] mt-0.5 font-bold ${showDatePicker || (filterDate && !quickDates.some((q) => q.dateStr === filterDate)) ? 'text-emerald-100' : 'text-zinc-400'}`}>
                     Calendario
                   </span>
                 </button>
@@ -338,7 +358,7 @@ export default function Home() {
                     type="date"
                     value={filterDate}
                     onChange={(e) => setFilterDate(e.target.value)}
-                    className="bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-emerald-400 font-bold"
+                    className="bg-[#141619] border border-zinc-700 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-emerald-500 font-bold"
                   />
                   <button
                     onClick={() => {
@@ -357,19 +377,19 @@ export default function Home() {
             {loading ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {[1, 2, 3].map((i) => (
-                  <div key={i} className="h-44 glass-card rounded-2xl animate-pulse" />
+                  <div key={i} className="h-44 glass-card rounded-2xl animate-pulse bg-zinc-800/50" />
                 ))}
               </div>
             ) : trips.length === 0 ? (
-              <div className="glass-card rounded-2xl p-8 text-center space-y-3 border border-slate-800">
-                <Mountain className="w-10 h-10 text-slate-600 mx-auto" />
+              <div className="glass-card rounded-2xl p-8 text-center space-y-3 border border-[#2a2e35]">
+                <Mountain className="w-10 h-10 text-zinc-600 mx-auto" />
                 <h3 className="text-sm font-semibold text-white">No hay viajes disponibles para este filtro</h3>
-                <p className="text-xs text-slate-400 max-w-sm mx-auto">
+                <p className="text-xs text-zinc-400 max-w-sm mx-auto">
                   Sé el primero en publicar tus cupos libres para compartir los gastos de bencina.
                 </p>
                 <button
                   onClick={() => setIsPublishModalOpen(true)}
-                  className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 font-bold text-xs px-4 py-2 rounded-xl shadow-lg shadow-emerald-500/25 cursor-pointer"
+                  className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-4 py-2 rounded-xl shadow-xs cursor-pointer"
                 >
                   <Plus className="w-4 h-4" /> Publicar Viaje
                 </button>

@@ -1,12 +1,12 @@
 # DESIGN.md — Sistema de Diseño Impeccable para Faredeo ❄️🏔️
 
-Este documento define el Sistema de Diseño Visual **Impeccable** oficial para **Faredeo**, bajo el concepto **"Deep Andes Emerald & Solar Gold"**.
+Este documento define el Sistema de Diseño Visual **Impeccable** oficial para **Faredeo**, bajo el concepto **"Alpine Spruce & Terracotta Blush"**.
 
 ---
 
-## 1. Concepto Visual & Estética ("Deep Andes Emerald")
+## 1. Concepto Visual & Estética ("Alpine Spruce & Terracotta Blush")
 
-Faredeo utiliza una estética inspirada en la naturaleza viva de la cordillera de los Andes, las aguas glaciales de vertiente y los rayos de sol matutinos. Combina una base profunda **Azul Pizarra Cordillerano** (`#0a1118`) con cristales traslúcidos y acentos vibrantes de **Verde Esmeralda Glaciar** (`#00c9a7`) y **Dorado Solar** (`#f7b731`).
+Faredeo adopta una estética atemporal inspirada en los valles alpinos y refugios patagónicos: fondo grafito pino abeto (`#163F41`), tarjetas con profundidad de bosque helado, texto en tiza nieve (`#EFEEEC`), acentos cálidos en **Terracota Coral** (`#DAAF9E`) para precios y acciones principales ⬆️, e **Hielo Rosado / Blush** (`#F0CDC4`) y **Gris Abeto Muteado** (`#6B8B86`) para subtítulos, etiquetas y detalles secundarios.
 
 ---
 
@@ -16,25 +16,27 @@ Faredeo utiliza una estética inspirada en la naturaleza viva de la cordillera d
 
 | Categoría | Nombre | Hex / Valor | Uso / Propósito |
 | :--- | :--- | :--- | :--- |
-| **Background / Base** | Deep Andes Slate | `#0a1118` | Fondo principal profundo y elegante |
-| **Surface / Card** | Emerald Frost Glass | `rgba(14, 22, 32, 0.85)` | Tarjetas de cristal traslúcido con blur |
-| **Primary Accent** | Glacier Emerald | `#00c9a7` | Botones de acción principal, estado Subida ⬆️, badges de verificación |
-| **Secondary Accent** | Solar Gold | `#f7b731` | Precios por cupo y estado Bajada ⬇️ |
-| **Text Primary** | Pure Snow White | `#f8fafc` | Títulos y datos principales |
-| **Text Secondary** | Muted Slate | `#94a3b8` | Subtítulos y etiquetas secundarias |
-| **Borders & Glass** | Emerald Glow Border | `rgba(0, 201, 167, 0.22)` | Bordes sutiles con resplandor esmeralda |
+| **Background / Base** | Deep Spruce Night | `#0e292b` | Fondo principal profundo de bosque alpine |
+| **Surface / Card** | Alpine Spruce Card | `#163F41` | Tarjetas y contenedores con contraste natural |
+| **Primary Accent** | Terracotta Coral | `#DAAF9E` | Botones CTA principales, precios y subida ⬆️ |
+| **Primary Hover** | Deep Coral Sand | `#C79987` | Estado hover de acciones primarias |
+| **Secondary Accent** | Soft Blush Snow | `#F0CDC4` | Badges de bajada ⬇️, detalles cálidos e iconos |
+| **Text Primary** | Crisp Chalk White | `#EFEEEC` | Títulos y datos de máxima legibilidad |
+| **Text Secondary** | Muted Spruce Sage | `#6B8B86` | Subtítulos y etiquetas secundarias |
+| **Borders & Lines** | Spruce Slate Line | `#2a575a` | Bordes discretos de 1px |
 
 ### 2.2 Variables CSS (`globals.css`)
 
 ```css
 :root {
-  --background: #0a1118;
-  --foreground: #f8fafc;
-  --card-bg: rgba(14, 22, 32, 0.85);
-  --border-color: rgba(0, 201, 167, 0.22);
-  --accent-primary: #00c9a7;
-  --accent-primary-hover: #00e0b8;
-  --accent-gold: #f7b731;
+  --background: #0e292b;
+  --foreground: #EFEEEC;
+  --card-bg: #163F41;
+  --border-color: #2a575a;
+  --accent-primary: #DAAF9E;
+  --accent-primary-hover: #C79987;
+  --accent-blush: #F0CDC4;
+  --text-secondary: #6B8B86;
 }
 ```
 
@@ -42,6 +44,8 @@ Faredeo utiliza una estética inspirada en la naturaleza viva de la cordillera d
 
 ## 3. Tipografía y Jerarquía
 
-* **Fuente**: System-UI / Inter / Sans.
-* **Contraste**: Texto `#f8fafc` sobre cristal `#0a1118` para máxima legibilidad táctil en smartphones bajo el sol de la montaña.
+* **Fuente**: System-UI / Inter / Sans-serif moderna.
+* **Contraste**: Texto `#EFEEEC` sobre fondo `#163F41` para legibilidad y elegancia visual.
+
+
 

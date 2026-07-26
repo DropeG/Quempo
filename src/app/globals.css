@@ -1,43 +1,70 @@
 @import "tailwindcss";
 
+/* ==========================================================================
+   PALETA SELECCIONADA: 🏔️ Alpine Spruce & Terracotta Blush
+   Palette: #163F41 (Deep Spruce Card) | #6B8B86 (Muted Spruce Line/Text) | #DAAF9E (Terracotta Coral Primary Accent)
+   #F0CDC4 (Soft Blush Secondary Accent) | #EFEEEC (Chalk White Text) | #0e292b (Background Base)
+   ========================================================================== */
 :root {
-  /* ==========================================================================
-     ACTIVE THEME: Deep Andes Emerald & Solar Gold
-     ========================================================================== */
-  --background: #0a1118;
-  --foreground: #f8fafc;
-  --card-bg: rgba(14, 22, 32, 0.85);
-  --border-color: rgba(0, 201, 167, 0.22);
-  --accent-primary: #00c9a7;
-  --accent-primary-hover: #00e0b8;
-  --accent-gold: #f7b731;
+  --font-primary: var(--font-dm-sans), system-ui, sans-serif;
+  --background: #0e292b;
+  --foreground: #EFEEEC;
+  --card-bg: #163F41;
+  --border-color: #2a575a;
+  --glass-shadow: rgba(0, 0, 0, 0.5);
+  --accent-primary: #DAAF9E;
+  --accent-primary-hover: #C79987;
+  --accent-blush: #F0CDC4;
+  --text-secondary: #6B8B86;
+}
+
+/* Theme Dynamic Accent Utilities */
+.accent-bg {
+  background-color: var(--accent-primary) !important;
+  color: #163F41 !important;
+}
+
+.accent-bg-hover:hover {
+  background-color: var(--accent-primary-hover) !important;
+}
+
+.accent-text {
+  color: var(--accent-primary) !important;
+}
+
+.accent-blush-text {
+  color: var(--accent-blush) !important;
+}
+
+.accent-border {
+  border-color: var(--accent-primary) !important;
+}
+
+.accent-ring {
+  --tw-ring-color: var(--accent-primary) !important;
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
   min-height: 100vh;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  background-image: 
-    linear-gradient(to bottom, rgba(10, 17, 24, 0.85), rgba(10, 17, 24, 0.96)),
-    url('/andes_hero.jpg');
-  background-size: cover;
-  background-position: center top;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
+  font-family: var(--font-primary);
+  -webkit-font-smoothing: antialiased;
 }
 
 .glass-card {
-  background: rgba(14, 22, 32, 0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(0, 201, 167, 0.22);
-  box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.75);
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 8px 24px var(--glass-shadow);
 }
 
 .glass-nav {
-  background: transparent;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  border-bottom: 1px solid rgba(0, 201, 167, 0.12);
+  background: rgba(14, 41, 43, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-color);
 }
+
+
+
+

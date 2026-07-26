@@ -58,13 +58,13 @@ export default function TripDetailModal({
   const whatsappUrl = `https://wa.me/${cleanPhone}?text=${encodedMsg}`;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 bg-slate-950/80 backdrop-blur-md animate-fadeIn">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 bg-[#0e292b]/80 backdrop-blur-xs animate-fadeIn">
       <div
-        className="glass-card w-full max-w-lg rounded-3xl border border-emerald-500/30 shadow-2xl overflow-hidden relative max-h-[90vh] flex flex-col bg-slate-950/95"
+        className="glass-card w-full max-w-lg rounded-3xl border border-[#2a575a] shadow-xl overflow-hidden relative max-h-[90vh] flex flex-col bg-[#163F41] text-[#EFEEEC]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
-        <div className="p-4 border-b border-zinc-800 flex items-center justify-between bg-zinc-900/60">
+        <div className="p-4 border-b border-[#2a575a] flex items-center justify-between bg-[#0e292b]">
           <div className="flex items-center gap-2">
             <span className={`text-xs font-semibold px-2.5 py-1 rounded-full border ${DIRECTION_BADGES[trip.direction]?.color}`}>
               {DIRECTION_BADGES[trip.direction]?.label}
@@ -72,7 +72,7 @@ export default function TripDetailModal({
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-full bg-zinc-800 text-zinc-400 hover:text-white hover:bg-zinc-700 transition cursor-pointer"
+            className="p-1.5 rounded-full bg-[#163F41] text-[#F0CDC4] hover:text-white hover:bg-[#0e292b] transition cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -81,72 +81,72 @@ export default function TripDetailModal({
         {/* Modal Body */}
         <div className="p-5 space-y-4 overflow-y-auto custom-scrollbar flex-1">
           {/* Driver Card Info */}
-          <div className="flex items-center justify-between bg-zinc-900/90 p-3.5 rounded-2xl border border-zinc-800 shadow-sm">
+          <div className="flex items-center justify-between bg-[#0e292b] p-3.5 rounded-2xl border border-[#2a575a] shadow-xs">
             <div className="flex items-center gap-3">
               {trip.driver_avatar ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={trip.driver_avatar}
                   alt={trip.driver_name}
-                  className="w-12 h-12 rounded-full ring-2 ring-emerald-500/50 object-cover"
+                  className="w-12 h-12 rounded-full ring-2 ring-[#DAAF9E]/50 object-cover"
                 />
               ) : (
-                <div className="w-12 h-12 rounded-full bg-emerald-500 text-slate-950 flex items-center justify-center font-black text-base shadow-md">
+                <div className="w-12 h-12 rounded-full bg-[#DAAF9E] text-[#163F41] flex items-center justify-center font-black text-base shadow-xs">
                   {trip.driver_name.charAt(0).toUpperCase()}
                 </div>
               )}
               <div>
-                <h3 className="font-bold text-sm text-white flex items-center gap-1.5">
+                <h3 className="font-bold text-sm text-[#EFEEEC] flex items-center gap-1.5">
                   {trip.driver_name}
                   <span title="Verificado con Google">
-                    <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                    <ShieldCheck className="w-4 h-4 text-[#F0CDC4]" />
                   </span>
                 </h3>
-                <p className="text-xs text-zinc-400 flex items-center gap-1">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block animate-pulse"></span>
+                <p className="text-xs text-[#F0CDC4] flex items-center gap-1">
+                  <span className="w-2 h-2 rounded-full bg-[#DAAF9E] inline-block animate-pulse"></span>
                   Conductor Verificado
                 </p>
               </div>
             </div>
 
             <div className="text-right">
-              <div className="text-lg font-black text-emerald-400">{formattedPrice}</div>
-              <div className="text-[10px] text-zinc-400 uppercase tracking-wider">por cupo</div>
+              <div className="text-lg font-black text-[#DAAF9E]">{formattedPrice}</div>
+              <div className="text-[10px] text-[#6B8B86] uppercase tracking-wider">por cupo</div>
             </div>
           </div>
 
           {/* Route Box */}
-          <div className="bg-zinc-900/50 rounded-2xl p-4 border border-zinc-800 space-y-3">
-            <div className="text-xs font-bold text-zinc-400 uppercase tracking-wider flex items-center gap-1">
-              <MapPin className="w-3.5 h-3.5 text-emerald-400" /> Detalles de la Ruta
+          <div className="bg-[#0e292b] rounded-2xl p-4 border border-[#2a575a] space-y-3">
+            <div className="text-xs font-bold text-[#F0CDC4] uppercase tracking-wider flex items-center gap-1">
+              <MapPin className="w-3.5 h-3.5 text-[#DAAF9E]" /> Detalles de la Ruta
             </div>
 
-            <div className="flex items-center justify-between gap-2 bg-zinc-950 p-3 rounded-xl border border-zinc-800 text-xs">
+            <div className="flex items-center justify-between gap-2 bg-[#163F41] p-3 rounded-xl border border-[#2a575a] text-xs">
               <div>
-                <span className="text-[10px] text-zinc-400 uppercase block">Origen</span>
-                <span className="font-semibold text-white text-sm">{trip.origin}</span>
+                <span className="text-[10px] text-[#6B8B86] uppercase block">Origen</span>
+                <span className="font-semibold text-[#EFEEEC] text-sm">{trip.origin}</span>
               </div>
-              <ArrowRight className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+              <ArrowRight className="w-4 h-4 text-[#DAAF9E] flex-shrink-0" />
               <div className="text-right">
-                <span className="text-[10px] text-zinc-400 uppercase block">Destino</span>
-                <span className="font-bold text-emerald-300 text-sm">{destName}</span>
+                <span className="text-[10px] text-[#6B8B86] uppercase block">Destino</span>
+                <span className="font-bold text-[#EFEEEC] text-sm">{destName}</span>
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-2 text-xs pt-1">
-              <div className="bg-zinc-950/80 p-2.5 rounded-xl border border-zinc-800/80 flex items-center gap-2">
-                <Calendar className="w-4 h-4 text-emerald-400" />
+              <div className="bg-[#163F41] p-2.5 rounded-xl border border-[#2a575a] flex items-center gap-2">
+                <Calendar className="w-4 h-4 text-[#F0CDC4]" />
                 <div>
-                  <span className="text-[9px] text-zinc-400 block">Fecha</span>
-                  <span className="font-semibold text-white">{trip.departure_date}</span>
+                  <span className="text-[9px] text-[#6B8B86] block">Fecha</span>
+                  <span className="font-semibold text-[#EFEEEC]">{trip.departure_date}</span>
                 </div>
               </div>
 
-              <div className="bg-zinc-950/80 p-2.5 rounded-xl border border-zinc-800/80 flex items-center gap-2">
-                <Clock className="w-4 h-4 text-emerald-400" />
+              <div className="bg-[#163F41] p-2.5 rounded-xl border border-[#2a575a] flex items-center gap-2">
+                <Clock className="w-4 h-4 text-[#DAAF9E]" />
                 <div>
-                  <span className="text-[9px] text-zinc-400 block">Hora Salida</span>
-                  <span className="font-bold text-white">{trip.departure_time.slice(0, 5)} hrs</span>
+                  <span className="text-[9px] text-[#6B8B86] block">Hora Salida</span>
+                  <span className="font-bold text-[#EFEEEC]">{trip.departure_time.slice(0, 5)} hrs</span>
                 </div>
               </div>
             </div>
@@ -154,27 +154,27 @@ export default function TripDetailModal({
 
           {/* Seats & Equipment */}
           <div className="space-y-2">
-            <div className="text-xs font-bold text-zinc-400 uppercase tracking-wider flex items-center justify-between">
+            <div className="text-xs font-bold text-[#F0CDC4] uppercase tracking-wider flex items-center justify-between">
               <span>Equipamiento de Montaña</span>
-              <span className="text-emerald-400 text-xs flex items-center gap-1">
+              <span className="text-[#DAAF9E] text-xs font-bold flex items-center gap-1">
                 <Users className="w-3.5 h-3.5" /> {trip.seats_available} cupo{trip.seats_available > 1 ? 's' : ''} libre{trip.seats_available > 1 ? 's' : ''}
               </span>
             </div>
 
             <div className="grid grid-cols-3 gap-2 text-center text-xs">
-              <div className={`p-2.5 rounded-xl border ${trip.has_4x4 ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300' : 'bg-zinc-900/50 border-zinc-800 text-zinc-500 opacity-60'}`}>
-                <Car className="w-4 h-4 mx-auto mb-1" />
+              <div className={`p-2.5 rounded-xl border ${trip.has_4x4 ? 'bg-[#DAAF9E]/20 border-[#DAAF9E]/40 text-[#DAAF9E] font-semibold' : 'bg-[#0e292b] border-[#2a575a] text-[#6B8B86] opacity-60'}`}>
+                <Car className="w-4 h-4 mx-auto mb-1 text-[#DAAF9E]" />
                 <span className="text-[10px] font-bold block">🚙 4x4 / AWD</span>
                 <span className="text-[9px]">{trip.has_4x4 ? 'Sí incluye' : 'No'}</span>
               </div>
 
-              <div className={`p-2.5 rounded-xl border ${trip.has_chains ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300' : 'bg-zinc-900/50 border-zinc-800 text-zinc-500 opacity-60'}`}>
+              <div className={`p-2.5 rounded-xl border ${trip.has_chains ? 'bg-[#F0CDC4]/20 border-[#F0CDC4]/40 text-[#F0CDC4] font-semibold' : 'bg-[#0e292b] border-[#2a575a] text-[#6B8B86] opacity-60'}`}>
                 <span className="text-base block mb-0.5">⛓️</span>
                 <span className="text-[10px] font-bold block">Cadenas</span>
                 <span className="text-[9px]">{trip.has_chains ? 'Sí lleva' : 'No'}</span>
               </div>
 
-              <div className={`p-2.5 rounded-xl border ${trip.has_rack ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300' : 'bg-zinc-900/50 border-zinc-800 text-zinc-500 opacity-60'}`}>
+              <div className={`p-2.5 rounded-xl border ${trip.has_rack ? 'bg-teal-500/20 border-teal-500/40 text-teal-200 font-semibold' : 'bg-[#0e292b] border-[#2a575a] text-[#6B8B86] opacity-60'}`}>
                 <span className="text-base block mb-0.5">🎿</span>
                 <span className="text-[10px] font-bold block">Porta-ski</span>
                 <span className="text-[9px]">{trip.has_rack ? 'Sí tiene' : 'No'}</span>
@@ -185,8 +185,8 @@ export default function TripDetailModal({
           {/* Notes */}
           {trip.notes && (
             <div className="space-y-1">
-              <span className="text-xs font-bold text-zinc-400 uppercase tracking-wider">Comentarios del Conductor</span>
-              <div className="bg-zinc-900/90 p-3 rounded-2xl border border-zinc-800 text-xs text-zinc-300 leading-relaxed italic">
+              <span className="text-xs font-bold text-[#6B8B86] uppercase tracking-wider">Comentarios del Conductor</span>
+              <div className="bg-[#0e292b] p-3 rounded-2xl border border-[#2a575a] text-xs text-[#EFEEEC] leading-relaxed italic">
                 &quot;{trip.notes}&quot;
               </div>
             </div>
@@ -194,7 +194,7 @@ export default function TripDetailModal({
         </div>
 
         {/* Modal Footer CTA */}
-        <div className="p-4 border-t border-zinc-800 bg-zinc-900/90 flex items-center justify-between gap-3">
+        <div className="p-4 border-t border-[#2a575a] bg-[#0e292b] flex items-center justify-between gap-3">
           {isOwner ? (
             <button
               onClick={() => {
@@ -207,16 +207,16 @@ export default function TripDetailModal({
               <span>Eliminar</span>
             </button>
           ) : (
-            <span className="text-[10px] text-zinc-400">Coordinación 100% directa P2P</span>
+            <span className="text-[10px] text-[#6B8B86]">Coordinación 100% directa P2P</span>
           )}
 
           <a
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex-1 inline-flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-400 text-slate-950 font-black text-sm py-3 px-5 rounded-2xl shadow-lg shadow-emerald-500/25 border border-emerald-300/50 hover:scale-[1.02] active:scale-95 transition-all cursor-pointer"
+            className="flex-1 inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-slate-950 font-black text-sm py-3 px-5 rounded-2xl shadow-sm border border-transparent active:scale-95 transition-all cursor-pointer"
           >
-            <MessageCircle className="w-4 h-4 fill-slate-950 text-emerald-500" />
+            <MessageCircle className="w-4 h-4 fill-slate-950 text-[#25D366]" />
             <span>Contactar por WhatsApp</span>
           </a>
         </div>
