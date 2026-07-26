@@ -146,17 +146,17 @@ export default function ProfileModal({ isOpen, onClose, user, onRestartTour }: P
   const avatarUrl = user.user_metadata?.avatar_url;
 
   return (
-    <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-[#0e292b]/75 backdrop-blur-md animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-[#0c2340]/40 backdrop-blur-md animate-in fade-in duration-200">
       <div
-        className="glass-card w-full max-w-md rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
+        className="glass-card w-full max-w-md rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] bg-white/95 border border-white"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="p-5 border-b border-white/10 flex items-center justify-between bg-[#0e292b]/80 backdrop-blur-md">
-          <h2 className="text-xl font-black text-[#EFEEEC] tracking-tight">Mi Perfil</h2>
+        <div className="p-5 border-b border-sky-100 flex items-center justify-between bg-white/90 backdrop-blur-md">
+          <h2 className="text-xl font-black text-[#0F2942] tracking-tight">Mi Perfil</h2>
           <button
             onClick={onClose}
-            className="p-2 text-[#F0CDC4]/70 hover:text-[#EFEEEC] hover:bg-[#163F41] rounded-xl transition cursor-pointer border border-white/10"
+            className="p-2 text-slate-500 hover:text-[#0F2942] hover:bg-sky-50 rounded-xl transition cursor-pointer border border-sky-100"
           >
             <X className="w-5 h-5" />
           </button>
@@ -165,42 +165,42 @@ export default function ProfileModal({ isOpen, onClose, user, onRestartTour }: P
         {/* Content */}
         <div className="p-6 overflow-y-auto space-y-6">
           {/* User Info Card */}
-          <div className="flex items-center gap-4 p-4 rounded-2xl bg-[#0e292b] border border-[#2a575a]">
+          <div className="flex items-center gap-4 p-4 rounded-2xl bg-sky-50/70 border border-sky-100">
             {avatarUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={avatarUrl}
                 alt={fullName}
-                className="w-16 h-16 rounded-2xl ring-2 ring-[#DAAF9E] object-cover shrink-0"
+                className="w-16 h-16 rounded-2xl ring-2 ring-[#38BDF8]/60 object-cover shrink-0 shadow-sm"
               />
             ) : (
-              <div className="w-16 h-16 rounded-2xl bg-[#DAAF9E] text-[#163F41] flex items-center justify-center font-black text-xl ring-2 ring-[#DAAF9E] shrink-0">
+              <div className="w-16 h-16 rounded-2xl bg-[#38BDF8] text-[#0F2942] flex items-center justify-center font-black text-xl ring-2 ring-[#38BDF8]/60 shrink-0 shadow-xs">
                 {user.email?.charAt(0).toUpperCase()}
               </div>
             )}
             <div className="min-w-0 flex-1">
-              <h3 className="text-base font-bold text-[#EFEEEC] truncate">{fullName}</h3>
-              <p className="text-xs text-[#F0CDC4]/80 truncate mt-0.5">{user.email}</p>
-              <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-[#DAAF9E]/15 text-[#DAAF9E] border border-[#DAAF9E]/30">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#DAAF9E] animate-pulse" /> Google OAuth
+              <h3 className="text-base font-extrabold text-[#0F2942] truncate">{fullName}</h3>
+              <p className="text-xs text-slate-500 truncate mt-0.5 font-medium">{user.email}</p>
+              <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-sky-500/15 text-[#0284C7] border border-sky-300/40">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#38BDF8] animate-pulse" /> Google OAuth
               </div>
             </div>
           </div>
 
           {/* Stats Card */}
-          <div className="p-4 rounded-2xl bg-[#0e292b]/60 border border-[#2a575a] flex items-center justify-between">
+          <div className="p-4 rounded-2xl bg-sky-50/70 border border-sky-100 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-[#DAAF9E]/15 text-[#DAAF9E] flex items-center justify-center border border-[#DAAF9E]/30">
-                <Car className="w-5 h-5" />
+              <div className="w-10 h-10 rounded-xl bg-sky-500/15 text-[#38BDF8] flex items-center justify-center border border-sky-300/40">
+                <Car className="w-5 h-5 text-[#38BDF8]" />
               </div>
               <div>
-                <div className="text-xs font-semibold text-[#F0CDC4]">Viajes Publicados</div>
-                <div className="text-xs text-[#F0CDC4]/60">Histórico en Faredeo</div>
+                <div className="text-xs font-bold text-[#0F2942]">Viajes Publicados</div>
+                <div className="text-xs text-slate-500 font-medium">Histórico en Faredeo</div>
               </div>
             </div>
-            <div className="text-2xl font-black text-[#EFEEEC]">
+            <div className="text-2xl font-black text-[#0F2942]">
               {loading ? (
-                <span className="text-xs text-[#F0CDC4]/50">...</span>
+                <span className="text-xs text-slate-400">...</span>
               ) : (
                 tripsCount ?? 0
               )}
@@ -210,55 +210,55 @@ export default function ProfileModal({ isOpen, onClose, user, onRestartTour }: P
           {/* Contact Edit Form */}
           <form onSubmit={handleSave} className="space-y-4">
             <div>
-              <label className="block text-xs font-bold text-[#EFEEEC] mb-1.5">
+              <label className="block text-xs font-bold text-[#0F2942] mb-1.5">
                 Número de WhatsApp (Contacto)
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#F0CDC4]/60">
-                  <Phone className="w-4 h-4" />
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                  <Phone className="w-4 h-4 text-[#38BDF8]" />
                 </div>
                 <input
                   type="text"
                   value={whatsappNumber}
                   onChange={(e) => setWhatsappNumber(e.target.value)}
                   placeholder="+56 9 1234 5678"
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#0e292b] border border-[#2a575a] text-[#EFEEEC] placeholder-[#F0CDC4]/40 text-sm focus:outline-none focus:border-[#DAAF9E] transition"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-sky-50/60 border border-sky-200 text-[#0F2942] placeholder-slate-400 text-sm focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-sky-200 transition font-bold"
                   required
                 />
               </div>
-              <p className="text-[11px] text-[#F0CDC4]/60 mt-1">
+              <p className="text-[11px] text-slate-500 mt-1 font-medium">
                 Se guardará para rellenarse automáticamente al publicar nuevos viajes.
               </p>
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-[#EFEEEC] mb-1.5">
-                Instagram <span className="text-[#F0CDC4]/60 font-normal">(Opcional)</span>
+              <label className="block text-xs font-bold text-[#0F2942] mb-1.5">
+                Instagram <span className="text-slate-500 font-normal">(Opcional)</span>
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#F0CDC4]/60">
-                  <InstagramIcon className="w-4 h-4" />
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                  <InstagramIcon className="w-4 h-4 text-[#38BDF8]" />
                 </div>
                 <input
                   type="text"
                   value={instagramHandle}
                   onChange={(e) => setInstagramHandle(e.target.value)}
                   placeholder="@tu_usuario"
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#0e292b] border border-[#2a575a] text-[#EFEEEC] placeholder-[#F0CDC4]/40 text-sm focus:outline-none focus:border-[#DAAF9E] transition"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-sky-50/60 border border-sky-200 text-[#0F2942] placeholder-slate-400 text-sm focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-sky-200 transition font-bold"
                 />
               </div>
             </div>
 
             {/* Alert Messages */}
             {successMessage && (
-              <div className="p-3 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs flex items-center gap-2">
-                <Check className="w-4 h-4 shrink-0" />
+              <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-center gap-2 font-bold">
+                <Check className="w-4 h-4 shrink-0 text-emerald-600" />
                 <span>{successMessage}</span>
               </div>
             )}
             {errorMessage && (
-              <div className="p-3 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2">
-                <AlertCircle className="w-4 h-4 shrink-0" />
+              <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-center gap-2 font-bold">
+                <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
                 <span>{errorMessage}</span>
               </div>
             )}
@@ -266,7 +266,7 @@ export default function ProfileModal({ isOpen, onClose, user, onRestartTour }: P
             <button
               type="submit"
               disabled={saving || loading}
-              className="w-full py-3 px-4 rounded-xl bg-[#DAAF9E] hover:bg-[#C79987] text-[#163F41] font-black text-sm transition cursor-pointer shadow-md disabled:opacity-50 flex items-center justify-center gap-2 mt-2"
+              className="w-full py-3 px-4 rounded-xl bg-[#38BDF8] hover:bg-[#0284C7] text-[#0F2942] hover:text-white font-black text-sm transition cursor-pointer shadow-md disabled:opacity-50 flex items-center justify-center gap-2 mt-2 border border-sky-300/40"
             >
               {saving ? (
                 <>
@@ -285,9 +285,9 @@ export default function ProfileModal({ isOpen, onClose, user, onRestartTour }: P
                   onClose();
                   onRestartTour();
                 }}
-                className="w-full py-2.5 px-4 rounded-xl bg-[#0e292b] hover:bg-[#113335] text-[#DAAF9E] border border-[#2a575a] hover:border-[#DAAF9E]/40 font-extrabold text-xs transition cursor-pointer flex items-center justify-center gap-2 mt-3"
+                className="w-full py-2.5 px-4 rounded-xl bg-white hover:bg-sky-50 text-[#0284C7] border border-sky-200 font-extrabold text-xs transition cursor-pointer flex items-center justify-center gap-2 mt-3"
               >
-                <Sparkles className="w-4 h-4 text-[#DAAF9E]" />
+                <Sparkles className="w-4 h-4 text-[#38BDF8]" />
                 <span>Ver tutorial de inicio (Replay)</span>
               </button>
             )}

@@ -67,19 +67,19 @@ export default function Navbar({ onRestartTour }: NavbarProps) {
 
   return (
     <>
-      <header className="sticky top-0 z-50 glass-nav">
+      <header className="sticky top-0 z-50 bg-transparent">
         <div className="max-w-5xl mx-auto px-3 sm:px-4 py-3 flex items-center justify-between gap-3">
           {/* Brand Logo & Integrated Tagline */}
           <div className="flex flex-col">
             <div className="flex items-center gap-2.5">
-              <div className="w-10 h-10 rounded-xl bg-[#DAAF9E]/15 text-[#DAAF9E] flex items-center justify-center shadow-xs border border-[#DAAF9E]/30 shrink-0">
-                <Mountain className="w-5 h-5 text-[#DAAF9E] stroke-[2.5]" />
+              <div className="w-10 h-10 rounded-xl bg-white/20 text-white flex items-center justify-center shadow-md border border-white/40 shrink-0 backdrop-blur-xs">
+                <Mountain className="w-5 h-5 text-white stroke-[2.5]" />
               </div>
-              <span className="font-black text-2xl sm:text-3xl tracking-tight text-[#EFEEEC] flex items-center gap-0.5 leading-none">
-                Fare<span className="text-[#DAAF9E]">deo</span>
+              <span className="font-black text-2xl sm:text-3xl tracking-tight text-white flex items-center gap-0.5 leading-none drop-shadow-md">
+                Faredeo
               </span>
             </div>
-            <p className="text-[11px] sm:text-xs text-[#F0CDC4] font-medium mt-1">
+            <p className="text-[11px] sm:text-xs text-white/90 font-medium mt-1 drop-shadow-sm">
               Conecta viajes a Farellones, El Colorado, La Parva y Valle Nevado en segundos
             </p>
           </div>
@@ -87,14 +87,14 @@ export default function Navbar({ onRestartTour }: NavbarProps) {
           {/* User Profile / Auth */}
           <div className="flex items-center gap-3 shrink-0">
             {loading ? (
-              <div className="w-28 h-12 rounded-2xl bg-[#163F41] animate-pulse border border-[#2a575a]" />
+              <div className="w-28 h-12 rounded-2xl bg-white/20 animate-pulse border border-white/30" />
             ) : user ? (
               <div className="relative" ref={menuRef}>
                 {/* Trigger Button */}
                 <button
                   data-tour="user-profile"
                   onClick={() => setIsMenuOpen(!isMenuOpen)}
-                  className="flex items-center gap-2 bg-[#163F41] hover:bg-[#1c4b4d] border border-[#2a575a] p-1.5 pl-2.5 pr-2 rounded-2xl shadow-xs transition cursor-pointer"
+                  className="flex items-center gap-2 bg-white/20 hover:bg-white/30 border border-white/40 p-1.5 pl-2.5 pr-2 rounded-2xl shadow-md backdrop-blur-md transition cursor-pointer"
                 >
                   <div className="flex items-center gap-2">
                     {user.user_metadata?.avatar_url ? (
@@ -102,53 +102,53 @@ export default function Navbar({ onRestartTour }: NavbarProps) {
                       <img
                         src={user.user_metadata.avatar_url}
                         alt={user.user_metadata.full_name || 'User'}
-                        className="w-9 h-9 rounded-xl ring-2 ring-[#DAAF9E]/50 object-cover"
+                        className="w-9 h-9 rounded-xl ring-2 ring-white/70 object-cover"
                       />
                     ) : (
-                      <div className="w-9 h-9 rounded-xl bg-[#DAAF9E] text-[#163F41] flex items-center justify-center font-black text-sm ring-2 ring-[#DAAF9E]/50">
+                      <div className="w-9 h-9 rounded-xl bg-white text-[#0F2942] flex items-center justify-center font-black text-sm ring-2 ring-white/70">
                         {user.email?.charAt(0).toUpperCase()}
                       </div>
                     )}
                     <div className="hidden sm:block text-left pr-1">
-                      <div className="text-xs font-bold text-[#EFEEEC] truncate max-w-[100px]">
+                      <div className="text-xs font-bold text-white truncate max-w-[100px] drop-shadow-xs">
                         {user.user_metadata?.full_name?.split(' ')[0] || user.email?.split('@')[0]}
                       </div>
-                      <div className="text-[10px] font-semibold text-[#F0CDC4] flex items-center gap-1">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#DAAF9E] animate-pulse" /> Activo
+                      <div className="text-[10px] font-semibold text-sky-200 flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-sky-300 animate-pulse" /> Activo
                       </div>
                     </div>
                   </div>
-                  <ChevronDown className={`w-4 h-4 text-[#F0CDC4]/70 transition-transform duration-200 ${isMenuOpen ? 'rotate-180' : ''}`} />
+                  <ChevronDown className={`w-4 h-4 text-white transition-transform duration-200 ${isMenuOpen ? 'rotate-180' : ''}`} />
                 </button>
 
                 {/* Submenu Dropdown */}
                 {isMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-52 rounded-2xl bg-[#113335] border border-[#2a575a] shadow-2xl p-2 z-50 animate-in fade-in zoom-in-95 duration-150 space-y-1">
-                    <div className="px-3 py-2 border-b border-[#2a575a]/60">
-                      <p className="text-xs font-bold text-[#EFEEEC] truncate">
+                  <div className="absolute right-0 mt-2 w-52 rounded-2xl bg-white/95 backdrop-blur-xl border border-sky-200 shadow-xl p-2 z-50 animate-in fade-in zoom-in-95 duration-150 space-y-1">
+                    <div className="px-3 py-2 border-b border-sky-100">
+                      <p className="text-xs font-bold text-[#0F2942] truncate">
                         {user.user_metadata?.full_name || 'Usuario'}
                       </p>
-                      <p className="text-[11px] text-[#F0CDC4]/70 truncate">
+                      <p className="text-[11px] text-slate-500 truncate">
                         {user.email}
                       </p>
                     </div>
 
                     <button
                       onClick={handleOpenProfile}
-                      className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-bold text-[#EFEEEC] hover:bg-[#163F41] transition cursor-pointer text-left"
+                      className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-bold text-[#0F2942] hover:bg-sky-50 transition cursor-pointer text-left"
                     >
-                      <UserIcon className="w-4 h-4 text-[#DAAF9E]" />
+                      <UserIcon className="w-4 h-4 text-[#38BDF8]" />
                       <span>Mi perfil</span>
                     </button>
 
-                    <div className="h-px bg-[#2a575a]/60 my-1" />
+                    <div className="h-px bg-sky-100 my-1" />
 
                     <button
                       onClick={handleLogout}
-                      className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold text-rose-300 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 transition cursor-pointer text-left"
+                      className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 transition cursor-pointer text-left"
                     >
                       <div className="flex items-center gap-2.5">
-                        <LogOut className="w-4 h-4 text-rose-400" />
+                        <LogOut className="w-4 h-4 text-rose-500" />
                         <span>Cerrar sesión</span>
                       </div>
                     </button>
@@ -158,9 +158,9 @@ export default function Navbar({ onRestartTour }: NavbarProps) {
             ) : (
               <button
                 onClick={handleLogin}
-                className="flex items-center gap-2 bg-[#DAAF9E] hover:bg-[#C79987] text-[#163F41] text-xs sm:text-sm font-extrabold px-4 py-2.5 rounded-xl border border-transparent transition cursor-pointer shadow-xs active:scale-95"
+                className="flex items-center gap-2 bg-white/20 hover:bg-white text-white hover:text-[#0F2942] text-xs sm:text-sm font-extrabold px-4 py-2.5 rounded-xl border border-white/50 backdrop-blur-md transition cursor-pointer shadow-md active:scale-95 group"
               >
-                <LogIn className="w-4 h-4 text-[#163F41] stroke-[2.5]" />
+                <LogIn className="w-4 h-4 text-white group-hover:text-[#0F2942] stroke-[2.5] transition-colors" />
                 <span>Entrar</span>
               </button>
             )}

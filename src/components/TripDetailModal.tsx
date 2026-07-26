@@ -37,9 +37,9 @@ const DESTINATION_NAMES: Record<string, string> = {
 };
 
 const DIRECTION_BADGES: Record<string, { label: string; color: string }> = {
-  SUBIDA: { label: '⬆️ Subida a la Cordillera', color: 'bg-emerald-500/15 border-emerald-400/40 text-emerald-300' },
-  BAJADA: { label: '⬇️ Bajada a Santiago', color: 'bg-amber-500/15 border-amber-400/40 text-amber-300' },
-  ROUND_TRIP: { label: '🔄 Ida y Vuelta', color: 'bg-teal-500/15 border-teal-400/40 text-teal-300' },
+  SUBIDA: { label: '⬆️ Subida a la Cordillera', color: 'bg-sky-500/15 border-sky-400/40 text-[#0284C7]' },
+  BAJADA: { label: '⬇️ Bajada a Santiago', color: 'bg-blue-600/15 border-blue-500/40 text-blue-900' },
+  ROUND_TRIP: { label: '🔄 Ida y Vuelta', color: 'bg-cyan-500/15 border-cyan-400/40 text-cyan-900' },
 };
 
 export default function TripDetailModal({
@@ -76,22 +76,22 @@ export default function TripDetailModal({
   const whatsappUrl = `https://wa.me/${cleanPhone}?text=${encodedMsg}`;
 
   return (
-    <div className={`fixed inset-0 flex items-center justify-center p-3 animate-fadeIn ${isTourActive ? 'z-[220] bg-transparent pointer-events-none' : 'z-50 bg-[#0e292b]/75 backdrop-blur-md'}`}>
+    <div className={`fixed inset-0 flex items-center justify-center p-3 animate-fadeIn ${isTourActive ? 'z-[220] bg-transparent pointer-events-none' : 'z-50 bg-[#0c2340]/40 backdrop-blur-md'}`}>
       <div
         data-tour="trip-detail-modal"
-        className="glass-card w-full max-w-lg rounded-3xl overflow-hidden relative max-h-[90vh] flex flex-col text-[#EFEEEC] pointer-events-auto shadow-2xl"
+        className="glass-card w-full max-w-lg rounded-3xl overflow-hidden relative max-h-[90vh] flex flex-col text-[#0F2942] pointer-events-auto shadow-2xl bg-white/95 border border-white"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
-        <div className="p-4 border-b border-white/10 flex items-center justify-between bg-[#0e292b]/80 backdrop-blur-md">
+        <div className="p-4 border-b border-sky-100 flex items-center justify-between bg-white/90 backdrop-blur-md">
           <div className="flex items-center gap-2">
-            <span className={`text-xs font-semibold px-2.5 py-1 rounded-full border ${DIRECTION_BADGES[trip.direction]?.color}`}>
+            <span className={`text-xs font-bold px-2.5 py-1 rounded-full border ${DIRECTION_BADGES[trip.direction]?.color}`}>
               {DIRECTION_BADGES[trip.direction]?.label}
             </span>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-full bg-[#163F41]/60 text-[#F0CDC4] hover:text-white hover:bg-[#0e292b] transition cursor-pointer border border-white/10"
+            className="p-1.5 rounded-full bg-sky-50 text-slate-500 hover:text-[#0F2942] hover:bg-sky-100 transition cursor-pointer border border-sky-100"
           >
             <X className="w-5 h-5" />
           </button>
@@ -100,25 +100,25 @@ export default function TripDetailModal({
         {/* Modal Body */}
         <div className="p-5 space-y-4 overflow-y-auto custom-scrollbar flex-1">
           {/* Driver Card Info */}
-          <div className="flex items-center justify-between bg-[#0e292b]/60 backdrop-blur-xs p-3.5 rounded-2xl border border-white/10 shadow-xs">
+          <div className="flex items-center justify-between bg-sky-50/60 backdrop-blur-xs p-3.5 rounded-2xl border border-sky-100 shadow-xs">
             <div className="flex items-center gap-3">
               {trip.driver_avatar ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={trip.driver_avatar}
                   alt={trip.driver_name}
-                  className="w-12 h-12 rounded-full ring-2 ring-[#DAAF9E]/50 object-cover"
+                  className="w-12 h-12 rounded-full ring-2 ring-[#38BDF8]/60 object-cover"
                 />
               ) : (
-                <div className="w-12 h-12 rounded-full bg-[#DAAF9E] text-[#163F41] flex items-center justify-center font-black text-base shadow-xs">
+                <div className="w-12 h-12 rounded-full bg-[#38BDF8] text-[#0F2942] flex items-center justify-center font-black text-base shadow-xs">
                   {trip.driver_name.charAt(0).toUpperCase()}
                 </div>
               )}
               <div>
-                <h3 className="font-bold text-sm text-[#EFEEEC] flex items-center gap-1.5 flex-wrap">
+                <h3 className="font-extrabold text-sm text-[#0F2942] flex items-center gap-1.5 flex-wrap">
                   {trip.driver_name}
                   <span title="Verificado con Google">
-                    <ShieldCheck className="w-4 h-4 text-[#F0CDC4]" />
+                    <ShieldCheck className="w-4 h-4 text-[#38BDF8]" />
                   </span>
 
                   {trip.instagram_handle && (
@@ -128,24 +128,24 @@ export default function TripDetailModal({
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}
-                        className="p-1 rounded-full bg-[#163F41] hover:bg-[#DAAF9E]/20 text-[#DAAF9E] hover:text-[#EFEEEC] border border-[#2a575a] transition flex items-center justify-center cursor-pointer"
+                        className="p-1 rounded-full bg-white hover:bg-sky-100 text-[#0284C7] border border-sky-200 transition flex items-center justify-center cursor-pointer"
                         title={`@${trip.instagram_handle} en Instagram`}
                       >
                         <InstagramIcon className="w-3.5 h-3.5" />
                       </a>
 
                       {/* Hover Card Preview */}
-                      <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 hidden group-hover:flex flex-col items-center bg-[#0e292b]/95 backdrop-blur-md border border-[#2a575a] p-3 rounded-2xl shadow-2xl z-30 min-w-[210px] text-center animate-fadeIn pointer-events-none group-hover:pointer-events-auto">
+                      <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 hidden group-hover:flex flex-col items-center bg-white border border-sky-200 p-3 rounded-2xl shadow-xl z-30 min-w-[210px] text-center animate-fadeIn pointer-events-none group-hover:pointer-events-auto">
                         {/* Arrow */}
-                        <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-[#0e292b] border-t border-l border-[#2a575a] rotate-45"></div>
+                        <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white border-t border-l border-sky-200 rotate-45"></div>
 
                         <div className="flex items-center gap-2 mb-2 w-full text-left">
                           <div className="p-2 rounded-full bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 text-white shrink-0">
                             <InstagramIcon className="w-4 h-4" />
                           </div>
                           <div className="overflow-hidden">
-                            <p className="text-xs font-bold text-[#EFEEEC] truncate">@{trip.instagram_handle}</p>
-                            <p className="text-[10px] text-[#F0CDC4]">Perfil de Instagram</p>
+                            <p className="text-xs font-bold text-[#0F2942] truncate">@{trip.instagram_handle}</p>
+                            <p className="text-[10px] text-slate-500">Perfil de Instagram</p>
                           </div>
                         </div>
 
@@ -154,7 +154,7 @@ export default function TripDetailModal({
                           target="_blank"
                           rel="noopener noreferrer"
                           onClick={(e) => e.stopPropagation()}
-                          className="w-full text-center bg-[#DAAF9E] hover:bg-[#C79987] text-[#163F41] font-bold text-[11px] py-1.5 px-3 rounded-xl transition flex items-center justify-center gap-1.5"
+                          className="w-full text-center bg-[#38BDF8] hover:bg-[#0284C7] text-[#0F2942] hover:text-white font-black text-[11px] py-1.5 px-3 rounded-xl transition flex items-center justify-center gap-1.5"
                         >
                           Ver en Instagram <ExternalLink className="w-3 h-3" />
                         </a>
@@ -162,51 +162,51 @@ export default function TripDetailModal({
                     </div>
                   )}
                 </h3>
-                <p className="text-xs text-[#F0CDC4] flex items-center gap-1">
-                  <span className="w-2 h-2 rounded-full bg-[#DAAF9E] inline-block animate-pulse"></span>
+                <p className="text-xs text-[#0284C7] flex items-center gap-1 font-semibold">
+                  <span className="w-2 h-2 rounded-full bg-[#38BDF8] inline-block animate-pulse"></span>
                   Conductor Verificado
                 </p>
               </div>
             </div>
 
             <div className="text-right">
-              <div className="text-lg font-black text-[#DAAF9E]">{formattedPrice}</div>
-              <div className="text-[10px] text-[#6B8B86] uppercase tracking-wider">por cupo</div>
+              <div className="text-lg font-black text-[#0F2942]">{formattedPrice}</div>
+              <div className="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">por cupo</div>
             </div>
           </div>
 
           {/* Route Box */}
-          <div className="bg-[#0e292b] rounded-2xl p-4 border border-[#2a575a] space-y-3">
-            <div className="text-xs font-bold text-[#F0CDC4] uppercase tracking-wider flex items-center gap-1">
-              <MapPin className="w-3.5 h-3.5 text-[#DAAF9E]" /> Detalles de la Ruta
+          <div className="bg-white rounded-2xl p-4 border border-sky-200 space-y-3 shadow-xs">
+            <div className="text-xs font-bold text-[#0F2942] uppercase tracking-wider flex items-center gap-1">
+              <MapPin className="w-3.5 h-3.5 text-[#38BDF8]" /> Detalles de la Ruta
             </div>
 
-            <div className="flex items-center justify-between gap-2 bg-[#163F41] p-3 rounded-xl border border-[#2a575a] text-xs">
+            <div className="flex items-center justify-between gap-2 bg-sky-50/70 p-3 rounded-xl border border-sky-100 text-xs">
               <div>
-                <span className="text-[10px] text-[#6B8B86] uppercase block">Origen</span>
-                <span className="font-semibold text-[#EFEEEC] text-sm">{trip.origin}</span>
+                <span className="text-[10px] text-slate-500 uppercase block font-medium">Origen</span>
+                <span className="font-extrabold text-[#0F2942] text-sm">{trip.origin}</span>
               </div>
-              <ArrowRight className="w-4 h-4 text-[#DAAF9E] flex-shrink-0" />
+              <ArrowRight className="w-4 h-4 text-[#38BDF8] flex-shrink-0" />
               <div className="text-right">
-                <span className="text-[10px] text-[#6B8B86] uppercase block">Destino</span>
-                <span className="font-bold text-[#EFEEEC] text-sm">{destName}</span>
+                <span className="text-[10px] text-slate-500 uppercase block font-medium">Destino</span>
+                <span className="font-black text-[#0F2942] text-sm">{destName}</span>
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-2 text-xs pt-1">
-              <div className="bg-[#163F41] p-2.5 rounded-xl border border-[#2a575a] flex items-center gap-2">
-                <Calendar className="w-4 h-4 text-[#F0CDC4]" />
+              <div className="bg-sky-50/70 p-2.5 rounded-xl border border-sky-100 flex items-center gap-2">
+                <Calendar className="w-4 h-4 text-[#38BDF8]" />
                 <div>
-                  <span className="text-[9px] text-[#6B8B86] block">Fecha</span>
-                  <span className="font-semibold text-[#EFEEEC]">{trip.departure_date}</span>
+                  <span className="text-[9px] text-slate-500 block font-medium">Fecha</span>
+                  <span className="font-bold text-[#0F2942]">{trip.departure_date}</span>
                 </div>
               </div>
 
-              <div className="bg-[#163F41] p-2.5 rounded-xl border border-[#2a575a] flex items-center gap-2">
-                <Clock className="w-4 h-4 text-[#DAAF9E]" />
+              <div className="bg-sky-50/70 p-2.5 rounded-xl border border-sky-100 flex items-center gap-2">
+                <Clock className="w-4 h-4 text-[#38BDF8]" />
                 <div>
-                  <span className="text-[9px] text-[#6B8B86] block">Hora Salida</span>
-                  <span className="font-bold text-[#EFEEEC]">{trip.departure_time.slice(0, 5)} hrs</span>
+                  <span className="text-[9px] text-slate-500 block font-medium">Hora Salida</span>
+                  <span className="font-black text-[#0F2942]">{trip.departure_time.slice(0, 5)} hrs</span>
                 </div>
               </div>
             </div>
@@ -214,27 +214,27 @@ export default function TripDetailModal({
 
           {/* Seats & Equipment */}
           <div className="space-y-2">
-            <div className="text-xs font-bold text-[#F0CDC4] uppercase tracking-wider flex items-center justify-between">
+            <div className="text-xs font-bold text-[#0F2942] uppercase tracking-wider flex items-center justify-between">
               <span>Equipamiento de Montaña</span>
-              <span className="text-[#DAAF9E] text-xs font-bold flex items-center gap-1">
-                <Users className="w-3.5 h-3.5" /> {trip.seats_available} cupo{trip.seats_available > 1 ? 's' : ''} libre{trip.seats_available > 1 ? 's' : ''}
+              <span className="text-[#0284C7] text-xs font-extrabold flex items-center gap-1">
+                <Users className="w-3.5 h-3.5 text-[#38BDF8]" /> {trip.seats_available} cupo{trip.seats_available > 1 ? 's' : ''} libre{trip.seats_available > 1 ? 's' : ''}
               </span>
             </div>
 
             <div className="grid grid-cols-3 gap-2 text-center text-xs">
-              <div className={`p-2.5 rounded-xl border ${trip.has_4x4 ? 'bg-[#DAAF9E]/20 border-[#DAAF9E]/40 text-[#DAAF9E] font-semibold' : 'bg-[#0e292b] border-[#2a575a] text-[#6B8B86] opacity-60'}`}>
-                <Car className="w-4 h-4 mx-auto mb-1 text-[#DAAF9E]" />
+              <div className={`p-2.5 rounded-xl border ${trip.has_4x4 ? 'bg-sky-50 border-sky-200 text-[#0F2942] font-bold' : 'bg-slate-50 border-slate-200 text-slate-400 opacity-60'}`}>
+                <Car className="w-4 h-4 mx-auto mb-1 text-[#38BDF8]" />
                 <span className="text-[10px] font-bold block">🚙 4x4 / AWD</span>
                 <span className="text-[9px]">{trip.has_4x4 ? 'Sí incluye' : 'No'}</span>
               </div>
 
-              <div className={`p-2.5 rounded-xl border ${trip.has_chains ? 'bg-[#F0CDC4]/20 border-[#F0CDC4]/40 text-[#F0CDC4] font-semibold' : 'bg-[#0e292b] border-[#2a575a] text-[#6B8B86] opacity-60'}`}>
+              <div className={`p-2.5 rounded-xl border ${trip.has_chains ? 'bg-sky-50 border-sky-200 text-[#0F2942] font-bold' : 'bg-slate-50 border-slate-200 text-slate-400 opacity-60'}`}>
                 <span className="text-base block mb-0.5">⛓️</span>
                 <span className="text-[10px] font-bold block">Cadenas</span>
                 <span className="text-[9px]">{trip.has_chains ? 'Sí lleva' : 'No'}</span>
               </div>
 
-              <div className={`p-2.5 rounded-xl border ${trip.has_rack ? 'bg-teal-500/20 border-teal-500/40 text-teal-200 font-semibold' : 'bg-[#0e292b] border-[#2a575a] text-[#6B8B86] opacity-60'}`}>
+              <div className={`p-2.5 rounded-xl border ${trip.has_rack ? 'bg-sky-50 border-sky-200 text-[#0F2942] font-bold' : 'bg-slate-50 border-slate-200 text-slate-400 opacity-60'}`}>
                 <span className="text-base block mb-0.5">🎿</span>
                 <span className="text-[10px] font-bold block">Porta-ski</span>
                 <span className="text-[9px]">{trip.has_rack ? 'Sí tiene' : 'No'}</span>
@@ -245,8 +245,8 @@ export default function TripDetailModal({
           {/* Notes */}
           {trip.notes && (
             <div className="space-y-1">
-              <span className="text-xs font-bold text-[#6B8B86] uppercase tracking-wider">Comentarios del Conductor</span>
-              <div className="bg-[#0e292b] p-3 rounded-2xl border border-[#2a575a] text-xs text-[#EFEEEC] leading-relaxed italic">
+              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Comentarios del Conductor</span>
+              <div className="bg-sky-50/60 p-3 rounded-2xl border border-sky-100 text-xs text-[#0F2942] leading-relaxed italic font-medium">
                 &quot;{trip.notes}&quot;
               </div>
             </div>
@@ -254,20 +254,20 @@ export default function TripDetailModal({
         </div>
 
         {/* Modal Footer CTA */}
-        <div className="p-4 border-t border-[#2a575a] bg-[#0e292b] flex items-center justify-between gap-3">
+        <div className="p-4 border-t border-sky-100 bg-white flex items-center justify-between gap-3">
           {isOwner ? (
             <button
               onClick={() => {
                 onDeleteTrip(trip.id);
                 onClose();
               }}
-              className="px-4 py-3 rounded-xl text-rose-400 hover:bg-rose-500/10 border border-rose-500/30 transition text-xs font-bold flex items-center gap-1.5 cursor-pointer"
+              className="px-4 py-3 rounded-xl text-rose-600 hover:bg-rose-50 border border-rose-200 transition text-xs font-bold flex items-center gap-1.5 cursor-pointer"
             >
               <Trash2 className="w-4 h-4" />
               <span>Eliminar</span>
             </button>
           ) : (
-            <span className="text-[10px] text-[#6B8B86]">Coordinación 100% directa P2P</span>
+            <span className="text-[10px] text-slate-500 font-medium">Coordinación 100% directa P2P</span>
           )}
 
           <a
@@ -275,9 +275,9 @@ export default function TripDetailModal({
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex-1 inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-slate-950 font-black text-sm py-3 px-5 rounded-2xl shadow-sm border border-transparent active:scale-95 transition-all cursor-pointer"
+            className="flex-1 inline-flex items-center justify-center gap-2 bg-[#38BDF8] hover:bg-[#0284C7] text-[#0F2942] hover:text-white font-black text-sm py-3 px-5 rounded-2xl shadow-md border border-sky-300/40 active:scale-95 transition-all cursor-pointer group"
           >
-            <MessageCircle className="w-4 h-4 fill-slate-950 text-[#25D366]" />
+            <MessageCircle className="w-4 h-4 fill-[#0F2942] group-hover:fill-white text-[#38BDF8] group-hover:text-[#0284C7] transition-colors" />
             <span>Contactar por WhatsApp</span>
           </a>
         </div>

@@ -1,40 +1,47 @@
 @import "tailwindcss";
 
 /* ==========================================================================
-   PALETA SELECCIONADA: 🏔️ Alpine Spruce & Terracotta Blush
-   Palette: #163F41 (Deep Spruce Card) | #6B8B86 (Muted Spruce Line/Text) | #DAAF9E (Terracotta Coral Primary Accent)
-   #F0CDC4 (Soft Blush Secondary Accent) | #EFEEEC (Chalk White Text) | #0e292b (Background Base)
+   PALETA SELECCIONADA: ❄️ Clean Alpine Frost & Sky Glass
+   Palette: #0F2942 (Azul Oscuro / Dark Navy Titulos) | #38BDF8 (Celeste Claro Primary Accent)
+   #0284C7 (Celeste Hover / Active) | #E0F2FE (Soft Sky Ice Surface) | #475569 (Secondary Text)
+   #F0F4F9 (Snow Base Background) | rgba(255, 255, 255, 0.75) (Snow Glass Cards)
    ========================================================================== */
 :root {
   --font-primary: var(--font-dm-sans), system-ui, sans-serif;
-  --background: #0e292b;
-  --foreground: #EFEEEC;
-  --card-bg: rgba(22, 63, 65, 0.52);
-  --card-bg-solid: #163F41;
-  --border-color: rgba(255, 255, 255, 0.15);
-  --glass-shadow: rgba(0, 0, 0, 0.4);
-  --accent-primary: #DAAF9E;
-  --accent-primary-hover: #C79987;
-  --accent-blush: #F0CDC4;
-  --text-secondary: #6B8B86;
+  --background: #091a2c;
+  --foreground: #FFFFFF;
+  --card-bg: rgba(160, 190, 215, 0.22);
+  --card-bg-solid: #0F2942;
+  --border-color: rgba(255, 255, 255, 0.28);
+  --glass-shadow: rgba(0, 0, 0, 0.35);
+  --accent-primary: #38BDF8;
+  --accent-primary-hover: #0284C7;
+  --accent-ice: #E0F2FE;
+  --title-color: #FFFFFF;
+  --text-secondary: #94A3B8;
 }
 
 /* Theme Dynamic Accent Utilities */
 .accent-bg {
   background-color: var(--accent-primary) !important;
-  color: #163F41 !important;
+  color: #0F2942 !important;
 }
 
 .accent-bg-hover:hover {
   background-color: var(--accent-primary-hover) !important;
+  color: #FFFFFF !important;
 }
 
 .accent-text {
   color: var(--accent-primary) !important;
 }
 
-.accent-blush-text {
-  color: var(--accent-blush) !important;
+.title-text {
+  color: var(--title-color) !important;
+}
+
+.accent-ice-bg {
+  background-color: var(--accent-ice) !important;
 }
 
 .accent-border {
@@ -53,57 +60,109 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* High-Definition Frosted Glass Cards */
+/* Premium Frosted Glass Esmerilado Cards (Idéntica opacidad en Desktop y Mobile) */
 .glass-card {
-  background: var(--card-bg);
-  backdrop-filter: blur(18px) saturate(180%);
-  -webkit-backdrop-filter: blur(18px) saturate(180%);
-  border: 1px solid var(--border-color);
+  position: relative;
+  overflow: hidden;
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(160, 190, 215, 0.22),
+      rgba(65, 90, 120, 0.16)
+    );
+  backdrop-filter: blur(26px) saturate(145%);
+  -webkit-backdrop-filter: blur(26px) saturate(145%);
   box-shadow:
-    0 12px 32px 0 rgba(0, 0, 0, 0.38),
-    inset 0 1px 1px 0 rgba(255, 255, 255, 0.22),
-    inset 0 -1px 1px 0 rgba(0, 0, 0, 0.12);
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    0 24px 80px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.92);
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    background 180ms ease;
+}
+
+.glass-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.26) 0%,
+      rgba(255, 255, 255, 0.08) 28%,
+      rgba(255, 255, 255, 0.02) 58%,
+      rgba(255, 255, 255, 0) 100%
+    );
+  z-index: 0;
+}
+
+.glass-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 18px;
+  right: 18px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.5);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.glass-card > * {
+  position: relative;
+  z-index: 1;
 }
 
 .glass-card:hover {
-  border-color: rgba(240, 205, 196, 0.35);
+  transform: translateY(-3px) translateZ(0);
+  border-color: rgba(255, 255, 255, 0.42);
   box-shadow:
-    0 18px 40px 0 rgba(0, 0, 0, 0.48),
-    inset 0 1px 1px 0 rgba(255, 255, 255, 0.32);
+    0 30px 90px rgba(0, 0, 0, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.36),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .glass-nav {
-  background: rgba(14, 41, 43, 0.75);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: 0 4px 20px -2px rgba(15, 41, 66, 0.04);
 }
 
-/* Ambient Radial Glow Orbs for Frosted Refraction */
+/* Ambient Radial Glow Orbs for Frosted Sky Refraction */
 .ambient-glow-1 {
   position: fixed;
-  top: 10%;
-  left: 15%;
-  width: 450px;
-  height: 450px;
-  background: radial-gradient(circle, rgba(218, 175, 158, 0.22) 0%, rgba(22, 63, 65, 0) 70%);
-  filter: blur(60px);
+  top: 5%;
+  left: 10%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.18) 0%, rgba(240, 244, 249, 0) 70%);
+  filter: blur(70px);
   pointer-events: none;
   z-index: 1;
 }
 
 .ambient-glow-2 {
   position: fixed;
-  bottom: 15%;
-  right: 10%;
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(240, 205, 196, 0.18) 0%, rgba(14, 41, 43, 0) 70%);
-  filter: blur(75px);
+  bottom: 10%;
+  right: 5%;
+  width: 550px;
+  height: 550px;
+  background: radial-gradient(circle, rgba(186, 230, 253, 0.25) 0%, rgba(240, 244, 249, 0) 70%);
+  filter: blur(80px);
   pointer-events: none;
   z-index: 1;
 }
+
 
 
 

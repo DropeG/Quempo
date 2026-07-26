@@ -1,12 +1,17 @@
 # DESIGN.md — Sistema de Diseño Impeccable para Faredeo ❄️🏔️
 
-Este documento define el Sistema de Diseño Visual **Impeccable** oficial para **Faredeo**, bajo el concepto **"Alpine Spruce & Terracotta Blush"**.
+Este documento define el Sistema de Diseño Visual **Impeccable** oficial para **Faredeo**, bajo el concepto **"Clean Alpine Frost & Sky Glass"**.
 
 ---
 
-## 1. Concepto Visual & Estética ("Alpine Spruce & Terracotta Blush")
+## 1. Concepto Visual & Estética ("Clean Alpine Frost & Sky Glass")
 
-Faredeo adopta una estética atemporal inspirada en los valles alpinos y refugios patagónicos: fondo grafito pino abeto (`#163F41`), tarjetas con profundidad de bosque helado, texto en tiza nieve (`#EFEEEC`), acentos cálidos en **Terracota Coral** (`#DAAF9E`) para precios y acciones principales ⬆️, e **Hielo Rosado / Blush** (`#F0CDC4`) y **Gris Abeto Muteado** (`#6B8B86`) para subtítulos, etiquetas y detalles secundarios.
+Faredeo adopta una estética alpina moderna, limpia y fría inspirada en las cumbres nevadas de los Andes:
+- **Base Nieve & Cielo**: Tonos blanco nieve purísimos (`#F0F4F9`) y degradados translúcidos helados.
+- **Imagen de Montaña sin Capa Verde**: Fondo fotográfico del Cerro Plomo 100% nítido, sin capas de opacidad ni filtros verdosos oscuros.
+- **Efecto Snow Glass**: Tarjetas y contenedores translúcidos con elevado desenfoque (`backdrop-filter: blur(20px)`), bordes cristalinos en blanco tiza (`rgba(255, 255, 255, 0.85)`) y sombras frías profundas.
+- **Títulos Azul Oscuro**: Títulos, encabezados y nombres en azul marino profundo (`#0F2942`) para máxima jerarquía visual y contraste impecable.
+- **Acciones & Botones Celeste**: Botones CTA principales y acentos interactivos en celeste azulado vibrante (`#38BDF8`), con estado hover en azul celeste profundo (`#0284C7`).
 
 ---
 
@@ -16,27 +21,29 @@ Faredeo adopta una estética atemporal inspirada en los valles alpinos y refugio
 
 | Categoría | Nombre | Hex / Valor | Uso / Propósito |
 | :--- | :--- | :--- | :--- |
-| **Background / Base** | Deep Spruce Night | `#0e292b` | Fondo principal profundo de bosque alpine |
-| **Surface / Card** | Alpine Spruce Card | `#163F41` | Tarjetas y contenedores con contraste natural |
-| **Primary Accent** | Terracotta Coral | `#DAAF9E` | Botones CTA principales, precios y subida ⬆️ |
-| **Primary Hover** | Deep Coral Sand | `#C79987` | Estado hover de acciones primarias |
-| **Secondary Accent** | Soft Blush Snow | `#F0CDC4` | Badges de bajada ⬇️, detalles cálidos e iconos |
-| **Text Primary** | Crisp Chalk White | `#EFEEEC` | Títulos y datos de máxima legibilidad |
-| **Text Secondary** | Muted Spruce Sage | `#6B8B86` | Subtítulos y etiquetas secundarias |
-| **Borders & Lines** | Spruce Slate Line | `#2a575a` | Bordes discretos de 1px |
+| **Background / Base** | Snow Peak White | `#F0F4F9` | Fondo principal limpio de nieve helada |
+| **Surface / Card** | Frosted Snow Glass | `rgba(255, 255, 255, 0.75)` | Tarjetas translúcidas con efecto cristal helado |
+| **Primary Accent** | Sky Celeste | `#38BDF8` | Botones CTA principales, acentos y selecciones |
+| **Primary Hover** | Deep Celestial Blue | `#0284C7` | Estado hover de acciones y botones |
+| **Titles / Headings** | Deep Navy Blue | `#0F2942` | Títulos y datos principales de máxima legibilidad |
+| **Text Secondary** | Muted Cold Slate | `#475569` | Subtítulos y etiquetas secundarias |
+| **Borders & Lines** | Crystal Ice Line | `rgba(255, 255, 255, 0.85)` / `rgba(186, 230, 253, 0.4)` | Bordes sutiles de cristal |
 
 ### 2.2 Variables CSS (`globals.css`)
 
 ```css
 :root {
-  --background: #0e292b;
-  --foreground: #EFEEEC;
-  --card-bg: #163F41;
-  --border-color: #2a575a;
-  --accent-primary: #DAAF9E;
-  --accent-primary-hover: #C79987;
-  --accent-blush: #F0CDC4;
-  --text-secondary: #6B8B86;
+  --font-primary: var(--font-dm-sans), system-ui, sans-serif;
+  --background: #F0F4F9;
+  --foreground: #0F2942;
+  --card-bg: rgba(255, 255, 255, 0.75);
+  --card-bg-solid: #FFFFFF;
+  --border-color: rgba(255, 255, 255, 0.85);
+  --glass-shadow: rgba(15, 41, 66, 0.08);
+  --accent-primary: #38BDF8;
+  --accent-primary-hover: #0284C7;
+  --title-color: #0F2942;
+  --text-secondary: #475569;
 }
 ```
 
@@ -44,8 +51,9 @@ Faredeo adopta una estética atemporal inspirada en los valles alpinos y refugio
 
 ## 3. Tipografía y Jerarquía
 
-* **Fuente**: System-UI / Inter / Sans-serif moderna.
-* **Contraste**: Texto `#EFEEEC` sobre fondo `#163F41` para legibilidad y elegancia visual.
+* **Fuente**: DM Sans / System-UI moderna.
+* **Contraste**: Títulos en Azul Oscuro (`#0F2942`) sobre cristal blanco/celeste para máxima legibilidad y jerarquía premium.
+
 
 
 
