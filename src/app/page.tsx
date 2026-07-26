@@ -228,8 +228,11 @@ export default function Home() {
           alt="Fondo Cerro Plomo Desktop"
           className="hidden md:block absolute inset-0 w-full h-full object-cover object-center opacity-90"
         />
+        {/* Ambient Radial Orbs for Frosted Refraction */}
+        <div className="ambient-glow-1" />
+        <div className="ambient-glow-2" />
         {/* Dynamic theme gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--background)]/40 to-[var(--background)]/95" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--background)]/35 to-[var(--background)]/90" />
       </div>
 
       {/* Navigation */}
@@ -241,7 +244,7 @@ export default function Home() {
           {/* Left Column / Control Sidebar (Sticky in Desktop) */}
           <aside className="lg:col-span-4 lg:sticky lg:top-20 space-y-4">
             {/* Panel 1: Selector de Ruta Vertical con Animación de Intercambio */}
-            <div data-tour="direction-switch" className="glass-card rounded-3xl p-4 border border-[#2a575a] shadow-xs space-y-3 bg-[#163F41]">
+            <div data-tour="direction-switch" className="glass-card rounded-3xl p-4.5 space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-black text-[#DAAF9E] uppercase tracking-wider flex items-center gap-1.5">
                   📍 Ruta de Viaje
@@ -252,7 +255,7 @@ export default function Home() {
               </div>
 
               {/* Origen Box (Arriba) */}
-              <div className="bg-[#0e292b] rounded-2xl p-3 border border-[#2a575a] space-y-1">
+              <div className="bg-[#0e292b]/60 backdrop-blur-xs rounded-2xl p-3 border border-white/10 space-y-1">
                 <span className="text-[10px] font-bold text-[#6B8B86] uppercase tracking-wider block">
                   📍 Origen (Salida)
                 </span>
@@ -271,12 +274,12 @@ export default function Home() {
               {/* Central Swap Divider & Animated Button */}
               <div className="relative flex items-center justify-center my-1">
                 <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-[#2a575a]"></div>
+                  <div className="w-full border-t border-white/10"></div>
                 </div>
                 <button
                   onClick={toggleDirectionSwap}
                   title="Intercambiar Origen y Destino"
-                  className="relative z-10 p-2.5 rounded-full bg-[#0e292b] hover:bg-[#DAAF9E]/20 text-[#F0CDC4] hover:text-[#DAAF9E] border border-[#2a575a] hover:border-[#DAAF9E]/40 shadow-xs transition-all duration-300 active:scale-90 cursor-pointer group"
+                  className="relative z-10 p-2.5 rounded-full bg-[#0e292b]/80 hover:bg-[#DAAF9E]/20 text-[#F0CDC4] hover:text-[#DAAF9E] border border-white/15 hover:border-[#DAAF9E]/40 shadow-xs transition-all duration-300 active:scale-90 cursor-pointer group"
                 >
                   <ArrowUpDown
                     className="w-4 h-4 text-[#DAAF9E] group-hover:text-[#DAAF9E] transition-transform duration-500 ease-in-out"
@@ -286,7 +289,7 @@ export default function Home() {
               </div>
 
               {/* Destino Box (Abajo) */}
-              <div className="bg-[#0e292b] rounded-2xl p-3 border border-[#2a575a] space-y-1">
+              <div className="bg-[#0e292b]/60 backdrop-blur-xs rounded-2xl p-3 border border-white/10 space-y-1">
                 <span className="text-[10px] font-bold text-[#6B8B86] uppercase tracking-wider block">
                   🏔️ Destino (Llegada)
                 </span>
@@ -304,7 +307,7 @@ export default function Home() {
             </div>
 
             {/* Panel 2: Botón Destacado de Publicar Viaje (Conductor) */}
-            <div className="glass-card rounded-3xl p-4 shadow-xs space-y-3 bg-[#163F41] border border-[#2a575a]">
+            <div className="glass-card rounded-3xl p-4.5 space-y-3">
               <div className="flex items-center justify-between text-xs font-bold text-[#EFEEEC]">
                 <span className="flex items-center gap-1.5 text-[#DAAF9E] font-extrabold">
                   <Sparkles className="w-4 h-4 text-[#DAAF9E]" /> ¿Conduces a la cordillera?
@@ -330,7 +333,7 @@ export default function Home() {
           {/* Right Column / Trips List & Filters (Pasajero) */}
           <section className="lg:col-span-8 space-y-3">
             {/* Header de la Sección & Tira de Calendario de Montaña (High Engagement Date Strip) */}
-            <div className="glass-card rounded-3xl p-3 sm:p-4 border border-[#2a575a] shadow-xs space-y-3 bg-[#163F41]">
+            <div className="glass-card rounded-3xl p-3 sm:p-4 space-y-3">
               <div className="flex items-center justify-between px-1">
                 <span className="text-xs font-black text-[#EFEEEC] uppercase tracking-wider flex items-center gap-2">
                   <span>🔍 Viajes Disponibles ({trips.length})</span>
@@ -356,7 +359,7 @@ export default function Home() {
                   className={`flex flex-col items-center justify-center p-2.5 rounded-2xl min-w-[78px] sm:min-w-[86px] transition-all duration-300 cursor-pointer border ${
                     filterDate === '' && !showDatePicker
                       ? 'bg-[#DAAF9E] text-[#163F41] font-black shadow-sm scale-105 border-[#DAAF9E]'
-                      : 'bg-[#0e292b] border-[#2a575a] text-[#F0CDC4] hover:bg-[#163F41]'
+                      : 'bg-[#0e292b]/60 backdrop-blur-xs border-white/10 text-[#F0CDC4] hover:bg-[#0e292b]/90 hover:border-white/20'
                   }`}
                 >
                   <span className="text-[10px] font-extrabold uppercase tracking-wider">Todas</span>
@@ -379,7 +382,7 @@ export default function Home() {
                       className={`flex flex-col items-center justify-center p-2.5 rounded-2xl min-w-[78px] sm:min-w-[86px] transition-all duration-300 cursor-pointer border ${
                         isSelected
                           ? 'bg-[#DAAF9E] text-[#163F41] font-black shadow-sm scale-105 border-[#DAAF9E]'
-                          : 'bg-[#0e292b] border-[#2a575a] text-[#F0CDC4] hover:bg-[#163F41]'
+                          : 'bg-[#0e292b]/60 backdrop-blur-xs border-white/10 text-[#F0CDC4] hover:bg-[#0e292b]/90 hover:border-white/20'
                       }`}
                     >
                       <span className="text-[10px] font-extrabold uppercase tracking-wider flex items-center gap-0.5">

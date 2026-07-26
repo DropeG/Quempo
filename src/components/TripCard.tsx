@@ -34,7 +34,7 @@ export default function TripCard({ trip, onSelectTrip }: TripCardProps) {
     <div
       data-tour="trip-card"
       onClick={() => onSelectTrip && onSelectTrip(trip)}
-      className="glass-card rounded-2xl p-3.5 sm:p-4 hover:border-[#DAAF9E]/50 transition-all duration-300 border border-[#2a575a] flex items-center justify-between gap-3 sm:gap-4 cursor-pointer group bg-[#163F41]"
+      className="glass-card rounded-2xl p-4 sm:p-4.5 flex items-center justify-between gap-3 sm:gap-4 cursor-pointer group"
     >
       {/* Driver Avatar & Essential Header */}
       <div className="flex items-center gap-3 min-w-0 flex-1">
@@ -43,10 +43,10 @@ export default function TripCard({ trip, onSelectTrip }: TripCardProps) {
           <img
             src={trip.driver_avatar}
             alt={trip.driver_name}
-            className="w-10 h-10 rounded-full ring-2 ring-[#DAAF9E]/50 object-cover flex-shrink-0"
+            className="w-10.5 h-10.5 rounded-full ring-2 ring-[#DAAF9E]/60 object-cover flex-shrink-0 shadow-sm"
           />
         ) : (
-          <div className="w-10 h-10 rounded-full bg-[#DAAF9E] text-[#163F41] flex items-center justify-center font-black text-sm shadow-xs flex-shrink-0">
+          <div className="w-10.5 h-10.5 rounded-full bg-[#DAAF9E] text-[#163F41] flex items-center justify-center font-black text-sm shadow-xs flex-shrink-0">
             {trip.driver_name.charAt(0).toUpperCase()}
           </div>
         )}
@@ -59,7 +59,7 @@ export default function TripCard({ trip, onSelectTrip }: TripCardProps) {
             <span title="Verificado con Google" className="flex-shrink-0">
               <ShieldCheck className="w-4 h-4 text-[#F0CDC4]" />
             </span>
-            <span className="text-xs font-semibold text-[#F0CDC4] bg-[#0e292b] border border-[#2a575a] px-2 py-0.5 rounded-md flex items-center gap-1">
+            <span className="text-xs font-semibold text-[#F0CDC4] bg-[#0e292b]/60 backdrop-blur-xs border border-white/10 px-2 py-0.5 rounded-md flex items-center gap-1">
               <Clock className="w-3 h-3 text-[#DAAF9E]" />
               {trip.departure_time.slice(0, 5)} hrs
             </span>
@@ -81,7 +81,7 @@ export default function TripCard({ trip, onSelectTrip }: TripCardProps) {
           </div>
         </div>
 
-        <div className="p-2 rounded-xl bg-[#0e292b] text-[#F0CDC4] group-hover:text-[#DAAF9E] group-hover:bg-[#DAAF9E]/15 border border-[#2a575a] group-hover:border-[#DAAF9E]/40 transition-all">
+        <div className="p-2.5 rounded-xl bg-[#0e292b]/60 backdrop-blur-xs text-[#F0CDC4] group-hover:text-[#DAAF9E] group-hover:bg-[#DAAF9E]/20 border border-white/10 group-hover:border-[#DAAF9E]/40 transition-all shadow-xs">
           <ChevronRight className="w-5 h-5 transition-colors" />
         </div>
       </div>

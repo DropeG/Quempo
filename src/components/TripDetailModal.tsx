@@ -76,14 +76,14 @@ export default function TripDetailModal({
   const whatsappUrl = `https://wa.me/${cleanPhone}?text=${encodedMsg}`;
 
   return (
-    <div className={`fixed inset-0 flex items-center justify-center p-3 animate-fadeIn ${isTourActive ? 'z-[220] bg-transparent pointer-events-none' : 'z-50 bg-[#0e292b]/80 backdrop-blur-xs'}`}>
+    <div className={`fixed inset-0 flex items-center justify-center p-3 animate-fadeIn ${isTourActive ? 'z-[220] bg-transparent pointer-events-none' : 'z-50 bg-[#0e292b]/75 backdrop-blur-md'}`}>
       <div
         data-tour="trip-detail-modal"
-        className="glass-card w-full max-w-lg rounded-3xl border border-[#2a575a] shadow-xl overflow-hidden relative max-h-[90vh] flex flex-col bg-[#163F41] text-[#EFEEEC] pointer-events-auto"
+        className="glass-card w-full max-w-lg rounded-3xl overflow-hidden relative max-h-[90vh] flex flex-col text-[#EFEEEC] pointer-events-auto shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
-        <div className="p-4 border-b border-[#2a575a] flex items-center justify-between bg-[#0e292b]">
+        <div className="p-4 border-b border-white/10 flex items-center justify-between bg-[#0e292b]/80 backdrop-blur-md">
           <div className="flex items-center gap-2">
             <span className={`text-xs font-semibold px-2.5 py-1 rounded-full border ${DIRECTION_BADGES[trip.direction]?.color}`}>
               {DIRECTION_BADGES[trip.direction]?.label}
@@ -91,7 +91,7 @@ export default function TripDetailModal({
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-full bg-[#163F41] text-[#F0CDC4] hover:text-white hover:bg-[#0e292b] transition cursor-pointer"
+            className="p-1.5 rounded-full bg-[#163F41]/60 text-[#F0CDC4] hover:text-white hover:bg-[#0e292b] transition cursor-pointer border border-white/10"
           >
             <X className="w-5 h-5" />
           </button>
@@ -100,7 +100,7 @@ export default function TripDetailModal({
         {/* Modal Body */}
         <div className="p-5 space-y-4 overflow-y-auto custom-scrollbar flex-1">
           {/* Driver Card Info */}
-          <div className="flex items-center justify-between bg-[#0e292b] p-3.5 rounded-2xl border border-[#2a575a] shadow-xs">
+          <div className="flex items-center justify-between bg-[#0e292b]/60 backdrop-blur-xs p-3.5 rounded-2xl border border-white/10 shadow-xs">
             <div className="flex items-center gap-3">
               {trip.driver_avatar ? (
                 // eslint-disable-next-line @next/next/no-img-element

@@ -146,17 +146,17 @@ export default function ProfileModal({ isOpen, onClose, user, onRestartTour }: P
   const avatarUrl = user.user_metadata?.avatar_url;
 
   return (
-    <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/70 backdrop-blur-xs animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-[#0e292b]/75 backdrop-blur-md animate-in fade-in duration-200">
       <div
-        className="bg-[#163F41] border border-[#2a575a] w-full max-w-md rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
+        className="glass-card w-full max-w-md rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="p-5 border-b border-[#2a575a] flex items-center justify-between bg-[#113335]">
+        <div className="p-5 border-b border-white/10 flex items-center justify-between bg-[#0e292b]/80 backdrop-blur-md">
           <h2 className="text-xl font-black text-[#EFEEEC] tracking-tight">Mi Perfil</h2>
           <button
             onClick={onClose}
-            className="p-2 text-[#F0CDC4]/70 hover:text-[#EFEEEC] hover:bg-[#163F41] rounded-xl transition cursor-pointer"
+            className="p-2 text-[#F0CDC4]/70 hover:text-[#EFEEEC] hover:bg-[#163F41] rounded-xl transition cursor-pointer border border-white/10"
           >
             <X className="w-5 h-5" />
           </button>

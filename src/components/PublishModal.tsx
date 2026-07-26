@@ -185,10 +185,10 @@ export default function PublishModal({
   };
 
   return (
-    <div className={`fixed inset-0 flex items-center justify-center p-4 overflow-y-auto ${isTourActive ? 'z-[220] bg-transparent pointer-events-none' : 'z-50 bg-[#0e292b]/80 backdrop-blur-xs'}`}>
-      <div data-tour="publish-modal-content" className="relative w-full max-w-lg bg-[#163F41] border border-[#2a575a] rounded-2xl shadow-xl p-6 my-8 text-[#EFEEEC] pointer-events-auto">
+    <div className={`fixed inset-0 flex items-center justify-center p-4 overflow-y-auto ${isTourActive ? 'z-[220] bg-transparent pointer-events-none' : 'z-50 bg-[#0e292b]/75 backdrop-blur-md'}`}>
+      <div data-tour="publish-modal-content" className="relative w-full max-w-lg glass-card rounded-3xl shadow-2xl p-6 my-8 text-[#EFEEEC] pointer-events-auto">
         {/* Header */}
-        <div className="flex items-center justify-between pb-4 border-b border-[#2a575a]">
+        <div className="flex items-center justify-between pb-4 border-b border-white/10">
           <div>
             <h2 className="text-xl font-bold text-[#EFEEEC] flex items-center gap-2">
               <Car className="w-5 h-5 text-[#DAAF9E]" /> Publicar Viaje
@@ -196,7 +196,7 @@ export default function PublishModal({
           </div>
           <button
             onClick={onClose}
-            className="text-[#F0CDC4] hover:text-white p-1 rounded-lg hover:bg-[#0e292b] transition"
+            className="text-[#F0CDC4] hover:text-white p-1.5 rounded-xl hover:bg-[#0e292b] transition border border-white/10"
           >
             <X className="w-5 h-5" />
           </button>

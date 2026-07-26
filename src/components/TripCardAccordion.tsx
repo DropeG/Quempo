@@ -51,8 +51,8 @@ export default function TripCardAccordion({ trip, currentUser, onDeleteTrip }: T
   return (
     <div
       onClick={() => setIsExpanded(!isExpanded)}
-      className={`glass-card rounded-2xl p-2.5 sm:p-3 hover:border-emerald-500/50 transition-all duration-300 shadow-md border border-zinc-800/90 relative overflow-hidden text-xs cursor-pointer ${
-        isExpanded ? 'ring-1 ring-emerald-500/30 bg-zinc-900/95' : 'hover:bg-zinc-900/80'
+      className={`glass-card rounded-2xl p-3 sm:p-3.5 transition-all duration-300 relative overflow-hidden text-xs cursor-pointer ${
+        isExpanded ? 'ring-1 ring-[#DAAF9E]/40' : ''
       }`}
     >
       {/* 1. Header Compacto (Siempre Visible) */}

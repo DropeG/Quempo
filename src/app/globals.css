@@ -9,9 +9,10 @@
   --font-primary: var(--font-dm-sans), system-ui, sans-serif;
   --background: #0e292b;
   --foreground: #EFEEEC;
-  --card-bg: #163F41;
-  --border-color: #2a575a;
-  --glass-shadow: rgba(0, 0, 0, 0.5);
+  --card-bg: rgba(22, 63, 65, 0.52);
+  --card-bg-solid: #163F41;
+  --border-color: rgba(255, 255, 255, 0.15);
+  --glass-shadow: rgba(0, 0, 0, 0.4);
   --accent-primary: #DAAF9E;
   --accent-primary-hover: #C79987;
   --accent-blush: #F0CDC4;
@@ -52,17 +53,56 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* High-Definition Frosted Glass Cards */
 .glass-card {
   background: var(--card-bg);
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
   border: 1px solid var(--border-color);
-  box-shadow: 0 8px 24px var(--glass-shadow);
+  box-shadow:
+    0 12px 32px 0 rgba(0, 0, 0, 0.38),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 -1px 1px 0 rgba(0, 0, 0, 0.12);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card:hover {
+  border-color: rgba(240, 205, 196, 0.35);
+  box-shadow:
+    0 18px 40px 0 rgba(0, 0, 0, 0.48),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.32);
 }
 
 .glass-nav {
-  background: rgba(14, 41, 43, 0.88);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border-color);
+  background: rgba(14, 41, 43, 0.75);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* Ambient Radial Glow Orbs for Frosted Refraction */
+.ambient-glow-1 {
+  position: fixed;
+  top: 10%;
+  left: 15%;
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(218, 175, 158, 0.22) 0%, rgba(22, 63, 65, 0) 70%);
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.ambient-glow-2 {
+  position: fixed;
+  bottom: 15%;
+  right: 10%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(240, 205, 196, 0.18) 0%, rgba(14, 41, 43, 0) 70%);
+  filter: blur(75px);
+  pointer-events: none;
+  z-index: 1;
 }
 
 
