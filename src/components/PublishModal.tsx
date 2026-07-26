@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { User } from '@supabase/supabase-js';
 import { TripDirection, SkiResort } from '@/types/trip';
@@ -30,6 +30,7 @@ interface PublishModalProps {
   defaultDirection?: TripDirection;
   defaultDestination?: SkiResort;
   defaultDate?: string;
+  isTourActive?: boolean;
 }
 
 export default function PublishModal({
@@ -40,6 +41,7 @@ export default function PublishModal({
   defaultDirection = 'SUBIDA',
   defaultDestination = 'FARELLONES',
   defaultDate = '',
+  isTourActive,
 }: PublishModalProps) {
   const supabase = createClient();
 
@@ -71,6 +73,30 @@ export default function PublishModal({
       if (defaultDate) setDepartureDate(defaultDate);
     }
   }
+
+  // Auto-fill WhatsApp & Instagram from profile when modal opens
+  useEffect(() => {
+    if (!isOpen || !user) return;
+
+    const fetchProfileContact = async () => {
+      try {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('whatsapp_number, instagram_handle')
+          .eq('id', user.id)
+          .maybeSingle();
+
+        if (profile) {
+          if (profile.whatsapp_number) setWhatsappNumber(profile.whatsapp_number);
+          if (profile.instagram_handle) setInstagramHandle(profile.instagram_handle);
+        }
+      } catch (err) {
+        console.error('Error fetching profile contact:', err);
+      }
+    };
+
+    fetchProfileContact();
+  }, [isOpen, user, supabase]);
 
   if (!isOpen) return null;
 
@@ -137,6 +163,16 @@ export default function PublishModal({
         throw insertError;
       }
 
+      // Upsert profile data for contact auto-fill on future publishes
+      await supabase.from('profiles').upsert({
+        id: user.id,
+        full_name: user.user_metadata?.full_name || user.email?.split('@')[0] || 'Conductor',
+        avatar_url: user.user_metadata?.avatar_url || null,
+        whatsapp_number: cleanPhone,
+        instagram_handle: cleanInstagram || null,
+        updated_at: new Date().toISOString(),
+      });
+
       onTripPublished();
       onClose();
     } catch (err: unknown) {
@@ -149,8 +185,8 @@ export default function PublishModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0e292b]/80 backdrop-blur-xs overflow-y-auto">
-      <div className="relative w-full max-w-lg bg-[#163F41] border border-[#2a575a] rounded-2xl shadow-xl p-6 my-8 text-[#EFEEEC]">
+    <div className={`fixed inset-0 flex items-center justify-center p-4 overflow-y-auto ${isTourActive ? 'z-[220] bg-transparent pointer-events-none' : 'z-50 bg-[#0e292b]/80 backdrop-blur-xs'}`}>
+      <div data-tour="publish-modal-content" className="relative w-full max-w-lg bg-[#163F41] border border-[#2a575a] rounded-2xl shadow-xl p-6 my-8 text-[#EFEEEC] pointer-events-auto">
         {/* Header */}
         <div className="flex items-center justify-between pb-4 border-b border-[#2a575a]">
           <div>

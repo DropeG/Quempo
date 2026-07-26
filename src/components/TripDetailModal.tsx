@@ -26,6 +26,7 @@ interface TripDetailModalProps {
   trip: Trip | null;
   currentUser: User | null;
   onDeleteTrip: (tripId: string) => void;
+  isTourActive?: boolean;
 }
 
 const DESTINATION_NAMES: Record<string, string> = {
@@ -47,6 +48,7 @@ export default function TripDetailModal({
   trip,
   currentUser,
   onDeleteTrip,
+  isTourActive,
 }: TripDetailModalProps) {
   if (!isOpen || !trip) return null;
 
@@ -74,9 +76,10 @@ export default function TripDetailModal({
   const whatsappUrl = `https://wa.me/${cleanPhone}?text=${encodedMsg}`;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 bg-[#0e292b]/80 backdrop-blur-xs animate-fadeIn">
+    <div className={`fixed inset-0 flex items-center justify-center p-3 animate-fadeIn ${isTourActive ? 'z-[220] bg-transparent pointer-events-none' : 'z-50 bg-[#0e292b]/80 backdrop-blur-xs'}`}>
       <div
-        className="glass-card w-full max-w-lg rounded-3xl border border-[#2a575a] shadow-xl overflow-hidden relative max-h-[90vh] flex flex-col bg-[#163F41] text-[#EFEEEC]"
+        data-tour="trip-detail-modal"
+        className="glass-card w-full max-w-lg rounded-3xl border border-[#2a575a] shadow-xl overflow-hidden relative max-h-[90vh] flex flex-col bg-[#163F41] text-[#EFEEEC] pointer-events-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
@@ -268,6 +271,7 @@ export default function TripDetailModal({
           )}
 
           <a
+            data-tour="whatsapp-btn"
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"

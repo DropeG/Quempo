@@ -32,6 +32,7 @@ export default function TripCard({ trip, onSelectTrip }: TripCardProps) {
 
   return (
     <div
+      data-tour="trip-card"
       onClick={() => onSelectTrip && onSelectTrip(trip)}
       className="glass-card rounded-2xl p-3.5 sm:p-4 hover:border-[#DAAF9E]/50 transition-all duration-300 border border-[#2a575a] flex items-center justify-between gap-3 sm:gap-4 cursor-pointer group bg-[#163F41]"
     >

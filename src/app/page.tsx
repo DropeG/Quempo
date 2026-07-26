@@ -8,24 +8,81 @@ import Navbar from '@/components/Navbar';
 import TripCard from '@/components/TripCard';
 import PublishModal from '@/components/PublishModal';
 import TripDetailModal from '@/components/TripDetailModal';
+import { useOnboardingTour } from '@/components/onboarding/useOnboardingTour';
+import OnboardingWelcomeModal from '@/components/onboarding/OnboardingWelcomeModal';
+import SpotlightTourOverlay from '@/components/onboarding/SpotlightTourOverlay';
 import { Mountain, Plus, Sparkles, ArrowUpDown } from 'lucide-react';
 
 export default function Home() {
   const supabase = createClient();
 
   const [user, setUser] = useState<User | null>(null);
+  const onboarding = useOnboardingTour(user);
   const [trips, setTrips] = useState<Trip[]>([]);
   const [loading, setLoading] = useState(true);
   const [isPublishModalOpen, setIsPublishModalOpen] = useState(false);
   const [selectedTrip, setSelectedTrip] = useState<Trip | null>(null);
+
   // Helper to format date YYYY-MM-DD
-  const getTodayStr = () => {
+  const getTodayStr = useCallback(() => {
     const d = new Date();
     const year = d.getFullYear();
     const month = String(d.getMonth() + 1).padStart(2, '0');
     const day = String(d.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
-  };
+  }, []);
+
+  // Demo trip for tour walkthrough when opening details modal
+  const DEMO_TRIP = useMemo<Trip>(() => ({
+    id: 'demo-tour-trip',
+    user_id: 'demo-driver',
+    driver_name: 'Mateo (Conductor)',
+    driver_avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
+    whatsapp_number: '+56912345678',
+    instagram_handle: 'mateo_skier',
+    direction: 'SUBIDA',
+    origin: 'Santiago (RM)',
+    destination: 'FARELLONES',
+    departure_date: getTodayStr(),
+    departure_time: '07:30',
+    price_per_seat: 8000,
+    seats_available: 3,
+    has_4x4: true,
+    has_chains: true,
+    has_rack: true,
+    notes: 'Salgo temprano desde Los Domínicos. Llevo porta-skis para 4 pares y cadenas para la cordillera.',
+    created_at: new Date().toISOString(),
+  }), [getTodayStr]);
+
+  // Dynamic tour step change handler to open modals during tour walkthrough
+  const handleTourStepChange = useCallback((stepIndex: number) => {
+    if (stepIndex === 3) {
+      // Step 4 (WhatsApp & Details): Open TripDetailModal
+      const targetTrip = trips.length > 0 ? trips[0] : DEMO_TRIP;
+      setSelectedTrip(targetTrip);
+      setIsPublishModalOpen(false);
+    } else if (stepIndex === 4) {
+      // Step 5 (Publish Trip): Open PublishModal
+      setSelectedTrip(null);
+      setIsPublishModalOpen(true);
+    } else {
+      // Close open tour modals for all other steps
+      setSelectedTrip(null);
+      setIsPublishModalOpen(false);
+    }
+  }, [trips, DEMO_TRIP]);
+
+  const handleTourClose = useCallback(() => {
+    setSelectedTrip(null);
+    setIsPublishModalOpen(false);
+    onboarding.skipTour();
+  }, [onboarding]);
+
+  const handleTourFinish = useCallback(() => {
+    setSelectedTrip(null);
+    setIsPublishModalOpen(false);
+    onboarding.finishTour();
+  }, [onboarding]);
 
   // Filters state (Default date is Today)
   const [selectedDirection, setSelectedDirection] = useState<TripDirection | 'ALL'>('SUBIDA');
@@ -176,7 +233,7 @@ export default function Home() {
       </div>
 
       {/* Navigation */}
-      <Navbar />
+      <Navbar onRestartTour={onboarding.restartTour} />
 
       <main className="flex-1 max-w-6xl w-full mx-auto px-3 sm:px-4 pt-4 relative z-10">
         <div className="lg:grid lg:grid-cols-12 lg:gap-6 lg:items-start space-y-4 lg:space-y-0">
@@ -184,13 +241,13 @@ export default function Home() {
           {/* Left Column / Control Sidebar (Sticky in Desktop) */}
           <aside className="lg:col-span-4 lg:sticky lg:top-20 space-y-4">
             {/* Panel 1: Selector de Ruta Vertical con Animación de Intercambio */}
-            <div className="glass-card rounded-3xl p-4 border border-[#2a575a] shadow-xs space-y-3 bg-[#163F41]">
+            <div data-tour="direction-switch" className="glass-card rounded-3xl p-4 border border-[#2a575a] shadow-xs space-y-3 bg-[#163F41]">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-black text-[#DAAF9E] uppercase tracking-wider flex items-center gap-1.5">
                   📍 Ruta de Viaje
                 </span>
                 <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full border ${selectedDirection === 'SUBIDA' ? 'bg-[#DAAF9E]/20 border-[#DAAF9E]/40 text-[#DAAF9E]' : 'bg-[#F0CDC4]/20 border-[#F0CDC4]/40 text-[#F0CDC4]'}`}>
-                  {selectedDirection === 'SUBIDA' ? '⬆️ Subida' : '⬇️ Bajada'}
+                  {selectedDirection === 'SUBIDA' ? '⬆️ Subida' : selectedDirection === 'BAJADA' ? '⬇️ Bajada' : '🏔️ Todas'}
                 </span>
               </div>
 
@@ -260,6 +317,7 @@ export default function Home() {
                 Publica tus asientos libres en 30 segundos y comparte gastos de combustible y peajes con esquiadores de la comunidad.
               </p>
               <button
+                data-tour="publish-btn"
                 onClick={() => setIsPublishModalOpen(true)}
                 className="w-full inline-flex items-center justify-center gap-2 bg-[#DAAF9E] hover:bg-[#C79987] text-[#163F41] font-black text-sm py-3.5 px-4 rounded-2xl shadow-sm transition-all cursor-pointer"
               >
@@ -288,7 +346,7 @@ export default function Home() {
               </div>
 
               {/* Tira de Mini-Tarjetas de Fecha */}
-              <div className="flex items-center gap-2 overflow-x-auto scrollbar-none py-1 px-0.5">
+              <div data-tour="date-filters" className="flex items-center gap-2 overflow-x-auto scrollbar-none py-1 px-0.5">
                 {/* Micro-Card 1: Todos los Días */}
                 <button
                   onClick={() => {
@@ -422,6 +480,7 @@ export default function Home() {
         defaultDirection={selectedDirection === 'ALL' ? 'SUBIDA' : selectedDirection}
         defaultDestination={selectedResort === 'ALL' ? 'FARELLONES' : selectedResort}
         defaultDate={filterDate}
+        isTourActive={onboarding.isTourActive}
       />
 
       {/* Trip Detail Modal (Opción B) */}
@@ -431,6 +490,28 @@ export default function Home() {
         trip={selectedTrip}
         currentUser={user}
         onDeleteTrip={handleDeleteTrip}
+        isTourActive={onboarding.isTourActive}
+      />
+
+      {/* Onboarding Welcome Prompt (First Login) */}
+      <OnboardingWelcomeModal
+        isOpen={onboarding.showWelcomeModal}
+        onStartTour={onboarding.startTour}
+        onSkip={handleTourClose}
+        userName={user?.user_metadata?.full_name || user?.email}
+      />
+
+      {/* Spotlight Tour Overlay */}
+      <SpotlightTourOverlay
+        isActive={onboarding.isTourActive}
+        currentStep={onboarding.currentStep}
+        onNext={onboarding.nextStep}
+        onPrev={onboarding.prevStep}
+        onSkip={handleTourClose}
+        onFinish={handleTourFinish}
+        isCompleted={onboarding.isCompleted}
+        onCloseCompleted={onboarding.closeCompletionModal}
+        onStepChange={handleTourStepChange}
       />
     </div>
   );
