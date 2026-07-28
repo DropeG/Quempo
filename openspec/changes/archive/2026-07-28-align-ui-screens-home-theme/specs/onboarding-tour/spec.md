@@ -9,6 +9,10 @@ The system SHALL trigger the initial onboarding welcome prompt only once when a 
 - **WHEN** a user logs in and `has_seen_onboarding` is false or not set in storage
 - **THEN** the system SHALL display the Onboarding Welcome Modal styled with glassmorphism (`backdrop-filter: blur(26px)`), specular highlight borders (`border-white/30`), sky-blue CTA button (`#38BDF8`), and clear "Omitir por ahora" action.
 
+#### Scenario: User logs in on subsequent sessions
+- **WHEN** a user logs in and `has_seen_onboarding` is true
+- **THEN** the system SHALL NOT display the Onboarding Welcome Modal automatically.
+
 ## ADDED Requirements
 
 ### Requirement: Glassmorphic spotlight tour overlay and tooltip cards

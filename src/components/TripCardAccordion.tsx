@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Trip } from '@/types/trip';
 import { User } from '@supabase/supabase-js';
 import { MapPin, Calendar, Clock, Users, ShieldCheck, Trash2, MessageCircle, ChevronDown, ChevronUp } from 'lucide-react';
+import UserAvatar from './UserAvatar';
 
 interface TripCardProps {
   trip: Trip;
@@ -59,18 +60,11 @@ export default function TripCardAccordion({ trip, currentUser, onDeleteTrip }: T
       <div className="flex items-center justify-between gap-2">
         {/* Conductor + Hora + Destino */}
         <div className="flex items-center gap-2 min-w-0">
-          {trip.driver_avatar ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={trip.driver_avatar}
-              alt={trip.driver_name}
-              className="w-7 h-7 rounded-full ring-2 ring-white/70 object-cover flex-shrink-0"
-            />
-          ) : (
-            <div className="w-7 h-7 rounded-full bg-white text-[#0F2942] flex items-center justify-center font-black text-[10px] shadow-xs flex-shrink-0">
-              {trip.driver_name.charAt(0).toUpperCase()}
-            </div>
-          )}
+          <UserAvatar
+            src={trip.driver_avatar}
+            name={trip.driver_name}
+            size="xs"
+          />
 
           <div className="min-w-0 space-y-0.5">
             <div className="flex items-center gap-1.5 flex-wrap">

@@ -8,3 +8,7 @@ El sistema SHALL proveer una interfaz modal "Mi Perfil" basada en la estética "
 #### Scenario: Visualización del perfil y viajes publicados
 - **WHEN** el usuario hace clic en "Mi perfil" dentro del submenú desplegable
 - **THEN** se abre el modal con fondo de cristal esmerilado (`.glass-card`), bordes de luz helada (`border-white/30`), avatar con anillo brillante (`ring-2 ring-white/70`), badge celeste de viajes publicados y campos de texto editables estilizados.
+
+#### Scenario: Guardar cambios en el perfil
+- **WHEN** el usuario modifica su número de WhatsApp o su usuario de Instagram y presiona "Guardar Perfil"
+- **THEN** el sistema actualiza los datos en la tabla `public.profiles` y cierra el modal con notificación de éxito.

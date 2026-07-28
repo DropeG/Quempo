@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/client';
 import { User as SupabaseUser } from '@supabase/supabase-js';
 import { Mountain, LogIn, LogOut, User as UserIcon, ChevronDown } from 'lucide-react';
 import ProfileModal from './ProfileModal';
+import UserAvatar from './UserAvatar';
 
 interface NavbarProps {
   onRestartTour?: () => void;
@@ -97,18 +98,12 @@ export default function Navbar({ onRestartTour }: NavbarProps) {
                   className="flex items-center gap-2 bg-white/20 hover:bg-white/30 border border-white/40 p-1.5 pl-2.5 pr-2 rounded-2xl shadow-md backdrop-blur-md transition cursor-pointer"
                 >
                   <div className="flex items-center gap-2">
-                    {user.user_metadata?.avatar_url ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={user.user_metadata.avatar_url}
-                        alt={user.user_metadata.full_name || 'User'}
-                        className="w-9 h-9 rounded-xl ring-2 ring-white/70 object-cover"
-                      />
-                    ) : (
-                      <div className="w-9 h-9 rounded-xl bg-white text-[#0F2942] flex items-center justify-center font-black text-sm ring-2 ring-white/70">
-                        {user.email?.charAt(0).toUpperCase()}
-                      </div>
-                    )}
+                    <UserAvatar
+                      src={user.user_metadata?.avatar_url}
+                      name={user.user_metadata?.full_name}
+                      email={user.email}
+                      size="sm"
+                    />
                     <div className="hidden sm:block text-left pr-1">
                       <div className="text-xs font-bold text-white truncate max-w-[100px] drop-shadow-xs">
                         {user.user_metadata?.full_name?.split(' ')[0] || user.email?.split('@')[0]}
