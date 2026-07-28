@@ -445,7 +445,7 @@ export default function Home() {
             ) : trips.length === 0 ? (
               <div className="glass-card rounded-2xl p-8 text-center space-y-3 border border-white/30">
                 <Mountain className="w-10 h-10 text-[#38BDF8] mx-auto" />
-                <h3 className="text-sm font-bold text-white">No hay viajes disponibles para este filtro</h3>
+                <h3 className="text-sm font-bold text-white">No hay viajes disponibles para este dia</h3>
                 <p className="text-xs text-slate-200 max-w-sm mx-auto font-medium">
                   Sé el primero en publicar tus cupos libres para compartir los gastos de bencina.
                 </p>

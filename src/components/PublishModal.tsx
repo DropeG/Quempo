@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { User } from '@supabase/supabase-js';
 import { TripDirection, SkiResort } from '@/types/trip';
@@ -21,6 +21,14 @@ const InstagramIcon = ({ className = "w-3.5 h-3.5" }: { className?: string }) =>
     <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
   </svg>
 );
+
+const CITY_LOCATION_PRESETS = [
+  'Shell Farellones',
+  'Mall Sport',
+  'Cantagallo',
+  'Metro Los Dominicos',
+  'Estoril',
+];
 
 interface PublishModalProps {
   isOpen: boolean;
@@ -51,7 +59,7 @@ export default function PublishModal({
   const [departureDate, setDepartureDate] = useState(defaultDate);
   const [departureTime, setDepartureTime] = useState('07:00');
   const [seatsAvailable, setSeatsAvailable] = useState(3);
-  const [pricePerSeat, setPricePerSeat] = useState(10000);
+  const [pricePerSeat, setPricePerSeat] = useState<number | string>('');
   const [has4x4, setHas4x4] = useState(false);
   const [hasChains, setHasChains] = useState(true);
   const [hasRack, setHasRack] = useState(false);
@@ -61,6 +69,55 @@ export default function PublishModal({
 
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
+
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  const today = new Date();
+  const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+
+  // Keyboard controls: Escape to close & Tab focus trap
+  useEffect(() => {
+    if (!isOpen) return;
+
+    // Focus first focusable element inside modal on open
+    const focusables = modalRef.current?.querySelectorAll<HTMLElement>(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    if (focusables && focusables.length > 0) {
+      focusables[0].focus();
+    }
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+        return;
+      }
+
+      if (e.key === 'Tab' && modalRef.current) {
+        const currentFocusables = modalRef.current.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        if (!currentFocusables || currentFocusables.length === 0) return;
+        const first = currentFocusables[0];
+        const last = currentFocusables[currentFocusables.length - 1];
+
+        if (e.shiftKey) {
+          if (document.activeElement === first) {
+            last.focus();
+            e.preventDefault();
+          }
+        } else {
+          if (document.activeElement === last) {
+            first.focus();
+            e.preventDefault();
+          }
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
 
   const [prevIsOpen, setPrevIsOpen] = useState(isOpen);
 
@@ -120,6 +177,10 @@ export default function PublishModal({
       setError('Por favor selecciona la fecha del viaje.');
       return;
     }
+    if (departureDate < todayStr) {
+      setError('La fecha del viaje no puede ser en el pasado.');
+      return;
+    }
     if (!whatsappNumber.trim()) {
       setError('Por favor ingresa tu número de WhatsApp.');
       return;
@@ -150,7 +211,7 @@ export default function PublishModal({
         departure_date: departureDate,
         departure_time: departureTime,
         seats_available: Number(seatsAvailable),
-        price_per_seat: Number(pricePerSeat),
+        price_per_seat: pricePerSeat !== '' ? Number(pricePerSeat) : 10000,
         has_4x4: has4x4,
         has_chains: hasChains,
         has_rack: hasRack,
@@ -185,20 +246,34 @@ export default function PublishModal({
   };
 
   return (
-    <div className={`fixed inset-0 flex items-center justify-center p-4 overflow-y-auto ${isTourActive ? 'z-[220] bg-transparent pointer-events-none' : 'z-50 bg-[#0c2340]/40 backdrop-blur-md'}`}>
-      <div data-tour="publish-modal-content" className="relative w-full max-w-lg glass-card rounded-3xl shadow-2xl p-6 my-8 text-[#0F2942] pointer-events-auto bg-white/95 border border-white">
+    <div
+      onClick={onClose}
+      className={`fixed inset-0 flex items-center justify-center p-4 overflow-y-auto ${
+        isTourActive ? 'z-[220] bg-transparent pointer-events-none' : 'z-50 bg-[#0c2340]/40 backdrop-blur-md'
+      }`}
+    >
+      <div
+        ref={modalRef}
+        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="publish-modal-title"
+        data-tour="publish-modal-content"
+        className="relative w-full max-w-lg glass-card rounded-3xl shadow-2xl p-6 my-8 text-[#0F2942] pointer-events-auto bg-white/95 border border-white"
+      >
         {/* Header */}
         <div className="flex items-center justify-between pb-4 border-b border-sky-100">
           <div>
-            <h2 className="text-xl font-black text-[#0F2942] flex items-center gap-2">
-              <Car className="w-5 h-5 text-[#38BDF8]" /> Publicar Viaje
+            <h2 id="publish-modal-title" className="text-xl font-black text-[#0F2942] flex items-center gap-2">
+              <Car className="w-5 h-5 text-[#38BDF8]" aria-hidden="true" /> Publicar Viaje
             </h2>
           </div>
           <button
             onClick={onClose}
-            className="text-slate-500 hover:text-[#0F2942] p-1.5 rounded-xl hover:bg-sky-50 transition border border-sky-100 cursor-pointer"
+            aria-label="Cerrar modal"
+            className="text-slate-500 hover:text-[#0F2942] p-1.5 rounded-xl hover:bg-sky-50 transition border border-sky-100 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#38BDF8]"
           >
-            <X className="w-5 h-5" />
+            <X className="w-5 h-5" aria-hidden="true" />
           </button>
         </div>
 
@@ -224,7 +299,11 @@ export default function PublishModal({
         ) : (
           <form onSubmit={handleSubmit} className="mt-4 space-y-4">
             {error && (
-              <div className="p-3 text-xs bg-rose-50 border border-rose-200 text-rose-700 rounded-xl font-bold">
+              <div
+                role="alert"
+                aria-live="assertive"
+                className="p-3 text-xs bg-rose-50 border border-rose-200 text-rose-700 rounded-xl font-bold"
+              >
                 {error}
               </div>
             )}
@@ -234,7 +313,7 @@ export default function PublishModal({
               <label className="block text-xs font-bold text-[#0F2942] uppercase tracking-wider mb-2">
                 Tipo de Viaje
               </label>
-              <div className="grid grid-cols-2 gap-2">
+              <div role="radiogroup" aria-label="Tipo de Viaje" className="grid grid-cols-2 gap-2">
                 {[
                   { id: 'SUBIDA', label: '⬆️ Subida' },
                   { id: 'BAJADA', label: '⬇️ Bajada' },
@@ -242,8 +321,10 @@ export default function PublishModal({
                   <button
                     key={item.id}
                     type="button"
+                    role="radio"
+                    aria-checked={direction === item.id}
                     onClick={() => setDirection(item.id as TripDirection)}
-                    className={`py-2 px-2 text-xs font-bold rounded-xl border transition cursor-pointer ${
+                    className={`py-2 px-2 text-xs font-bold rounded-xl border transition cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#38BDF8] ${
                       direction === item.id
                         ? 'bg-[#38BDF8] border-[#38BDF8] text-[#0F2942] font-black shadow-xs'
                         : 'bg-sky-50/70 border-sky-100 text-slate-600 hover:bg-sky-100'
@@ -260,12 +341,13 @@ export default function PublishModal({
               {direction === 'SUBIDA' ? (
                 <>
                   <div>
-                    <label className="block text-xs font-bold text-[#0F2942] mb-1">
-                      Punto de Salida (Ciudad)
+                    <label htmlFor="publish-origin-subida" className="block text-xs font-bold text-[#0F2942] mb-1">
+                      Punto de Salida
                     </label>
                     <div className="relative">
-                      <MapPin className="w-3.5 h-3.5 text-[#38BDF8] absolute left-3 top-2.5" />
+                      <MapPin className="w-3.5 h-3.5 text-[#38BDF8] absolute left-3 top-2.5" aria-hidden="true" />
                       <input
+                        id="publish-origin-subida"
                         type="text"
                         placeholder="Ej: Cantagallo, Mall Sport, Metro Escuela Militar"
                         value={origin}
@@ -273,11 +355,28 @@ export default function PublishModal({
                         className="w-full bg-sky-50/60 border border-sky-200 rounded-xl pl-8 pr-3 py-2 text-xs text-[#0F2942] placeholder-slate-400 focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-sky-200 font-bold"
                       />
                     </div>
+                    <div className="flex flex-wrap gap-1 mt-1.5">
+                      {CITY_LOCATION_PRESETS.map((preset) => (
+                        <button
+                          key={preset}
+                          type="button"
+                          onClick={() => setOrigin(origin === preset ? '' : preset)}
+                          className={`text-[10px] font-bold px-2 py-0.5 rounded-lg border transition cursor-pointer ${
+                            origin === preset
+                              ? 'bg-[#38BDF8] border-[#38BDF8] text-[#0F2942] shadow-xs'
+                              : 'bg-sky-50/80 border-sky-100 text-slate-600 hover:bg-sky-100 hover:text-[#0F2942]'
+                          }`}
+                        >
+                          + {preset}
+                        </button>
+                      ))}
+                    </div>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-[#0F2942] mb-1">Destino (Montaña)</label>
+                    <label htmlFor="publish-destination-subida" className="block text-xs font-bold text-[#0F2942] mb-1">Destino</label>
                     <select
+                      id="publish-destination-subida"
                       value={destination}
                       onChange={(e) => setDestination(e.target.value as SkiResort)}
                       className="w-full bg-sky-50/60 border border-sky-200 rounded-xl px-3 py-2 text-xs text-[#0F2942] focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-sky-200 font-bold"
@@ -292,8 +391,9 @@ export default function PublishModal({
               ) : (
                 <>
                   <div>
-                    <label className="block text-xs font-bold text-[#0F2942] mb-1">Origen (Montaña)</label>
+                    <label htmlFor="publish-destination-bajada" className="block text-xs font-bold text-[#0F2942] mb-1">Origen</label>
                     <select
+                      id="publish-destination-bajada"
                       value={destination}
                       onChange={(e) => setDestination(e.target.value as SkiResort)}
                       className="w-full bg-sky-50/60 border border-sky-200 rounded-xl px-3 py-2 text-xs text-[#0F2942] focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-sky-200 font-bold"
@@ -306,18 +406,35 @@ export default function PublishModal({
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-[#0F2942] mb-1">
-                      Punto de Llegada (Ciudad)
+                    <label htmlFor="publish-origin-bajada" className="block text-xs font-bold text-[#0F2942] mb-1">
+                      Destino
                     </label>
                     <div className="relative">
-                      <MapPin className="w-3.5 h-3.5 text-[#38BDF8] absolute left-3 top-2.5" />
+                      <MapPin className="w-3.5 h-3.5 text-[#38BDF8] absolute left-3 top-2.5" aria-hidden="true" />
                       <input
+                        id="publish-origin-bajada"
                         type="text"
                         placeholder="Ej: Cantagallo, Mall Sport, Metro Escuela Militar"
                         value={origin}
                         onChange={(e) => setOrigin(e.target.value)}
                         className="w-full bg-sky-50/60 border border-sky-200 rounded-xl pl-8 pr-3 py-2 text-xs text-[#0F2942] placeholder-slate-400 focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-sky-200 font-bold"
                       />
+                    </div>
+                    <div className="flex flex-wrap gap-1 mt-1.5">
+                      {CITY_LOCATION_PRESETS.map((preset) => (
+                        <button
+                          key={preset}
+                          type="button"
+                          onClick={() => setOrigin(origin === preset ? '' : preset)}
+                          className={`text-[10px] font-bold px-2 py-0.5 rounded-lg border transition cursor-pointer ${
+                            origin === preset
+                              ? 'bg-[#38BDF8] border-[#38BDF8] text-[#0F2942] shadow-xs'
+                              : 'bg-sky-50/80 border-sky-100 text-slate-600 hover:bg-sky-100 hover:text-[#0F2942]'
+                          }`}
+                        >
+                          + {preset}
+                        </button>
+                      ))}
                     </div>
                   </div>
                 </>
@@ -327,11 +444,13 @@ export default function PublishModal({
             {/* Fecha y Hora */}
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-bold text-[#0F2942] mb-1">Fecha</label>
+                <label htmlFor="publish-date" className="block text-xs font-bold text-[#0F2942] mb-1">Fecha</label>
                 <div className="relative">
-                  <Calendar className="w-3.5 h-3.5 text-[#38BDF8] absolute left-3 top-2.5" />
+                  <Calendar className="w-3.5 h-3.5 text-[#38BDF8] absolute left-3 top-2.5" aria-hidden="true" />
                   <input
+                    id="publish-date"
                     type="date"
+                    min={todayStr}
                     value={departureDate}
                     onChange={(e) => setDepartureDate(e.target.value)}
                     className="w-full bg-sky-50/60 border border-sky-200 rounded-xl pl-8 pr-3 py-2 text-xs text-[#0F2942] focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-sky-200 font-bold"
@@ -340,10 +459,11 @@ export default function PublishModal({
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-[#0F2942] mb-1">Hora de Salida</label>
+                <label htmlFor="publish-time" className="block text-xs font-bold text-[#0F2942] mb-1">Hora de Salida</label>
                 <div className="relative">
-                  <Clock className="w-3.5 h-3.5 text-[#38BDF8] absolute left-3 top-2.5" />
+                  <Clock className="w-3.5 h-3.5 text-[#38BDF8] absolute left-3 top-2.5" aria-hidden="true" />
                   <input
+                    id="publish-time"
                     type="time"
                     value={departureTime}
                     onChange={(e) => setDepartureTime(e.target.value)}
@@ -356,10 +476,11 @@ export default function PublishModal({
             {/* Asientos y Precio */}
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-bold text-[#0F2942] mb-1">Asientos Disponibles</label>
+                <label htmlFor="publish-seats" className="block text-xs font-bold text-[#0F2942] mb-1">Asientos Disponibles</label>
                 <div className="relative">
-                  <Users className="w-3.5 h-3.5 text-[#38BDF8] absolute left-3 top-2.5" />
+                  <Users className="w-3.5 h-3.5 text-[#38BDF8] absolute left-3 top-2.5" aria-hidden="true" />
                   <input
+                    id="publish-seats"
                     type="number"
                     min="1"
                     max="8"
@@ -371,16 +492,19 @@ export default function PublishModal({
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-[#0F2942] mb-1">Precio por Asiento (CLP)</label>
+                <label htmlFor="publish-price" className="block text-xs font-bold text-[#0F2942] mb-1">
+                  Precio por Asiento (CLP)
+                </label>
                 <div className="relative">
-                  <DollarSign className="w-3.5 h-3.5 text-[#38BDF8] absolute left-3 top-2.5" />
+                  <DollarSign className="w-3.5 h-3.5 text-[#38BDF8] absolute left-3 top-2.5" aria-hidden="true" />
                   <input
+                    id="publish-price"
                     type="number"
                     step="500"
                     min="0"
                     placeholder="10000"
                     value={pricePerSeat}
-                    onChange={(e) => setPricePerSeat(Number(e.target.value))}
+                    onChange={(e) => setPricePerSeat(e.target.value)}
                     className="w-full bg-sky-50/60 border border-sky-200 rounded-xl pl-8 pr-3 py-2 text-xs text-[#0F2942] placeholder-slate-400 focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-sky-200 font-bold"
                   />
                 </div>
@@ -390,51 +514,55 @@ export default function PublishModal({
             {/* Badges de Montaña */}
             <div>
               <label className="block text-xs font-bold text-[#0F2942] mb-2">Equipamiento y Vehículo</label>
-              <div className="grid grid-cols-3 gap-2">
+              <div role="group" aria-label="Equipamiento y Vehículo" className="grid grid-cols-3 gap-2">
                 <button
                   type="button"
+                  aria-pressed={has4x4}
                   onClick={() => setHas4x4(!has4x4)}
-                  className={`py-2 px-1 rounded-xl text-xs font-semibold border flex items-center justify-center gap-1 transition cursor-pointer ${
+                  className={`py-2 px-1 rounded-xl text-xs font-semibold border flex items-center justify-center gap-1 transition cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#38BDF8] ${
                     has4x4
                       ? 'bg-sky-500/20 border-[#38BDF8] text-[#0F2942] font-black'
                       : 'bg-sky-50/60 border-sky-100 text-slate-500 hover:bg-sky-100'
                   }`}
                 >
-                  {has4x4 && <Check className="w-3.5 h-3.5 shrink-0 text-[#38BDF8]" />} 🚙 4x4 / AWD
+                  {has4x4 && <Check className="w-3.5 h-3.5 shrink-0 text-[#38BDF8]" aria-hidden="true" />} 🚙 4x4 / AWD
                 </button>
 
                 <button
                   type="button"
+                  aria-pressed={hasChains}
                   onClick={() => setHasChains(!hasChains)}
-                  className={`py-2 px-1 rounded-xl text-xs font-semibold border flex items-center justify-center gap-1 transition cursor-pointer ${
+                  className={`py-2 px-1 rounded-xl text-xs font-semibold border flex items-center justify-center gap-1 transition cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#38BDF8] ${
                     hasChains
                       ? 'bg-sky-500/20 border-[#38BDF8] text-[#0F2942] font-black'
                       : 'bg-sky-50/60 border-sky-100 text-slate-500 hover:bg-sky-100'
                   }`}
                 >
-                  {hasChains && <Check className="w-3.5 h-3.5 shrink-0 text-[#38BDF8]" />} ⛓️ Cadenas
+                  {hasChains && <Check className="w-3.5 h-3.5 shrink-0 text-[#38BDF8]" aria-hidden="true" />} ⛓️ Cadenas
                 </button>
 
                 <button
                   type="button"
+                  aria-pressed={hasRack}
                   onClick={() => setHasRack(!hasRack)}
-                  className={`py-2 px-1 rounded-xl text-xs font-semibold border flex items-center justify-center gap-1 transition cursor-pointer ${
+                  className={`py-2 px-1 rounded-xl text-xs font-semibold border flex items-center justify-center gap-1 transition cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#38BDF8] ${
                     hasRack
                       ? 'bg-sky-500/20 border-[#38BDF8] text-[#0F2942] font-black'
                       : 'bg-sky-50/60 border-sky-100 text-slate-500 hover:bg-sky-100'
                   }`}
                 >
-                  {hasRack && <Check className="w-3.5 h-3.5 shrink-0 text-[#38BDF8]" />} 🎿 Parrilla
+                  {hasRack && <Check className="w-3.5 h-3.5 shrink-0 text-[#38BDF8]" aria-hidden="true" />} 🎿 Parrilla
                 </button>
               </div>
             </div>
 
             {/* WhatsApp Number */}
             <div>
-              <label className="block text-xs font-bold text-[#0F2942] mb-1">
+              <label htmlFor="publish-whatsapp" className="block text-xs font-bold text-[#0F2942] mb-1">
                 Número de WhatsApp (para coordinar)
               </label>
               <input
+                id="publish-whatsapp"
                 type="tel"
                 placeholder="+56912345678"
                 value={whatsappNumber}
@@ -445,12 +573,13 @@ export default function PublishModal({
 
             {/* Instagram (Opcional) */}
             <div>
-              <label className="block text-xs font-bold text-[#0F2942] mb-1 flex items-center gap-1.5">
+              <label htmlFor="publish-instagram" className="block text-xs font-bold text-[#0F2942] mb-1 flex items-center gap-1.5">
                 <InstagramIcon className="w-3.5 h-3.5 text-[#38BDF8]" /> Usuario de Instagram <span className="text-slate-500 font-normal">(Opcional - da mayor confianza)</span>
               </label>
               <div className="relative">
                 <span className="absolute left-3 top-2 text-xs text-slate-400 font-semibold">@</span>
                 <input
+                  id="publish-instagram"
                   type="text"
                   placeholder="usuario_instagram"
                   value={instagramHandle}
@@ -462,8 +591,9 @@ export default function PublishModal({
 
             {/* Notas opcionales */}
             <div>
-              <label className="block text-xs font-bold text-[#0F2942] mb-1">Notas / Detalles adicionales</label>
+              <label htmlFor="publish-notes" className="block text-xs font-bold text-[#0F2942] mb-1">Notas / Detalles adicionales</label>
               <textarea
+                id="publish-notes"
                 rows={2}
                 placeholder="Ej: Salgo puntual a las 7:00 AM. Espacio para botas en maletero."
                 value={notes}
