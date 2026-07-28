@@ -139,6 +139,8 @@ export default function Home() {
 
       if (filterDate) {
         query = query.eq('departure_date', filterDate);
+      } else {
+        query = query.gte('departure_date', getTodayStr());
       }
 
       const { data, error } = await query;
@@ -149,7 +151,7 @@ export default function Home() {
     } finally {
       setLoading(false);
     }
-  }, [supabase, selectedDirection, selectedResort, filterDate]);
+  }, [supabase, selectedDirection, selectedResort, filterDate, getTodayStr]);
 
   useEffect(() => {
     const load = async () => {
@@ -442,7 +444,7 @@ export default function Home() {
                   <div key={i} className="h-44 glass-card rounded-2xl animate-pulse" />
                 ))}
               </div>
-            ) : trips.length === 0 ? (
+            ) : trips.length === 0 && !onboarding.isTourActive ? (
               <div className="glass-card rounded-2xl p-8 text-center space-y-3 border border-white/30">
                 <Mountain className="w-10 h-10 text-[#38BDF8] mx-auto" />
                 <h3 className="text-sm font-bold text-white">No hay viajes disponibles para este dia</h3>
@@ -457,16 +459,26 @@ export default function Home() {
                 </button>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {trips.map((trip) => (
-                  <TripCard
-                    key={trip.id}
-                    trip={trip}
-                    currentUser={user}
-                    onDeleteTrip={handleDeleteTrip}
-                    onSelectTrip={(t) => setSelectedTrip(t)}
-                  />
-                ))}
+              <div className="space-y-3">
+                {trips.length === 0 && onboarding.isTourActive && (
+                  <div className="glass-card rounded-2xl p-3 text-center border border-white/30">
+                    <div className="flex items-center justify-center gap-2 text-sky-200 text-xs font-bold">
+                      <Sparkles className="w-4 h-4 text-[#38BDF8]" />
+                      <span>Modo Tutorial: Mostrando viaje de ejemplo</span>
+                    </div>
+                  </div>
+                )}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {(trips.length > 0 ? trips : [DEMO_TRIP]).map((trip) => (
+                    <TripCard
+                      key={trip.id}
+                      trip={trip}
+                      currentUser={user}
+                      onDeleteTrip={handleDeleteTrip}
+                      onSelectTrip={(t) => setSelectedTrip(t)}
+                    />
+                  ))}
+                </div>
               </div>
             )}
           </section>

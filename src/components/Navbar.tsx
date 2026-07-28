@@ -123,32 +123,32 @@ export default function Navbar({ onRestartTour }: NavbarProps) {
 
                 {/* Submenu Dropdown */}
                 {isMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-52 rounded-2xl bg-white/95 backdrop-blur-xl border border-sky-200 shadow-xl p-2 z-50 animate-in fade-in zoom-in-95 duration-150 space-y-1">
-                    <div className="px-3 py-2 border-b border-sky-100">
-                      <p className="text-xs font-bold text-[#0F2942] truncate">
+                  <div className="absolute right-0 top-full mt-2 w-56 rounded-2xl bg-[#091a2c]/95 backdrop-blur-xl border border-white/30 shadow-2xl p-2.5 z-50 animate-in fade-in zoom-in-95 duration-150 space-y-1 text-white">
+                    <div className="px-3 py-2.5 border-b border-white/20 rounded-xl bg-white/5">
+                      <p className="text-xs font-black text-white truncate drop-shadow-xs">
                         {user.user_metadata?.full_name || 'Usuario'}
                       </p>
-                      <p className="text-[11px] text-slate-500 truncate">
+                      <p className="text-[11px] font-medium text-sky-200 truncate mt-0.5">
                         {user.email}
                       </p>
                     </div>
 
                     <button
                       onClick={handleOpenProfile}
-                      className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-bold text-[#0F2942] hover:bg-sky-50 transition cursor-pointer text-left"
+                      className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-extrabold text-white hover:bg-white/15 transition cursor-pointer text-left group"
                     >
-                      <UserIcon className="w-4 h-4 text-[#38BDF8]" />
+                      <UserIcon className="w-4 h-4 text-[#38BDF8] group-hover:scale-110 transition-transform" />
                       <span>Mi perfil</span>
                     </button>
 
-                    <div className="h-px bg-sky-100 my-1" />
+                    <div className="h-px bg-white/20 my-1" />
 
                     <button
                       onClick={handleLogout}
-                      className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 transition cursor-pointer text-left"
+                      className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-extrabold text-rose-300 bg-rose-500/20 hover:bg-rose-500/30 border border-rose-400/30 transition cursor-pointer text-left"
                     >
                       <div className="flex items-center gap-2.5">
-                        <LogOut className="w-4 h-4 text-rose-500" />
+                        <LogOut className="w-4 h-4 text-rose-400" />
                         <span>Cerrar sesión</span>
                       </div>
                     </button>

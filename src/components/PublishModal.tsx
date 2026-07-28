@@ -248,8 +248,8 @@ export default function PublishModal({
   return (
     <div
       onClick={onClose}
-      className={`fixed inset-0 flex items-center justify-center p-4 overflow-y-auto ${
-        isTourActive ? 'z-[220] bg-transparent pointer-events-none' : 'z-50 bg-[#0c2340]/40 backdrop-blur-md'
+      className={`fixed inset-0 flex items-center justify-center p-3 sm:p-4 overflow-y-auto ${
+        isTourActive ? 'z-[220] bg-transparent pointer-events-none' : 'z-50 bg-slate-950/70 backdrop-blur-md'
       }`}
     >
       <div
@@ -259,64 +259,60 @@ export default function PublishModal({
         aria-modal="true"
         aria-labelledby="publish-modal-title"
         data-tour="publish-modal-content"
-        className="relative w-full max-w-lg glass-card rounded-3xl shadow-2xl p-6 my-8 text-[#0F2942] pointer-events-auto bg-white/95 border border-white"
+        className="relative w-full max-w-lg glass-card rounded-3xl shadow-2xl p-5 sm:p-6 my-auto text-white pointer-events-auto border border-white/30 max-h-[85vh] flex flex-col overflow-hidden"
       >
         {/* Header */}
-        <div className="flex items-center justify-between pb-4 border-b border-sky-100">
+        <div className="flex items-center justify-between pb-3 border-b border-white/20 shrink-0">
           <div>
-            <h2 id="publish-modal-title" className="text-xl font-black text-[#0F2942] flex items-center gap-2">
+            <h2 id="publish-modal-title" className="text-lg sm:text-xl font-black text-white flex items-center gap-2 drop-shadow-xs">
               <Car className="w-5 h-5 text-[#38BDF8]" aria-hidden="true" /> Publicar Viaje
             </h2>
           </div>
           <button
             onClick={onClose}
             aria-label="Cerrar modal"
-            className="text-slate-500 hover:text-[#0F2942] p-1.5 rounded-xl hover:bg-sky-50 transition border border-sky-100 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#38BDF8]"
+            className="text-slate-300 hover:text-white p-2 rounded-xl bg-white/10 hover:bg-white/20 transition border border-white/20 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#38BDF8]"
           >
-            <X className="w-5 h-5" aria-hidden="true" />
+            <X className="w-4 h-4 sm:w-5 sm:h-5" aria-hidden="true" />
           </button>
         </div>
 
         {/* Require Auth State */}
         {!user ? (
-          <div className="py-8 text-center space-y-4">
-            <div className="w-12 h-12 rounded-full bg-sky-500/15 text-[#38BDF8] mx-auto flex items-center justify-center border border-sky-300/40 shadow-xs">
+          <div className="py-8 text-center space-y-4 flex-1 overflow-y-auto custom-scrollbar">
+            <div className="w-12 h-12 rounded-2xl bg-sky-400/20 text-[#38BDF8] mx-auto flex items-center justify-center border border-sky-300/40 shadow-sm backdrop-blur-xs">
               <ShieldCheck className="w-6 h-6 text-[#38BDF8]" />
             </div>
             <div>
-              <h3 className="text-base font-extrabold text-[#0F2942]">Inicia sesión para publicar</h3>
-              <p className="text-xs text-slate-500 max-w-xs mx-auto mt-1 font-medium">
+              <h3 className="text-base font-extrabold text-white">Inicia sesión para publicar</h3>
+              <p className="text-xs text-slate-200 max-w-xs mx-auto mt-1 font-medium leading-relaxed">
                 Por seguridad de la comunidad, necesitamos verificar tu perfil con Google antes de permitir publicaciones.
               </p>
             </div>
             <button
               onClick={handleLoginGoogle}
-              className="inline-flex items-center gap-2 bg-[#38BDF8] hover:bg-[#0284C7] text-[#0F2942] hover:text-white font-black text-sm px-5 py-2.5 rounded-xl transition shadow-md active:scale-95 cursor-pointer border border-sky-300/40"
+              className="inline-flex items-center gap-2 bg-[#38BDF8] hover:bg-[#0284C7] text-[#0F2942] hover:text-white font-black text-sm px-5 py-3 rounded-2xl transition shadow-md active:scale-95 cursor-pointer border border-white/40"
             >
               <LogIn className="w-4 h-4" /> Iniciar Sesión con Google
             </button>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="mt-4 space-y-4">
+          <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto space-y-4 pt-3 pr-1 sm:pr-2 custom-scrollbar">
             {error && (
-              <div
-                role="alert"
-                aria-live="assertive"
-                className="p-3 text-xs bg-rose-50 border border-rose-200 text-rose-700 rounded-xl font-bold"
-              >
-                {error}
+              <div className="p-3 rounded-xl bg-rose-500/20 border border-rose-400/40 text-rose-200 text-xs font-bold">
+                ⚠️ {error}
               </div>
             )}
 
             {/* Dirección del Viaje */}
             <div>
-              <label className="block text-xs font-bold text-[#0F2942] uppercase tracking-wider mb-2">
+              <label className="block text-xs font-black text-white uppercase tracking-wider mb-1.5">
                 Tipo de Viaje
               </label>
               <div role="radiogroup" aria-label="Tipo de Viaje" className="grid grid-cols-2 gap-2">
                 {[
-                  { id: 'SUBIDA', label: '⬆️ Subida' },
-                  { id: 'BAJADA', label: '⬇️ Bajada' },
+                  { id: 'SUBIDA', label: '⬆️ Subida (Santiago ➔ Ski)' },
+                  { id: 'BAJADA', label: '⬇️ Bajada (Ski ➔ Santiago)' },
                 ].map((item) => (
                   <button
                     key={item.id}
@@ -324,10 +320,10 @@ export default function PublishModal({
                     role="radio"
                     aria-checked={direction === item.id}
                     onClick={() => setDirection(item.id as TripDirection)}
-                    className={`py-2 px-2 text-xs font-bold rounded-xl border transition cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#38BDF8] ${
+                    className={`py-2.5 px-2 sm:px-3 text-xs font-extrabold rounded-2xl border transition cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#38BDF8] ${
                       direction === item.id
-                        ? 'bg-[#38BDF8] border-[#38BDF8] text-[#0F2942] font-black shadow-xs'
-                        : 'bg-sky-50/70 border-sky-100 text-slate-600 hover:bg-sky-100'
+                        ? 'bg-[#38BDF8] border-white/60 text-[#0F2942] font-black shadow-md scale-[1.02]'
+                        : 'bg-white/10 backdrop-blur-md border-white/20 text-slate-200 hover:bg-white/20 hover:border-white/40'
                     }`}
                   >
                     {item.label}
@@ -341,7 +337,7 @@ export default function PublishModal({
               {direction === 'SUBIDA' ? (
                 <>
                   <div>
-                    <label htmlFor="publish-origin-subida" className="block text-xs font-bold text-[#0F2942] mb-1">
+                    <label htmlFor="publish-origin-subida" className="block text-xs font-bold text-sky-200 mb-1">
                       Punto de Salida
                     </label>
                     <div className="relative">
@@ -349,10 +345,10 @@ export default function PublishModal({
                       <input
                         id="publish-origin-subida"
                         type="text"
-                        placeholder="Ej: Cantagallo, Mall Sport, Metro Escuela Militar"
+                        placeholder="Ej: Cantagallo, Mall Sport"
                         value={origin}
                         onChange={(e) => setOrigin(e.target.value)}
-                        className="w-full bg-sky-50/60 border border-sky-200 rounded-xl pl-8 pr-3 py-2 text-xs text-[#0F2942] placeholder-slate-400 focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-sky-200 font-bold"
+                        className="w-full bg-slate-900/60 border border-white/30 rounded-xl pl-8 pr-3 py-2 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-[#38BDF8]/40 font-bold"
                       />
                     </div>
                     <div className="flex flex-wrap gap-1 mt-1.5">
@@ -363,8 +359,8 @@ export default function PublishModal({
                           onClick={() => setOrigin(origin === preset ? '' : preset)}
                           className={`text-[10px] font-bold px-2 py-0.5 rounded-lg border transition cursor-pointer ${
                             origin === preset
-                              ? 'bg-[#38BDF8] border-[#38BDF8] text-[#0F2942] shadow-xs'
-                              : 'bg-sky-50/80 border-sky-100 text-slate-600 hover:bg-sky-100 hover:text-[#0F2942]'
+                              ? 'bg-[#38BDF8] border-white/60 text-[#0F2942] shadow-xs'
+                              : 'bg-white/10 border-white/20 text-slate-200 hover:bg-white/20 hover:text-white'
                           }`}
                         >
                           + {preset}
@@ -374,39 +370,39 @@ export default function PublishModal({
                   </div>
 
                   <div>
-                    <label htmlFor="publish-destination-subida" className="block text-xs font-bold text-[#0F2942] mb-1">Destino</label>
+                    <label htmlFor="publish-destination-subida" className="block text-xs font-bold text-sky-200 mb-1">Destino</label>
                     <select
                       id="publish-destination-subida"
                       value={destination}
                       onChange={(e) => setDestination(e.target.value as SkiResort)}
-                      className="w-full bg-sky-50/60 border border-sky-200 rounded-xl px-3 py-2 text-xs text-[#0F2942] focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-sky-200 font-bold"
+                      className="w-full bg-slate-900/60 border border-white/30 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-[#38BDF8]/40 font-bold cursor-pointer"
                     >
-                      <option value="FARELLONES">Farellones</option>
-                      <option value="EL_COLORADO">El Colorado</option>
-                      <option value="LA_PARVA">La Parva</option>
-                      <option value="VALLE_NEVADO">Valle Nevado</option>
+                      <option value="FARELLONES" className="bg-[#0F2942] text-white">Farellones</option>
+                      <option value="EL_COLORADO" className="bg-[#0F2942] text-white">El Colorado</option>
+                      <option value="LA_PARVA" className="bg-[#0F2942] text-white">La Parva</option>
+                      <option value="VALLE_NEVADO" className="bg-[#0F2942] text-white">Valle Nevado</option>
                     </select>
                   </div>
                 </>
               ) : (
                 <>
                   <div>
-                    <label htmlFor="publish-destination-bajada" className="block text-xs font-bold text-[#0F2942] mb-1">Origen</label>
+                    <label htmlFor="publish-destination-bajada" className="block text-xs font-bold text-sky-200 mb-1">Origen</label>
                     <select
                       id="publish-destination-bajada"
                       value={destination}
                       onChange={(e) => setDestination(e.target.value as SkiResort)}
-                      className="w-full bg-sky-50/60 border border-sky-200 rounded-xl px-3 py-2 text-xs text-[#0F2942] focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-sky-200 font-bold"
+                      className="w-full bg-slate-900/60 border border-white/30 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-[#38BDF8]/40 font-bold cursor-pointer"
                     >
-                      <option value="FARELLONES">Farellones</option>
-                      <option value="EL_COLORADO">El Colorado</option>
-                      <option value="LA_PARVA">La Parva</option>
-                      <option value="VALLE_NEVADO">Valle Nevado</option>
+                      <option value="FARELLONES" className="bg-[#0F2942] text-white">Farellones</option>
+                      <option value="EL_COLORADO" className="bg-[#0F2942] text-white">El Colorado</option>
+                      <option value="LA_PARVA" className="bg-[#0F2942] text-white">La Parva</option>
+                      <option value="VALLE_NEVADO" className="bg-[#0F2942] text-white">Valle Nevado</option>
                     </select>
                   </div>
 
                   <div>
-                    <label htmlFor="publish-origin-bajada" className="block text-xs font-bold text-[#0F2942] mb-1">
+                    <label htmlFor="publish-origin-bajada" className="block text-xs font-bold text-sky-200 mb-1">
                       Destino
                     </label>
                     <div className="relative">
@@ -414,10 +410,10 @@ export default function PublishModal({
                       <input
                         id="publish-origin-bajada"
                         type="text"
-                        placeholder="Ej: Cantagallo, Mall Sport, Metro Escuela Militar"
+                        placeholder="Ej: Cantagallo, Mall Sport"
                         value={origin}
                         onChange={(e) => setOrigin(e.target.value)}
-                        className="w-full bg-sky-50/60 border border-sky-200 rounded-xl pl-8 pr-3 py-2 text-xs text-[#0F2942] placeholder-slate-400 focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-sky-200 font-bold"
+                        className="w-full bg-slate-900/60 border border-white/30 rounded-xl pl-8 pr-3 py-2 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-[#38BDF8]/40 font-bold"
                       />
                     </div>
                     <div className="flex flex-wrap gap-1 mt-1.5">
@@ -428,8 +424,8 @@ export default function PublishModal({
                           onClick={() => setOrigin(origin === preset ? '' : preset)}
                           className={`text-[10px] font-bold px-2 py-0.5 rounded-lg border transition cursor-pointer ${
                             origin === preset
-                              ? 'bg-[#38BDF8] border-[#38BDF8] text-[#0F2942] shadow-xs'
-                              : 'bg-sky-50/80 border-sky-100 text-slate-600 hover:bg-sky-100 hover:text-[#0F2942]'
+                              ? 'bg-[#38BDF8] border-white/60 text-[#0F2942] shadow-xs'
+                              : 'bg-white/10 border-white/20 text-slate-200 hover:bg-white/20 hover:text-white'
                           }`}
                         >
                           + {preset}
@@ -444,7 +440,7 @@ export default function PublishModal({
             {/* Fecha y Hora */}
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label htmlFor="publish-date" className="block text-xs font-bold text-[#0F2942] mb-1">Fecha</label>
+                <label htmlFor="publish-date" className="block text-xs font-bold text-sky-200 mb-1">Fecha</label>
                 <div className="relative">
                   <Calendar className="w-3.5 h-3.5 text-[#38BDF8] absolute left-3 top-2.5" aria-hidden="true" />
                   <input
@@ -453,13 +449,13 @@ export default function PublishModal({
                     min={todayStr}
                     value={departureDate}
                     onChange={(e) => setDepartureDate(e.target.value)}
-                    className="w-full bg-sky-50/60 border border-sky-200 rounded-xl pl-8 pr-3 py-2 text-xs text-[#0F2942] focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-sky-200 font-bold"
+                    className="w-full bg-slate-900/60 border border-white/30 rounded-xl pl-8 pr-3 py-2 text-xs text-white focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-[#38BDF8]/40 font-bold"
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="publish-time" className="block text-xs font-bold text-[#0F2942] mb-1">Hora de Salida</label>
+                <label htmlFor="publish-time" className="block text-xs font-bold text-sky-200 mb-1">Hora de Salida</label>
                 <div className="relative">
                   <Clock className="w-3.5 h-3.5 text-[#38BDF8] absolute left-3 top-2.5" aria-hidden="true" />
                   <input
@@ -467,7 +463,7 @@ export default function PublishModal({
                     type="time"
                     value={departureTime}
                     onChange={(e) => setDepartureTime(e.target.value)}
-                    className="w-full bg-sky-50/60 border border-sky-200 rounded-xl pl-8 pr-3 py-2 text-xs text-[#0F2942] focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-sky-200 font-bold"
+                    className="w-full bg-slate-900/60 border border-white/30 rounded-xl pl-8 pr-3 py-2 text-xs text-white focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-[#38BDF8]/40 font-bold"
                   />
                 </div>
               </div>
@@ -476,7 +472,7 @@ export default function PublishModal({
             {/* Asientos y Precio */}
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label htmlFor="publish-seats" className="block text-xs font-bold text-[#0F2942] mb-1">Asientos Disponibles</label>
+                <label htmlFor="publish-seats" className="block text-xs font-bold text-sky-200 mb-1">Asientos Disponibles</label>
                 <div className="relative">
                   <Users className="w-3.5 h-3.5 text-[#38BDF8] absolute left-3 top-2.5" aria-hidden="true" />
                   <input
@@ -486,13 +482,13 @@ export default function PublishModal({
                     max="8"
                     value={seatsAvailable}
                     onChange={(e) => setSeatsAvailable(Number(e.target.value))}
-                    className="w-full bg-sky-50/60 border border-sky-200 rounded-xl pl-8 pr-3 py-2 text-xs text-[#0F2942] focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-sky-200 font-bold"
+                    className="w-full bg-slate-900/60 border border-white/30 rounded-xl pl-8 pr-3 py-2 text-xs text-white focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-[#38BDF8]/40 font-bold"
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="publish-price" className="block text-xs font-bold text-[#0F2942] mb-1">
+                <label htmlFor="publish-price" className="block text-xs font-bold text-sky-200 mb-1">
                   Precio por Asiento (CLP)
                 </label>
                 <div className="relative">
@@ -505,7 +501,7 @@ export default function PublishModal({
                     placeholder="10000"
                     value={pricePerSeat}
                     onChange={(e) => setPricePerSeat(e.target.value)}
-                    className="w-full bg-sky-50/60 border border-sky-200 rounded-xl pl-8 pr-3 py-2 text-xs text-[#0F2942] placeholder-slate-400 focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-sky-200 font-bold"
+                    className="w-full bg-slate-900/60 border border-white/30 rounded-xl pl-8 pr-3 py-2 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-[#38BDF8]/40 font-bold"
                   />
                 </div>
               </div>
@@ -513,16 +509,16 @@ export default function PublishModal({
 
             {/* Badges de Montaña */}
             <div>
-              <label className="block text-xs font-bold text-[#0F2942] mb-2">Equipamiento y Vehículo</label>
+              <label className="block text-xs font-bold text-sky-200 mb-2">Equipamiento y Vehículo</label>
               <div role="group" aria-label="Equipamiento y Vehículo" className="grid grid-cols-3 gap-2">
                 <button
                   type="button"
                   aria-pressed={has4x4}
                   onClick={() => setHas4x4(!has4x4)}
-                  className={`py-2 px-1 rounded-xl text-xs font-semibold border flex items-center justify-center gap-1 transition cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#38BDF8] ${
+                  className={`py-2.5 px-1 rounded-xl text-xs font-semibold border flex items-center justify-center gap-1 transition cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#38BDF8] ${
                     has4x4
-                      ? 'bg-sky-500/20 border-[#38BDF8] text-[#0F2942] font-black'
-                      : 'bg-sky-50/60 border-sky-100 text-slate-500 hover:bg-sky-100'
+                      ? 'bg-sky-400/25 border-[#38BDF8] text-white font-black shadow-xs'
+                      : 'bg-white/10 border-white/20 text-slate-300 hover:bg-white/20'
                   }`}
                 >
                   {has4x4 && <Check className="w-3.5 h-3.5 shrink-0 text-[#38BDF8]" aria-hidden="true" />} 🚙 4x4 / AWD
@@ -532,10 +528,10 @@ export default function PublishModal({
                   type="button"
                   aria-pressed={hasChains}
                   onClick={() => setHasChains(!hasChains)}
-                  className={`py-2 px-1 rounded-xl text-xs font-semibold border flex items-center justify-center gap-1 transition cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#38BDF8] ${
+                  className={`py-2.5 px-1 rounded-xl text-xs font-semibold border flex items-center justify-center gap-1 transition cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#38BDF8] ${
                     hasChains
-                      ? 'bg-sky-500/20 border-[#38BDF8] text-[#0F2942] font-black'
-                      : 'bg-sky-50/60 border-sky-100 text-slate-500 hover:bg-sky-100'
+                      ? 'bg-sky-400/25 border-[#38BDF8] text-white font-black shadow-xs'
+                      : 'bg-white/10 border-white/20 text-slate-300 hover:bg-white/20'
                   }`}
                 >
                   {hasChains && <Check className="w-3.5 h-3.5 shrink-0 text-[#38BDF8]" aria-hidden="true" />} ⛓️ Cadenas
@@ -545,10 +541,10 @@ export default function PublishModal({
                   type="button"
                   aria-pressed={hasRack}
                   onClick={() => setHasRack(!hasRack)}
-                  className={`py-2 px-1 rounded-xl text-xs font-semibold border flex items-center justify-center gap-1 transition cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#38BDF8] ${
+                  className={`py-2.5 px-1 rounded-xl text-xs font-semibold border flex items-center justify-center gap-1 transition cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#38BDF8] ${
                     hasRack
-                      ? 'bg-sky-500/20 border-[#38BDF8] text-[#0F2942] font-black'
-                      : 'bg-sky-50/60 border-sky-100 text-slate-500 hover:bg-sky-100'
+                      ? 'bg-sky-400/25 border-[#38BDF8] text-white font-black shadow-xs'
+                      : 'bg-white/10 border-white/20 text-slate-300 hover:bg-white/20'
                   }`}
                 >
                   {hasRack && <Check className="w-3.5 h-3.5 shrink-0 text-[#38BDF8]" aria-hidden="true" />} 🎿 Parrilla
@@ -558,7 +554,7 @@ export default function PublishModal({
 
             {/* WhatsApp Number */}
             <div>
-              <label htmlFor="publish-whatsapp" className="block text-xs font-bold text-[#0F2942] mb-1">
+              <label htmlFor="publish-whatsapp" className="block text-xs font-bold text-sky-200 mb-1">
                 Número de WhatsApp (para coordinar)
               </label>
               <input
@@ -567,14 +563,14 @@ export default function PublishModal({
                 placeholder="+56912345678"
                 value={whatsappNumber}
                 onChange={(e) => setWhatsappNumber(e.target.value)}
-                className="w-full bg-sky-50/60 border border-sky-200 rounded-xl px-3 py-2 text-xs text-[#0F2942] placeholder-slate-400 focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-sky-200 font-bold"
+                className="w-full bg-slate-900/60 border border-white/30 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-[#38BDF8]/40 font-bold"
               />
             </div>
 
             {/* Instagram (Opcional) */}
             <div>
-              <label htmlFor="publish-instagram" className="block text-xs font-bold text-[#0F2942] mb-1 flex items-center gap-1.5">
-                <InstagramIcon className="w-3.5 h-3.5 text-[#38BDF8]" /> Usuario de Instagram <span className="text-slate-500 font-normal">(Opcional - da mayor confianza)</span>
+              <label htmlFor="publish-instagram" className="block text-xs font-bold text-sky-200 mb-1 flex items-center gap-1.5">
+                <InstagramIcon className="w-3.5 h-3.5 text-[#38BDF8]" /> Usuario de Instagram <span className="text-slate-300 font-normal">(Opcional)</span>
               </label>
               <div className="relative">
                 <span className="absolute left-3 top-2 text-xs text-slate-400 font-semibold">@</span>
@@ -584,21 +580,21 @@ export default function PublishModal({
                   placeholder="usuario_instagram"
                   value={instagramHandle}
                   onChange={(e) => setInstagramHandle(e.target.value)}
-                  className="w-full bg-sky-50/60 border border-sky-200 rounded-xl pl-7 pr-3 py-2 text-xs text-[#0F2942] placeholder-slate-400 focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-sky-200 font-bold"
+                  className="w-full bg-slate-900/60 border border-white/30 rounded-xl pl-7 pr-3 py-2 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-[#38BDF8]/40 font-bold"
                 />
               </div>
             </div>
 
             {/* Notas opcionales */}
             <div>
-              <label htmlFor="publish-notes" className="block text-xs font-bold text-[#0F2942] mb-1">Notas / Detalles adicionales</label>
+              <label htmlFor="publish-notes" className="block text-xs font-bold text-sky-200 mb-1">Notas / Detalles adicionales</label>
               <textarea
                 id="publish-notes"
                 rows={2}
                 placeholder="Ej: Salgo puntual a las 7:00 AM. Espacio para botas en maletero."
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
-                className="w-full bg-sky-50/60 border border-sky-200 rounded-xl px-3 py-2 text-xs text-[#0F2942] placeholder-slate-400 focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-sky-200 font-medium"
+                className="w-full bg-slate-900/60 border border-white/30 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-[#38BDF8]/40 font-medium"
               />
             </div>
 
@@ -607,7 +603,7 @@ export default function PublishModal({
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full bg-[#38BDF8] hover:bg-[#0284C7] disabled:opacity-50 text-[#0F2942] hover:text-white font-black text-sm py-3 rounded-xl shadow-md transition active:scale-95 cursor-pointer border border-sky-300/40"
+                className="w-full bg-[#38BDF8] hover:bg-[#0284C7] disabled:opacity-50 text-[#0F2942] hover:text-white font-black text-sm py-3.5 px-4 rounded-2xl shadow-md transition-all duration-200 active:scale-95 cursor-pointer border border-white/40"
               >
                 {submitting ? 'Publicando viaje...' : 'Publicar Viaje'}
               </button>

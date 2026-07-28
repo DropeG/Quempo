@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-28T18:18:00-04:00",
+  "title": "Design System: Faredeo",
+  "extensions": {
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "Sky Celeste",
+        "canonical": "#38BDF8",
+        "tonalRamp": ["#0284C7", "#0369A1", "#075985", "#0C4A6E", "#38BDF8", "#7DD3FC", "#BAE6FD", "#E0F2FE"]
+      },
+      "primary-hover": {
+        "role": "primary-hover",
+        "displayName": "Deep Celestial Blue",
+        "canonical": "#0284C7",
+        "tonalRamp": ["#075985", "#0C4A6E", "#0284C7", "#0369A1", "#38BDF8", "#7DD3FC", "#BAE6FD", "#E0F2FE"]
+      },
+      "neutral-bg": {
+        "role": "neutral-bg",
+        "displayName": "Deep Alpine Night",
+        "canonical": "#091a2c",
+        "tonalRamp": ["#040a12", "#091a2c", "#0f2942", "#1e3a5f", "#33537b", "#4c709b", "#6f92bc", "#a0bed7"]
+      },
+      "neutral-surface": {
+        "role": "neutral-surface",
+        "displayName": "Frosted Snow Glass",
+        "canonical": "rgba(160, 190, 215, 0.22)",
+        "tonalRamp": ["rgba(30,58,95,0.8)", "rgba(51,83,123,0.6)", "rgba(160,190,215,0.22)", "rgba(186,230,253,0.3)", "rgba(224,242,254,0.4)", "rgba(240,244,249,0.5)", "rgba(255,255,255,0.6)", "rgba(255,255,255,0.85)"]
+      },
+      "neutral-card-solid": {
+        "role": "neutral-card-solid",
+        "displayName": "Deep Navy Solid",
+        "canonical": "#0F2942",
+        "tonalRamp": ["#040a12", "#091a2c", "#0F2942", "#1b3e61", "#2b5682", "#4172a5", "#6293c8", "#93bde8"]
+      },
+      "neutral-text": {
+        "role": "neutral-text",
+        "displayName": "Snow White",
+        "canonical": "#FFFFFF",
+        "tonalRamp": ["#475569", "#64748B", "#94A3B8", "#CBD5E1", "#E2E8F0", "#F1F5F9", "#F8FAFC", "#FFFFFF"]
+      },
+      "neutral-text-muted": {
+        "role": "neutral-text-muted",
+        "displayName": "Cold Slate",
+        "canonical": "#94A3B8",
+        "tonalRamp": ["#0F172A", "#1E293B", "#334155", "#475569", "#64748B", "#94A3B8", "#CBD5E1", "#E2E8F0"]
+      },
+      "accent-ice": {
+        "role": "accent-ice",
+        "displayName": "Soft Sky Ice",
+        "canonical": "#E0F2FE",
+        "tonalRamp": ["#0369A1", "#075985", "#0C4A6E", "#38BDF8", "#7DD3FC", "#BAE6FD", "#E0F2FE", "#F0F9FF"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Logotipo de marca Faredeo y titulares de gran tamaño." },
+      "headline": { "displayName": "Headline", "purpose": "Nombres de conductor y precio de viaje." },
+      "title": { "displayName": "Title", "purpose": "Encabezados de panel en mayúsculas." },
+      "body": { "displayName": "Body", "purpose": "Textos descriptivos, notas y detalles." },
+      "label": { "displayName": "Label", "purpose": "Etiquetas de ruta e indicadores de filtro." }
+    },
+    "shadows": [
+      { "name": "glass-rest", "value": "0 24px 80px rgba(0, 0, 0, 0.35)", "purpose": "Sombra difusa de reposo para tarjetas de cristal." },
+      { "name": "glass-hover", "value": "0 30px 90px rgba(0, 0, 0, 0.42)", "purpose": "Sombra expandida en hover de tarjeta con elevado translateY(-3px)." }
+    ],
+    "motion": [
+      { "name": "ease-standard", "value": "transition-all duration-200", "purpose": "Transición predeterminada de estados hover e interactivos." },
+      { "name": "rotate-swap", "value": "transition-transform duration-500 ease-in-out", "purpose": "Rotación suave de 180° del botón de intercambio de ruta." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Botón principal CTA para publicar viajes.",
+      "html": "<button class=\"ds-btn-primary\"><svg class=\"ds-btn-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\"><line x1=\"12\" y1=\"5\" x2=\"12\" y2=\"19\"></line><line x1=\"5\" y1=\"12\" x2=\"19\" y2=\"12\"></line></svg><span>Publicar Mi Viaje</span></button>",
+      "css": ".ds-btn-primary { width: 100%; display: inline-flex; align-items: center; justify-content: center; gap: 8px; background-color: #38BDF8; color: #0F2942; font-weight: 900; font-size: 14px; padding: 14px 16px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.4); box-shadow: 0 4px 12px rgba(56, 189, 248, 0.25); cursor: pointer; transition: background-color 0.2s, color 0.2s, transform 0.15s; } .ds-btn-primary:hover { background-color: #0284C7; color: #FFFFFF; } .ds-btn-primary:active { transform: scale(0.95); } .ds-btn-icon { width: 20px; height: 20px; }"
+    },
+    {
+      "name": "Trip Card",
+      "kind": "card",
+      "refersTo": "card-trip",
+      "description": "Tarjeta de viaje disponible con datos de conductor, hora y precio.",
+      "html": "<div class=\"ds-trip-card\"><div class=\"ds-trip-info\"><div class=\"ds-avatar-wrap\"><div class=\"ds-avatar\">M</div></div><div><div class=\"ds-driver-name\">Mateo (Conductor)</div><div class=\"ds-trip-sub\">🏔️ Farellones • 07:30 hrs</div></div></div><div class=\"ds-trip-price-wrap\"><div class=\"ds-price\">$8.000</div><div class=\"ds-seats\">3 cupos</div></div></div>",
+      "css": ".ds-trip-card { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px; border-radius: 22px; border: 1px solid rgba(255, 255, 255, 0.28); background: linear-gradient(135deg, rgba(160, 190, 215, 0.22), rgba(65, 90, 120, 0.16)); backdrop-filter: blur(26px); color: #FFFFFF; transition: transform 0.18s, border-color 0.18s, box-shadow 0.18s; cursor: pointer; } .ds-trip-card:hover { transform: translateY(-3px); border-color: rgba(255, 255, 255, 0.42); box-shadow: 0 30px 90px rgba(0,0,0,0.42); } .ds-trip-info { display: flex; align-items: center; gap: 12px; } .ds-avatar { width: 42px; height: 42px; border-radius: 50%; background: #FFFFFF; color: #0F2942; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 14px; } .ds-driver-name { font-weight: 800; font-size: 15px; color: #FFFFFF; } .ds-trip-sub { font-size: 12px; color: #BAE6FD; font-weight: 600; margin-top: 2px; } .ds-trip-price-wrap { text-align: right; } .ds-price { font-weight: 900; font-size: 18px; color: #FFFFFF; } .ds-seats { font-size: 12px; color: #38BDF8; font-weight: 700; }"
+    },
+    {
+      "name": "Quick Date Pill",
+      "kind": "chip",
+      "refersTo": "date-pill",
+      "description": "Mini tarjeta de fecha para filtrado rápido de viajes.",
+      "html": "<button class=\"ds-date-pill ds-date-pill-active\"><span class=\"ds-date-tag\">⚡ Hoy</span><span class=\"ds-date-num\">Mar 28</span><span class=\"ds-date-sub\">Seleccionado</span></button>",
+      "css": ".ds-date-pill { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px; border-radius: 16px; min-width: 82px; border: 1px solid rgba(255, 255, 255, 0.2); background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(12px); color: #F1F5F9; cursor: pointer; transition: all 0.2s; } .ds-date-pill-active { background-color: #38BDF8; color: #0F2942; font-weight: 900; border-color: rgba(255, 255, 255, 0.6); transform: scale(1.05); shadow: 0 4px 12px rgba(0,0,0,0.2); } .ds-date-tag { font-size: 10px; font-weight: 800; text-transform: uppercase; } .ds-date-num { font-size: 12px; font-weight: 900; margin-top: 2px; } .ds-date-sub { font-size: 9px; font-weight: 700; margin-top: 2px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Clean Alpine Frost & Sky Glass",
+    "overview": "Faredeo adopta un sistema visual alpino de alta gama inspirado en la imponencia helada de los Andes. El entorno combina una fotografía hipernítida del Cerro Plomo en el fondo sin filtros verdosos ni sombras opacas, sobre la cual flotan paneles translúcidos de cristal esmerilado con refractividad de nieve.",
+    "keyCharacteristics": [
+      "Fondo fotográfico de montaña 100% nítido en capa fija con orbes de brillo ambiental radial.",
+      "Tarjetas de cristal helado con bordes especulares de luz.",
+      "Acentuación dinámica en celeste alpino (#38BDF8) para acciones interactivas e indicadores de estado.",
+      "Disposición de escritorio asimétrica en 12 columnas con dock de control lateral pegajoso (sticky top-20)."
+    ],
+    "rules": [
+      { "name": "The One Sky Accent Rule", "body": "El acento celeste (#38BDF8) se reserva exclusivamente para elementos interactivos, botones de acción (CTA), estados seleccionados y marcas de verificación.", "section": "colors" },
+      { "name": "The High-Contrast Navy Rule", "body": "Todo texto superpuesto sobre un contenedor o botón de fondo celeste (#38BDF8) DEBE utilizar azul marino profundo (#0F2942) con peso tipográfico font-black.", "section": "colors" },
+      { "name": "The Mountain Crispness Rule", "body": "Todos los encabezados principales y nombres utilizan pesos font-black (900) o font-extrabold (800) combinados con un sutil drop-shadow-xs.", "section": "typography" },
+      { "name": "The Sticky Control Dock Rule", "body": "El sidebar lateral de control en Desktop (lg:col-span-4) se mantiene fijo al hacer scroll (sticky top-20).", "section": "layout" },
+      { "name": "The Cordillera Transparency Rule", "body": "El fondo fotográfico del Cerro Plomo se mantiene 100% visible sin capas oscurecedoras ni gradientes oscuros.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do mantener el diseño responsivo Desktop organizado en 12 columnas con sidebar de control pegajoso.",
+      "Do aplicar backdrop-filter: blur(26px) saturate(145%) junto a la línea de luz superior en todos los paneles de vidrio.",
+      "Do contrastar fondos celestes (#38BDF8) con tipografía azul marino profundo (#0F2942).",
+      "Do mantener la imagen del Cerro Plomo (plomoDesktop2.webp) nítida y visible detrás de la capa de vidrio."
+    ],
+    "donts": [
+      "Don't agregar capas oscuras de opacidad negra o verdosa sobre la fotografía de fondo de la cordillera.",
+      "Don't usar tarjetas opacas de gris plano sin desenfoque de fondo.",
+      "Don't colocar texto blanco sobre botones celestes (#38BDF8).",
+      "Don't desactivar las micro-animaciones de rotación ni los efectos hover táctiles."
+    ]
+  }
+}
