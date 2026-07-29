@@ -21,3 +21,9 @@ El sistema SHALL proveer una interfaz modal "Mi Perfil" basada en la estética "
 - **WHEN** el usuario modifica su número de WhatsApp o su usuario de Instagram y presiona "Guardar Perfil"
 - **THEN** el sistema actualiza los datos en la tabla `public.profiles` y cierra el modal con notificación de éxito.
 
+### Requirement: Propagate Instagram handle to all trips on profile update
+When a user updates their Instagram handle or contact info in ProfileModal, the system SHALL update all published trips belonging to that `user_id` in Supabase and refresh active trip feeds.
+
+#### Scenario: Driver updates Instagram in profile
+- **WHEN** a driver updates their Instagram handle in ProfileModal and saves
+- **THEN** all past and active trips created by that driver SHALL immediately reflect the new Instagram handle across all cards and detail modals.

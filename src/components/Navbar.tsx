@@ -10,9 +10,10 @@ import UserAvatar from './UserAvatar';
 interface NavbarProps {
   onRestartTour?: () => void;
   onOpenMyTrips?: () => void;
+  onProfileUpdated?: () => void;
 }
 
-export default function Navbar({ onRestartTour, onOpenMyTrips }: NavbarProps) {
+export default function Navbar({ onRestartTour, onOpenMyTrips, onProfileUpdated }: NavbarProps) {
   const [user, setUser] = useState<SupabaseUser | null>(null);
   const [loading, setLoading] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -195,6 +196,7 @@ export default function Navbar({ onRestartTour, onOpenMyTrips }: NavbarProps) {
         onClose={() => setIsProfileModalOpen(false)}
         user={user}
         onRestartTour={onRestartTour}
+        onProfileUpdated={onProfileUpdated}
       />
     </>
   );

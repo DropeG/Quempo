@@ -241,7 +241,11 @@ export default function Home() {
       </div>
 
       {/* Navigation */}
-      <Navbar onRestartTour={onboarding.restartTour} onOpenMyTrips={() => setIsMyTripsOpen(true)} />
+      <Navbar
+        onRestartTour={onboarding.restartTour}
+        onOpenMyTrips={() => setIsMyTripsOpen(true)}
+        onProfileUpdated={fetchTrips}
+      />
 
       <main className="flex-1 max-w-6xl w-full mx-auto px-3 sm:px-4 pt-4 relative z-10">
         <div className="lg:grid lg:grid-cols-12 lg:gap-6 lg:items-start space-y-4 lg:space-y-0">

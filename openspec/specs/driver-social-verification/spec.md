@@ -28,3 +28,9 @@ Al interactuar con el ícono de Instagram, el sistema SHALL desplegar una tarjet
 - **WHEN** un usuario pasa el mouse sobre el icono de Instagram en el modal de detalles
 - **THEN** se despliega un Hover Card con la insignia del usuario `@handle` y la opción de visitar su perfil.
 
+### Requirement: Unobscured Instagram Hover Preview Tooltip
+The Instagram profile hover preview card in `TripDetailModal` SHALL render with proper z-index layering (`z-50` / `z-20`) so it displays unclipped above sibling elements.
+
+#### Scenario: User hovers Instagram icon in TripDetailModal
+- **WHEN** the user hovers over the driver's Instagram icon
+- **THEN** the preview card SHALL pop up on top of all modal sections without being overlapped by "Detalles de la Ruta".

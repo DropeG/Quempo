@@ -27,9 +27,10 @@ interface ProfileModalProps {
   onClose: () => void;
   user: User | null;
   onRestartTour?: () => void;
+  onProfileUpdated?: () => void;
 }
 
-export default function ProfileModal({ isOpen, onClose, user, onRestartTour }: ProfileModalProps) {
+export default function ProfileModal({ isOpen, onClose, user, onRestartTour, onProfileUpdated }: ProfileModalProps) {
   const supabase = createClient();
 
   const [whatsappNumber, setWhatsappNumber] = useState('');
@@ -127,7 +128,20 @@ export default function ProfileModal({ isOpen, onClose, user, onRestartTour }: P
 
       if (error) throw error;
 
-      setSuccessMessage('¡Perfil actualizado con éxito!');
+      // Update all published trips for this user so instagram handle & whatsapp stay in sync
+      await supabase
+        .from('trips')
+        .update({
+          whatsapp_number: cleanPhone,
+          instagram_handle: cleanInstagram || null,
+        })
+        .eq('user_id', user.id);
+
+      if (onProfileUpdated) {
+        onProfileUpdated();
+      }
+
+      setSuccessMessage('¡Perfil y viajes actualizados con éxito!');
       setTimeout(() => setSuccessMessage(''), 3000);
     } catch (err: unknown) {
       console.error('Profile save error:', err);

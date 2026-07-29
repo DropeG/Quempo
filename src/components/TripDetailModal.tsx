@@ -107,7 +107,7 @@ export default function TripDetailModal({
         {/* Modal Body */}
         <div className="p-4 sm:p-5 space-y-4 overflow-y-auto custom-scrollbar flex-1">
           {/* Driver Card Info */}
-          <div className="flex items-center justify-between bg-white/10 backdrop-blur-md p-3.5 rounded-2xl border border-white/20 shadow-xs">
+          <div className="relative z-20 flex items-center justify-between bg-white/10 backdrop-blur-md p-3.5 rounded-2xl border border-white/20 shadow-xs">
             <div className="flex items-center gap-3">
               <UserAvatar
                 src={trip.driver_avatar}
@@ -135,7 +135,7 @@ export default function TripDetailModal({
                       </a>
 
                       {/* Hover Card Preview */}
-                      <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 hidden group-hover:flex flex-col items-center bg-[#0F2942] border border-sky-300/40 p-3 rounded-2xl shadow-xl z-30 min-w-[210px] text-center animate-fadeIn pointer-events-none group-hover:pointer-events-auto">
+                      <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 hidden group-hover:flex flex-col items-center bg-[#0F2942] border border-sky-300/40 p-3 rounded-2xl shadow-2xl z-50 min-w-[210px] text-center animate-fadeIn pointer-events-none group-hover:pointer-events-auto">
                         <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-[#0F2942] border-t border-l border-sky-300/40 rotate-45"></div>
 
                         <div className="flex items-center gap-2 mb-2 w-full text-left">
@@ -175,7 +175,7 @@ export default function TripDetailModal({
           </div>
 
           {/* Route Box */}
-          <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20 space-y-3 shadow-xs">
+          <div className="relative z-10 bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20 space-y-3 shadow-xs">
             <div className="text-xs font-black text-white uppercase tracking-wider flex items-center gap-1.5">
               <MapPin className="w-4 h-4 text-[#38BDF8]" /> Detalles de la Ruta
             </div>
