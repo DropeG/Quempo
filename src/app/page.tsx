@@ -7,8 +7,10 @@ import { User } from '@supabase/supabase-js';
 import Navbar from '@/components/Navbar';
 import TripCard from '@/components/TripCard';
 import PublishModal from '@/components/PublishModal';
+import PublishSuccessModal from '@/components/PublishSuccessModal';
 import TripDetailModal from '@/components/TripDetailModal';
 import MyTripsDrawer from '@/components/MyTripsDrawer';
+import MountainStatusPill from '@/components/MountainStatusPill';
 import { useOnboardingTour } from '@/components/onboarding/useOnboardingTour';
 import OnboardingWelcomeModal from '@/components/onboarding/OnboardingWelcomeModal';
 import SpotlightTourOverlay from '@/components/onboarding/SpotlightTourOverlay';
@@ -25,6 +27,8 @@ export default function Home() {
   const [selectedTrip, setSelectedTrip] = useState<Trip | null>(null);
   const [isMyTripsOpen, setIsMyTripsOpen] = useState(false);
   const [tripToEdit, setTripToEdit] = useState<Trip | null>(null);
+  const [recentlyPublishedTrip, setRecentlyPublishedTrip] = useState<Trip | null>(null);
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 
   // Helper to format date YYYY-MM-DD
   const getTodayStr = useCallback(() => {
@@ -180,6 +184,36 @@ export default function Home() {
     return () => subscription.unsubscribe();
   }, [supabase]);
 
+  // Handle shared trip parameter from preview link redirect (?trip=id)
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const params = new URLSearchParams(window.location.search);
+    const tripId = params.get('trip');
+    if (!tripId) return;
+
+    const fetchSharedTrip = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('trips')
+          .select('*')
+          .eq('id', tripId)
+          .single();
+        
+        if (error) throw error;
+        if (data) {
+          setSelectedTrip(data as Trip);
+          // Clean the query parameter from URL to keep address bar clean without reloading
+          const newUrl = window.location.pathname;
+          window.history.replaceState({ path: newUrl }, '', newUrl);
+        }
+      } catch (err) {
+        console.error('Error fetching shared trip from URL param:', err);
+      }
+    };
+
+    fetchSharedTrip();
+  }, [supabase]);
+
   const handleDeleteTrip = async (tripId: string) => {
     if (!confirm('¿Estás seguro de que deseas eliminar esta publicación de viaje?')) return;
 
@@ -250,97 +284,102 @@ export default function Home() {
       <main className="flex-1 max-w-6xl w-full mx-auto px-3 sm:px-4 pt-4 relative z-10">
         <div className="lg:grid lg:grid-cols-12 lg:gap-6 lg:items-start space-y-4 lg:space-y-0">
           
-          {/* Left Column / Control Sidebar (Sticky in Desktop) */}
-          <aside className="lg:col-span-4 lg:sticky lg:top-20 space-y-4">
-            {/* Panel 1: Selector de Ruta Vertical con Animación de Intercambio */}
-
-
-            <div data-tour="direction-switch" className="glass-card rounded-3xl p-4.5 space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-black text-white uppercase tracking-wider flex items-center gap-1.5 drop-shadow-xs">
-                  📍 Ruta de Viaje
-                </span>
-                <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full border ${selectedDirection === 'SUBIDA' ? 'bg-sky-400/20 border-sky-300/40 text-sky-200' : 'bg-blue-500/20 border-blue-300/40 text-blue-200'}`}>
-                  {selectedDirection === 'SUBIDA' ? '⬆️ Subida' : selectedDirection === 'BAJADA' ? '⬇️ Bajada' : '🏔️ Todas'}
-                </span>
-              </div>
-
-              {/* Origen Box (Arriba) */}
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-3 border border-white/20 space-y-1">
-                <span className="text-[10px] font-bold text-sky-200/90 uppercase tracking-wider block">
-                  📍 Origen (Salida)
-                </span>
-                {selectedDirection === 'SUBIDA' ? (
-                  <div className="text-sm font-extrabold text-white flex items-center gap-2 py-1">
-                    <span>📍 Santiago (RM)</span>
-                  </div>
-                ) : (
-                  <div className="space-y-1 pt-0.5">
-                    <div className="text-xs font-semibold text-sky-200">🏔️ Centro de Ski</div>
-                    {renderResortDropdown()}
-                  </div>
-                )}
-              </div>
-
-              {/* Central Swap Divider & Animated Button */}
-              <div className="relative flex items-center justify-center my-1">
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-white/30"></div>
+          {/* Left Column / Control Sidebar */}
+          <aside className="lg:col-span-4 space-y-4">
+            <div className="lg:sticky lg:top-20 min-h-[calc(100vh-120px)] flex flex-col justify-start gap-4">
+              {/* Panel 1: Selector de Ruta Vertical con Animación de Intercambio */}
+              <div data-tour="direction-switch" className="glass-card rounded-3xl p-5 space-y-3.5">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-black text-white uppercase tracking-wider flex items-center gap-1.5 drop-shadow-xs">
+                    📍 Ruta de Viaje
+                  </span>
+                  <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full border ${selectedDirection === 'SUBIDA' ? 'bg-sky-400/20 border-sky-300/40 text-sky-200' : 'bg-blue-500/20 border-blue-300/40 text-blue-200'}`}>
+                    {selectedDirection === 'SUBIDA' ? '⬆️ Subida' : selectedDirection === 'BAJADA' ? '⬇️ Bajada' : '🏔️ Todas'}
+                  </span>
                 </div>
+
+                {/* Origen Box (Arriba) */}
+                <div className="bg-white/10 backdrop-blur-md rounded-2xl p-3 border border-white/20 space-y-1">
+                  <span className="text-[10px] font-bold text-sky-200/90 uppercase tracking-wider block">
+                    📍 Origen (Salida)
+                  </span>
+                  {selectedDirection === 'SUBIDA' ? (
+                    <div className="text-sm font-extrabold text-white flex items-center gap-2 py-1">
+                      <span>📍 Santiago (RM)</span>
+                    </div>
+                  ) : (
+                    <div className="space-y-1 pt-0.5">
+                      <div className="text-xs font-semibold text-sky-200">🏔️ Centro de Ski</div>
+                      {renderResortDropdown()}
+                    </div>
+                  )}
+                </div>
+
+                {/* Central Swap Divider & Animated Button */}
+                <div className="relative flex items-center justify-center my-1">
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t border-white/30"></div>
+                  </div>
+                  <button
+                    onClick={toggleDirectionSwap}
+                    title="Intercambiar Origen y Destino"
+                    className="relative z-10 p-2.5 rounded-full bg-white/20 hover:bg-white/30 text-white hover:text-sky-200 border border-white/40 shadow-md backdrop-blur-md transition-all duration-300 active:scale-90 cursor-pointer group"
+                  >
+                    <ArrowUpDown
+                      className="w-4 h-4 text-white group-hover:text-sky-200 transition-transform duration-500 ease-in-out"
+                      style={{ transform: `rotate(${swapRotation}deg)` }}
+                    />
+                  </button>
+                </div>
+
+                {/* Destino Box (Abajo) */}
+                <div className="bg-white/10 backdrop-blur-md rounded-2xl p-3 border border-white/20 space-y-1">
+                  <span className="text-[10px] font-bold text-sky-200/90 uppercase tracking-wider block">
+                    🏔️ Destino (Llegada)
+                  </span>
+                  {selectedDirection === 'SUBIDA' ? (
+                    <div className="space-y-1 pt-0.5">
+                      <div className="text-xs font-semibold text-sky-200">🏔️ Centro de Ski</div>
+                      {renderResortDropdown()}
+                    </div>
+                  ) : (
+                    <div className="text-sm font-extrabold text-white flex items-center gap-2 py-1">
+                      <span>📍 Santiago (RM)</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Panel 2: Botón Destacado de Publicar Viaje (Conductor) */}
+              <div className="glass-card rounded-3xl p-5 space-y-3.5">
+                <div className="flex items-center justify-between text-xs font-bold text-white">
+                  <span className="flex items-center gap-1.5 text-white font-black">
+                    <Sparkles className="w-4 h-4 text-[#38BDF8]" /> ¿Conduces a la cordillera?
+                  </span>
+                  <span className="text-[10px] bg-sky-400/20 text-sky-200 px-2.5 py-0.5 rounded-full border border-sky-300/40 font-extrabold">
+                    $0 costo
+                  </span>
+                </div>
+                <p className="text-xs text-slate-200 leading-relaxed font-medium">
+                  Publica tus asientos libres en 30 segundos y comparte gastos de combustible y peajes con esquiadores de la comunidad.
+                </p>
                 <button
-                  onClick={toggleDirectionSwap}
-                  title="Intercambiar Origen y Destino"
-                  className="relative z-10 p-2.5 rounded-full bg-white/20 hover:bg-white/30 text-white hover:text-sky-200 border border-white/40 shadow-md backdrop-blur-md transition-all duration-300 active:scale-90 cursor-pointer group"
+                  data-tour="publish-btn"
+                  onClick={handleOpenNewPublish}
+                  className="w-full inline-flex items-center justify-center gap-2 bg-[#38BDF8] hover:bg-[#0284C7] text-[#0F2942] hover:text-white font-black text-sm py-3.5 px-4 rounded-2xl shadow-md transition-all duration-200 cursor-pointer active:scale-95 border border-white/40 group"
                 >
-                  <ArrowUpDown
-                    className="w-4 h-4 text-white group-hover:text-sky-200 transition-transform duration-500 ease-in-out"
-                    style={{ transform: `rotate(${swapRotation}deg)` }}
-                  />
+                  <Plus className="w-5 h-5 stroke-[3] text-[#0F2942] group-hover:text-white transition-colors" />
+                  <span>Publicar Mi Viaje</span>
                 </button>
               </div>
-
-              {/* Destino Box (Abajo) */}
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-3 border border-white/20 space-y-1">
-                <span className="text-[10px] font-bold text-sky-200/90 uppercase tracking-wider block">
-                  🏔️ Destino (Llegada)
-                </span>
-                {selectedDirection === 'SUBIDA' ? (
-                  <div className="space-y-1 pt-0.5">
-                    <div className="text-xs font-semibold text-sky-200">🏔️ Centro de Ski</div>
-                    {renderResortDropdown()}
-                  </div>
-                ) : (
-                  <div className="text-sm font-extrabold text-white flex items-center gap-2 py-1">
-                    <span>📍 Santiago (RM)</span>
-                  </div>
-                )}
-              </div>
             </div>
 
-
-
-            {/* Panel 2: Botón Destacado de Publicar Viaje (Conductor) */}
-            <div className="glass-card rounded-3xl p-4.5 space-y-3">
-              <div className="flex items-center justify-between text-xs font-bold text-white">
-                <span className="flex items-center gap-1.5 text-white font-black">
-                  <Sparkles className="w-4 h-4 text-[#38BDF8]" /> ¿Conduces a la cordillera?
-                </span>
-                <span className="text-[10px] bg-sky-400/20 text-sky-200 px-2.5 py-0.5 rounded-full border border-sky-300/40 font-extrabold">
-                  $0 costo
-                </span>
+            {/* Panel 3: Estado Ruta G-21 & Clima Cordillerano (Sits in sidebar when there are many trips) */}
+            {trips.length > 2 && (
+              <div className="pt-2">
+                <MountainStatusPill isSidebar={true} />
               </div>
-              <p className="text-xs text-slate-200 leading-relaxed font-medium">
-                Publica tus asientos libres en 30 segundos y comparte gastos de combustible y peajes con esquiadores de la comunidad.
-              </p>
-              <button
-                data-tour="publish-btn"
-                onClick={handleOpenNewPublish}
-                className="w-full inline-flex items-center justify-center gap-2 bg-[#38BDF8] hover:bg-[#0284C7] text-[#0F2942] hover:text-white font-black text-sm py-3.5 px-4 rounded-2xl shadow-md transition-all duration-200 cursor-pointer active:scale-95 border border-white/40 group"
-              >
-                <Plus className="w-5 h-5 stroke-[3] text-[#0F2942] group-hover:text-white transition-colors" />
-                <span>Publicar Mi Viaje</span>
-              </button>
-            </div>
+            )}
           </aside>
 
           {/* Right Column / Trips List & Filters (Pasajero) */}
@@ -495,6 +534,13 @@ export default function Home() {
             )}
           </section>
         </div>
+
+        {/* Dynamic Centered Wide Status Card (Visible below fold when there are few trips, else sits in sidebar) */}
+        {trips.length <= 2 && (
+          <div className="mt-8">
+            <MountainStatusPill isSidebar={false} />
+          </div>
+        )}
       </main>
 
       {/* Publish Modal with defaults pre-filled */}
@@ -505,15 +551,26 @@ export default function Home() {
           setTripToEdit(null);
         }}
         user={user}
-        onTripPublished={() => {
+        onTripPublished={(publishedTrip) => {
           fetchTrips();
           setTripToEdit(null);
+          if (publishedTrip) {
+            setRecentlyPublishedTrip(publishedTrip);
+            setIsSuccessModalOpen(true);
+          }
         }}
         defaultDirection={selectedDirection === 'ALL' ? 'SUBIDA' : selectedDirection}
         defaultDestination={selectedResort === 'ALL' ? 'FARELLONES' : selectedResort}
         defaultDate={filterDate}
         isTourActive={onboarding.isTourActive}
         tripToEdit={tripToEdit}
+      />
+
+      {/* Publish Success Modal (WhatsApp Group Invite & Share) */}
+      <PublishSuccessModal
+        isOpen={isSuccessModalOpen}
+        onClose={() => setIsSuccessModalOpen(false)}
+        trip={recentlyPublishedTrip}
       />
 
       {/* My Trips Drawer */}

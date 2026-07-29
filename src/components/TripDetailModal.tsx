@@ -1,8 +1,9 @@
 'use client';
 
+import { useState } from 'react';
 import { Trip } from '@/types/trip';
 import { User } from '@supabase/supabase-js';
-import { X, MapPin, Calendar, Clock, Users, ShieldCheck, Trash2, MessageCircle, Car, ArrowRight, ExternalLink } from 'lucide-react';
+import { X, MapPin, Calendar, Clock, Users, ShieldCheck, Trash2, MessageCircle, Car, ArrowRight, ExternalLink, Share2, Check } from 'lucide-react';
 import UserAvatar from './UserAvatar';
 
 const InstagramIcon = ({ className = "w-3.5 h-3.5" }: { className?: string }) => (
@@ -70,11 +71,206 @@ export default function TripDetailModal({
 
   const destName = DESTINATION_NAMES[trip.destination] || trip.destination;
 
-  const defaultMsg = `Hola ${trip.driver_name}! Vi tu viaje de ${directionText} a ${destName} en Faredeo para el ${trip.departure_date}. ¿Aún tienes cupo disponible?`;
+  const defaultMsg = `Hola ${trip.driver_name}! Vi tu viaje de ${directionText} a ${destName} en Quempo para el ${trip.departure_date}. ¿Aún tienes cupo disponible?`;
   const encodedMsg = encodeURIComponent(defaultMsg);
 
   const cleanPhone = trip.whatsapp_number.replace(/[^0-9]/g, '');
   const whatsappUrl = `https://wa.me/${cleanPhone}?text=${encodedMsg}`;
+
+  const [copied, setCopied] = useState(false);
+
+  const handleShareWhatsAppGroup = async () => {
+    if (typeof window === 'undefined') return;
+    const shareUrl = `${window.location.origin}/v/${trip.id}`;
+    const shareText = `🏔️ *¡Viaje a la cordillera en Quempo!*\n\n🚗 *Ruta:* ${trip.origin} ➔ ${destName}\n📅 *Fecha:* ${trip.departure_date}\n🕒 *Hora:* ${trip.departure_time.slice(0, 5)} hrs\n💺 *Cupos:* ${trip.seats_available} asientos disponibles\n💰 *Aporte:* ${formattedPrice} CLP\n\n👉 *Ver detalles y coordinar:* ${shareUrl}`;
+
+    try {
+      await navigator.clipboard.writeText(shareText);
+    } catch (e) {
+      console.error('Error copying text:', e);
+    }
+
+    const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
+    window.open(waUrl, '_blank');
+  };
+
+  const handleShareLink = async () => {
+    if (typeof window === 'undefined') return;
+    const shareUrl = `${window.location.origin}/v/${trip.id}`;
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    } catch (err) {
+      console.error('Failed to copy link to clipboard:', err);
+    }
+  };
+
+  const handleDownloadStory = () => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 1080;
+    canvas.height = 1920;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    // Background Gradient
+    const grad = ctx.createLinearGradient(0, 0, 0, 1920);
+    grad.addColorStop(0, '#0B1E31');
+    grad.addColorStop(1, '#091a2c');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 1080, 1920);
+
+    // Mountain vectors at the bottom
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+    ctx.beginPath();
+    ctx.moveTo(0, 1920);
+    ctx.lineTo(0, 1500);
+    ctx.quadraticCurveTo(270, 1380, 540, 1550);
+    ctx.quadraticCurveTo(810, 1720, 1080, 1450);
+    ctx.lineTo(1080, 1920);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.03)';
+    ctx.beginPath();
+    ctx.moveTo(0, 1920);
+    ctx.lineTo(0, 1650);
+    ctx.quadraticCurveTo(300, 1500, 600, 1700);
+    ctx.quadraticCurveTo(900, 1900, 1080, 1600);
+    ctx.lineTo(1080, 1920);
+    ctx.closePath();
+    ctx.fill();
+
+    // Snowflakes
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
+    const drawSnowflake = (x: number, y: number, r: number) => {
+      ctx.beginPath();
+      ctx.arc(x, y, r, 0, Math.PI * 2);
+      ctx.fill();
+    };
+    drawSnowflake(150, 300, 8);
+    drawSnowflake(900, 450, 12);
+    drawSnowflake(300, 1200, 10);
+    drawSnowflake(800, 1400, 6);
+    drawSnowflake(200, 800, 5);
+
+    // Brand logo / text
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#FFFFFF';
+    ctx.font = '900 48px sans-serif';
+    ctx.fillText('Q U E M P O', 540, 220);
+
+    ctx.fillStyle = '#38BDF8';
+    ctx.font = 'bold 24px sans-serif';
+    ctx.fillText('COMPARTIR AUTO A LA MONTAÑA', 540, 270);
+
+    // Hero title badge
+    const badgeText = trip.direction === 'SUBIDA' ? 'SUBIDA A LA CUMBRE ⬆️' : 'BAJADA A SANTIAGO ⬇️';
+    ctx.font = 'bold 36px sans-serif';
+    const textWidth = ctx.measureText(badgeText).width;
+    
+    ctx.fillStyle = 'rgba(56, 189, 248, 0.15)';
+    ctx.strokeStyle = 'rgba(56, 189, 248, 0.4)';
+    ctx.lineWidth = 4;
+    const badgeWidth = textWidth + 80;
+    const badgeHeight = 80;
+    const badgeX = 540 - badgeWidth / 2;
+    const badgeY = 380;
+    
+    ctx.beginPath();
+    ctx.roundRect?.(badgeX, badgeY, badgeWidth, badgeHeight, 40);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = '#38BDF8';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(badgeText, 540, badgeY + badgeHeight / 2);
+    ctx.textBaseline = 'alphabetic'; // reset
+
+    // Trip details card box (glassmorphic box)
+    const boxX = 100;
+    const boxY = 540;
+    const boxW = 880;
+    const boxH = 920;
+    
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.roundRect?.(boxX, boxY, boxW, boxH, 48);
+    ctx.fill();
+    ctx.stroke();
+
+    // Draw route inside card box
+    ctx.textAlign = 'left';
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+    ctx.font = 'bold 30px sans-serif';
+    ctx.fillText('RUTA DE VIAJE', boxX + 60, boxY + 100);
+
+    // Origin ➔ Destination
+    ctx.fillStyle = '#FFFFFF';
+    ctx.font = '900 64px sans-serif';
+    const originDest = `${trip.origin} ➔ ${destName}`;
+    ctx.fillText(originDest, boxX + 60, boxY + 190);
+
+    // Underline
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+    ctx.beginPath();
+    ctx.moveTo(boxX + 60, boxY + 250);
+    ctx.lineTo(boxX + boxW - 60, boxY + 250);
+    ctx.stroke();
+
+    // Date
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+    ctx.font = 'bold 30px sans-serif';
+    ctx.fillText('FECHA Y HORA', boxX + 60, boxY + 330);
+
+    // Date value
+    ctx.fillStyle = '#FFFFFF';
+    ctx.font = 'bold 48px sans-serif';
+    ctx.fillText(`📅 ${trip.departure_date}`, boxX + 60, boxY + 410);
+    ctx.fillText(`🕒 ${trip.departure_time.slice(0, 5)} hrs`, boxX + 60, boxY + 480);
+
+    // Divider
+    ctx.beginPath();
+    ctx.moveTo(boxX + 60, boxY + 540);
+    ctx.lineTo(boxX + boxW - 60, boxY + 540);
+    ctx.stroke();
+
+    // Seats & Cost
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+    ctx.font = 'bold 30px sans-serif';
+    ctx.fillText('DETALLES DE RESERVA', boxX + 60, boxY + 620);
+
+    // Seats and cost text
+    ctx.fillStyle = '#FFFFFF';
+    ctx.font = 'bold 44px sans-serif';
+    ctx.fillText(`💺 ${trip.seats_available} asientos libres`, boxX + 60, boxY + 700);
+
+    ctx.fillStyle = '#38BDF8';
+    ctx.font = '900 56px sans-serif';
+    ctx.fillText(`💰 Aporte: ${formattedPrice} CLP`, boxX + 60, boxY + 790);
+
+    // Draw Footer Promo block
+    ctx.textAlign = 'center';
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+    ctx.font = 'bold 32px sans-serif';
+    ctx.fillText('¿Quieres coordinar o reservar un asiento?', 540, boxY + boxH + 110);
+
+    ctx.fillStyle = '#38BDF8';
+    ctx.font = '900 48px sans-serif';
+    ctx.fillText('Entra en quempo.cl', 540, boxY + boxH + 190);
+
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+    ctx.font = 'bold 24px sans-serif';
+    ctx.fillText('Busca y coordina directo por WhatsApp', 540, boxY + boxH + 250);
+
+    // Trigger PNG file download
+    const link = document.createElement('a');
+    link.download = `quempo-viaje-${trip.origin.slice(0, 10)}-${destName}.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  };
 
   return (
     <div
@@ -250,6 +446,36 @@ export default function TripDetailModal({
               </div>
             </div>
           )}
+
+          {/* Share & Promote Actions */}
+          <div className="bg-white/10 p-3.5 sm:p-4 rounded-2xl border border-white/20 space-y-2.5">
+            <span className="text-xs font-black text-white uppercase tracking-wider block">
+              📢 Compartir & Difundir Viaje
+            </span>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              <button
+                onClick={handleShareWhatsAppGroup}
+                className="py-2.5 px-3 rounded-xl bg-emerald-500/25 hover:bg-emerald-500/35 border border-emerald-400/40 text-xs font-bold text-emerald-100 transition flex items-center justify-center gap-1.5 cursor-pointer active:scale-95 shadow-xs"
+              >
+                <MessageCircle className="w-4 h-4 text-emerald-400 fill-emerald-400/20" />
+                <span>En Grupo WhatsApp</span>
+              </button>
+              <button
+                onClick={handleShareLink}
+                className="py-2.5 px-3 rounded-xl bg-white/15 hover:bg-white/25 border border-white/20 text-xs font-bold text-white transition flex items-center justify-center gap-1.5 cursor-pointer active:scale-95"
+              >
+                {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Share2 className="w-4 h-4 text-sky-300" />}
+                <span>{copied ? '¡Copiado!' : 'Copiar Link'}</span>
+              </button>
+              <button
+                onClick={handleDownloadStory}
+                className="py-2.5 px-3 rounded-xl bg-gradient-to-r from-purple-500/20 to-rose-500/20 hover:from-purple-500/35 hover:to-rose-500/35 border border-purple-400/40 hover:border-rose-400/40 text-xs font-bold text-white transition flex items-center justify-center gap-1.5 cursor-pointer active:scale-95"
+              >
+                <InstagramIcon className="w-4 h-4 text-rose-300" />
+                <span>Story 9:16</span>
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* Modal Footer CTA */}
