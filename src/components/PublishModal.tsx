@@ -34,7 +34,7 @@ interface PublishModalProps {
   isOpen: boolean;
   onClose: () => void;
   user: User | null;
-  onTripPublished: () => void;
+  onTripPublished: (publishedTrip?: Trip) => void;
   defaultDirection?: TripDirection;
   defaultDestination?: SkiResort;
   defaultDate?: string;
@@ -60,7 +60,7 @@ export default function PublishModal({
   const [origin, setOrigin] = useState('');
   const [departureDate, setDepartureDate] = useState(defaultDate);
   const [departureTime, setDepartureTime] = useState('07:00');
-  const [seatsAvailable, setSeatsAvailable] = useState(3);
+  const [seatsAvailable, setSeatsAvailable] = useState<number | string>(3);
   const [pricePerSeat, setPricePerSeat] = useState<number | string>('');
   const [has4x4, setHas4x4] = useState(false);
   const [hasChains, setHasChains] = useState(true);
@@ -141,8 +141,16 @@ export default function PublishModal({
       setNotes(tripToEdit.notes || '');
     } else {
       setDirection(defaultDirection);
-      if (defaultDestination) setDestination(defaultDestination);
-      if (defaultDate) setDepartureDate(defaultDate);
+      setDestination(defaultDestination || 'FARELLONES');
+      setOrigin('');
+      setDepartureDate(defaultDate || '');
+      setDepartureTime('07:00');
+      setSeatsAvailable(3);
+      setPricePerSeat('');
+      setHas4x4(false);
+      setHasChains(true);
+      setHasRack(false);
+      setNotes('');
     }
   }, [isOpen, tripToEdit, defaultDirection, defaultDestination, defaultDate]);
 
@@ -216,8 +224,10 @@ export default function PublishModal({
     setSubmitting(true);
 
     try {
+      let savedTrip: Trip | null = null;
+
       if (tripToEdit) {
-        const { error: updateError } = await supabase
+        const { data: updatedData, error: updateError } = await supabase
           .from('trips')
           .update({
             direction,
@@ -225,7 +235,7 @@ export default function PublishModal({
             origin: origin.trim(),
             departure_date: departureDate,
             departure_time: departureTime,
-            seats_available: Number(seatsAvailable),
+            seats_available: Number(seatsAvailable) || 1,
             price_per_seat: pricePerSeat !== '' ? Number(pricePerSeat) : 10000,
             has_4x4: has4x4,
             has_chains: hasChains,
@@ -235,30 +245,38 @@ export default function PublishModal({
             instagram_handle: cleanInstagram || null,
           })
           .eq('id', tripToEdit.id)
-          .eq('user_id', user.id);
+          .eq('user_id', user.id)
+          .select()
+          .single();
 
         if (updateError) throw updateError;
+        savedTrip = updatedData as Trip;
       } else {
-        const { error: insertError } = await supabase.from('trips').insert({
-          user_id: user.id,
-          driver_name: user.user_metadata?.full_name || user.email?.split('@')[0] || 'Conductor',
-          driver_avatar: user.user_metadata?.avatar_url || null,
-          direction,
-          destination,
-          origin: origin.trim(),
-          departure_date: departureDate,
-          departure_time: departureTime,
-          seats_available: Number(seatsAvailable),
-          price_per_seat: pricePerSeat !== '' ? Number(pricePerSeat) : 10000,
-          has_4x4: has4x4,
-          has_chains: hasChains,
-          has_rack: hasRack,
-          notes: notes.trim() || null,
-          whatsapp_number: cleanPhone,
-          instagram_handle: cleanInstagram || null,
-        });
+        const { data: insertedData, error: insertError } = await supabase
+          .from('trips')
+          .insert({
+            user_id: user.id,
+            driver_name: user.user_metadata?.full_name || user.email?.split('@')[0] || 'Conductor',
+            driver_avatar: user.user_metadata?.avatar_url || null,
+            direction,
+            destination,
+            origin: origin.trim(),
+            departure_date: departureDate,
+            departure_time: departureTime,
+            seats_available: Number(seatsAvailable) || 1,
+            price_per_seat: pricePerSeat !== '' ? Number(pricePerSeat) : 10000,
+            has_4x4: has4x4,
+            has_chains: hasChains,
+            has_rack: hasRack,
+            notes: notes.trim() || null,
+            whatsapp_number: cleanPhone,
+            instagram_handle: cleanInstagram || null,
+          })
+          .select()
+          .single();
 
         if (insertError) throw insertError;
+        savedTrip = insertedData as Trip;
       }
 
       // Upsert profile data for contact auto-fill on future publishes
@@ -271,7 +289,7 @@ export default function PublishModal({
         updated_at: new Date().toISOString(),
       });
 
-      onTripPublished();
+      onTripPublished(savedTrip || undefined);
       onClose();
     } catch (err: unknown) {
       console.error(err);
@@ -518,7 +536,25 @@ export default function PublishModal({
                     min="1"
                     max="8"
                     value={seatsAvailable}
-                    onChange={(e) => setSeatsAvailable(Number(e.target.value))}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      if (val === '') {
+                        setSeatsAvailable('');
+                      } else {
+                        const parsed = parseInt(val, 10);
+                        setSeatsAvailable(isNaN(parsed) ? '' : parsed);
+                      }
+                    }}
+                    onBlur={() => {
+                      if (seatsAvailable === '' || isNaN(Number(seatsAvailable))) {
+                        setSeatsAvailable(1);
+                      } else {
+                        const num = Number(seatsAvailable);
+                        if (num < 1) setSeatsAvailable(1);
+                        else if (num > 8) setSeatsAvailable(8);
+                        else setSeatsAvailable(num);
+                      }
+                    }}
                     className="w-full bg-slate-900/60 border border-white/30 rounded-xl pl-8 pr-3 py-2 text-xs text-white focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-[#38BDF8]/40 font-bold"
                   />
                 </div>
