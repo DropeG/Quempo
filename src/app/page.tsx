@@ -286,9 +286,9 @@ export default function Home() {
           
           {/* Left Column / Control Sidebar */}
           <aside className="lg:col-span-4 space-y-4">
-            <div className="lg:sticky lg:top-20 min-h-[calc(100vh-120px)] flex flex-col justify-start gap-4">
+            <div className="grid grid-cols-2 gap-3 lg:flex lg:flex-col lg:sticky lg:top-20 lg:min-h-[calc(100vh-120px)] lg:justify-start lg:gap-4">
               {/* Panel 1: Selector de Ruta Vertical con Animación de Intercambio */}
-              <div data-tour="direction-switch" className="glass-card rounded-3xl p-5 space-y-3.5">
+              <div data-tour="direction-switch" className="glass-card rounded-3xl p-3 lg:p-5 space-y-2.5 lg:space-y-3.5">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-black text-white uppercase tracking-wider flex items-center gap-1.5 drop-shadow-xs">
                     📍 Ruta de Viaje
@@ -351,7 +351,7 @@ export default function Home() {
               </div>
 
               {/* Panel 2: Botón Destacado de Publicar Viaje (Conductor) */}
-              <div className="glass-card rounded-3xl p-5 space-y-3.5">
+              <div className="glass-card rounded-3xl p-3 lg:p-5 space-y-2.5 lg:space-y-3.5">
                 <div className="flex items-center justify-between text-xs font-bold text-white">
                   <span className="flex items-center gap-1.5 text-white font-black">
                     <Sparkles className="w-4 h-4 text-[#38BDF8]" /> ¿Conduces a la cordillera?
@@ -360,7 +360,7 @@ export default function Home() {
                     $0 costo
                   </span>
                 </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-medium">
+                <p className="text-xs text-slate-200 leading-relaxed font-medium hidden lg:block">
                   Publica tus asientos libres en 30 segundos y comparte gastos de combustible y peajes con esquiadores de la comunidad.
                 </p>
                 <button
@@ -374,9 +374,9 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Panel 3: Estado Ruta G-21 & Clima Cordillerano (Sits in sidebar when there are many trips) */}
+            {/* Panel 3: Estado Ruta G-21 & Clima Cordillerano (Desktop sidebar only when trips > 2) */}
             {trips.length > 2 && (
-              <div className="pt-2">
+              <div className="pt-2 hidden lg:block">
                 <MountainStatusPill isSidebar={true} />
               </div>
             )}
@@ -535,9 +535,14 @@ export default function Home() {
           </section>
         </div>
 
-        {/* Dynamic Centered Wide Status Card (Visible below fold when there are few trips, else sits in sidebar) */}
+        {/* Mobile: Estado Ruta G-21 siempre al final (debajo de Viajes Disponibles) */}
+        <div className="mt-8 block lg:hidden">
+          <MountainStatusPill isSidebar={false} />
+        </div>
+
+        {/* Desktop: Estado Ruta G-21 wide card solo cuando hay pocos viajes (≤2), ya que con más va en el sidebar */}
         {trips.length <= 2 && (
-          <div className="mt-8">
+          <div className="mt-8 hidden lg:block">
             <MountainStatusPill isSidebar={false} />
           </div>
         )}
