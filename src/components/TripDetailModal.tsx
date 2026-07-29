@@ -3,6 +3,7 @@
 import { Trip } from '@/types/trip';
 import { User } from '@supabase/supabase-js';
 import { X, MapPin, Calendar, Clock, Users, ShieldCheck, Trash2, MessageCircle, Car, ArrowRight, ExternalLink } from 'lucide-react';
+import UserAvatar from './UserAvatar';
 
 const InstagramIcon = ({ className = "w-3.5 h-3.5" }: { className?: string }) => (
   <svg
@@ -108,18 +109,11 @@ export default function TripDetailModal({
           {/* Driver Card Info */}
           <div className="flex items-center justify-between bg-white/10 backdrop-blur-md p-3.5 rounded-2xl border border-white/20 shadow-xs">
             <div className="flex items-center gap-3">
-              {trip.driver_avatar ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={trip.driver_avatar}
-                  alt={trip.driver_name}
-                  className="w-12 h-12 rounded-full ring-2 ring-white/70 object-cover shadow-sm"
-                />
-              ) : (
-                <div className="w-12 h-12 rounded-full bg-white text-[#0F2942] flex items-center justify-center font-black text-base shadow-xs">
-                  {trip.driver_name.charAt(0).toUpperCase()}
-                </div>
-              )}
+              <UserAvatar
+                src={trip.driver_avatar}
+                name={trip.driver_name}
+                size="lg"
+              />
               <div>
                 <h3 className="font-black text-sm sm:text-base text-white flex items-center gap-1.5 flex-wrap drop-shadow-xs">
                   {trip.driver_name}

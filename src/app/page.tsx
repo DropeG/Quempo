@@ -8,6 +8,7 @@ import Navbar from '@/components/Navbar';
 import TripCard from '@/components/TripCard';
 import PublishModal from '@/components/PublishModal';
 import TripDetailModal from '@/components/TripDetailModal';
+import MyTripsDrawer from '@/components/MyTripsDrawer';
 import { useOnboardingTour } from '@/components/onboarding/useOnboardingTour';
 import OnboardingWelcomeModal from '@/components/onboarding/OnboardingWelcomeModal';
 import SpotlightTourOverlay from '@/components/onboarding/SpotlightTourOverlay';
@@ -22,6 +23,8 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [isPublishModalOpen, setIsPublishModalOpen] = useState(false);
   const [selectedTrip, setSelectedTrip] = useState<Trip | null>(null);
+  const [isMyTripsOpen, setIsMyTripsOpen] = useState(false);
+  const [tripToEdit, setTripToEdit] = useState<Trip | null>(null);
 
   // Helper to format date YYYY-MM-DD
   const getTodayStr = useCallback(() => {
@@ -54,6 +57,11 @@ export default function Home() {
     created_at: new Date().toISOString(),
   }), [getTodayStr]);
 
+  const handleOpenNewPublish = useCallback(() => {
+    setTripToEdit(null);
+    setIsPublishModalOpen(true);
+  }, []);
+
   // Dynamic tour step change handler to open modals during tour walkthrough
   const handleTourStepChange = useCallback((stepIndex: number) => {
     if (stepIndex === 3) {
@@ -64,13 +72,13 @@ export default function Home() {
     } else if (stepIndex === 4) {
       // Step 5 (Publish Trip): Open PublishModal
       setSelectedTrip(null);
-      setIsPublishModalOpen(true);
+      handleOpenNewPublish();
     } else {
       // Close open tour modals for all other steps
       setSelectedTrip(null);
       setIsPublishModalOpen(false);
     }
-  }, [trips, DEMO_TRIP]);
+  }, [trips, DEMO_TRIP, handleOpenNewPublish]);
 
   const handleTourClose = useCallback(() => {
     setSelectedTrip(null);
@@ -233,7 +241,7 @@ export default function Home() {
       </div>
 
       {/* Navigation */}
-      <Navbar onRestartTour={onboarding.restartTour} />
+      <Navbar onRestartTour={onboarding.restartTour} onOpenMyTrips={() => setIsMyTripsOpen(true)} />
 
       <main className="flex-1 max-w-6xl w-full mx-auto px-3 sm:px-4 pt-4 relative z-10">
         <div className="lg:grid lg:grid-cols-12 lg:gap-6 lg:items-start space-y-4 lg:space-y-0">
@@ -322,7 +330,7 @@ export default function Home() {
               </p>
               <button
                 data-tour="publish-btn"
-                onClick={() => setIsPublishModalOpen(true)}
+                onClick={handleOpenNewPublish}
                 className="w-full inline-flex items-center justify-center gap-2 bg-[#38BDF8] hover:bg-[#0284C7] text-[#0F2942] hover:text-white font-black text-sm py-3.5 px-4 rounded-2xl shadow-md transition-all duration-200 cursor-pointer active:scale-95 border border-white/40 group"
               >
                 <Plus className="w-5 h-5 stroke-[3] text-[#0F2942] group-hover:text-white transition-colors" />
@@ -452,7 +460,7 @@ export default function Home() {
                   Sé el primero en publicar tus cupos libres para compartir los gastos de bencina.
                 </p>
                 <button
-                  onClick={() => setIsPublishModalOpen(true)}
+                  onClick={handleOpenNewPublish}
                   className="inline-flex items-center gap-2 bg-[#38BDF8] hover:bg-[#0284C7] text-[#0F2942] hover:text-white font-bold text-xs px-4 py-2 rounded-xl shadow-sm transition cursor-pointer border border-white/40"
                 >
                   <Plus className="w-4 h-4" /> Publicar Viaje
@@ -488,13 +496,32 @@ export default function Home() {
       {/* Publish Modal with defaults pre-filled */}
       <PublishModal
         isOpen={isPublishModalOpen}
-        onClose={() => setIsPublishModalOpen(false)}
+        onClose={() => {
+          setIsPublishModalOpen(false);
+          setTripToEdit(null);
+        }}
         user={user}
-        onTripPublished={fetchTrips}
+        onTripPublished={() => {
+          fetchTrips();
+          setTripToEdit(null);
+        }}
         defaultDirection={selectedDirection === 'ALL' ? 'SUBIDA' : selectedDirection}
         defaultDestination={selectedResort === 'ALL' ? 'FARELLONES' : selectedResort}
         defaultDate={filterDate}
         isTourActive={onboarding.isTourActive}
+        tripToEdit={tripToEdit}
+      />
+
+      {/* My Trips Drawer */}
+      <MyTripsDrawer
+        isOpen={isMyTripsOpen}
+        onClose={() => setIsMyTripsOpen(false)}
+        user={user}
+        onEditTrip={(trip) => {
+          setTripToEdit(trip);
+          setIsPublishModalOpen(true);
+        }}
+        onTripUpdated={fetchTrips}
       />
 
       {/* Trip Detail Modal (Opción B) */}

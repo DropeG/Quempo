@@ -39,3 +39,9 @@ The trip publishing modal container SHALL utilize the `.glass-card` background t
 - **WHEN** a user opens the publish modal on desktop or mobile
 - **THEN** the modal wrapper renders over a dark translucent backdrop (`bg-slate-950/70 backdrop-blur-md`), the form fields display crisp borders with sky-blue focus rings (`focus:ring-[#38BDF8]`), and the primary submit button features `#38BDF8` background with `#0F2942` font-black text.
 
+### Requirement: Support edit mode in PublishModal
+The trip publishing form SHALL accept an existing trip payload (`tripToEdit`) to populate all fields and update the record in Supabase upon submission.
+
+#### Scenario: Submitting form in edit mode
+- **WHEN** a user submits the PublishModal form with `tripToEdit` set
+- **THEN** the system SHALL update the existing trip record in Supabase instead of inserting a new record, displaying a success confirmation message.

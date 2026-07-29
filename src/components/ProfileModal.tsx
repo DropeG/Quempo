@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { User } from '@supabase/supabase-js';
 import { X, Car, Phone, Check, AlertCircle, Loader2, Sparkles } from 'lucide-react';
+import UserAvatar from './UserAvatar';
 
 const InstagramIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
   <svg
@@ -170,18 +171,12 @@ export default function ProfileModal({ isOpen, onClose, user, onRestartTour }: P
         <div className="p-5 sm:p-6 overflow-y-auto space-y-5 custom-scrollbar flex-1">
           {/* User Info Card */}
           <div className="flex items-center gap-4 p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-xs">
-            {avatarUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={avatarUrl}
-                alt={fullName}
-                className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl ring-2 ring-white/70 object-cover shrink-0 shadow-sm"
-              />
-            ) : (
-              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white text-[#0F2942] flex items-center justify-center font-black text-xl ring-2 ring-white/70 shrink-0 shadow-xs">
-                {user.email?.charAt(0).toUpperCase()}
-              </div>
-            )}
+            <UserAvatar
+              src={avatarUrl}
+              name={fullName}
+              email={user.email}
+              size="xl"
+            />
             <div className="min-w-0 flex-1">
               <h3 className="text-base font-black text-white truncate drop-shadow-xs">{fullName}</h3>
               <p className="text-xs text-sky-200 truncate mt-0.5 font-medium">{user.email}</p>

@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { User } from '@supabase/supabase-js';
-import { TripDirection, SkiResort } from '@/types/trip';
+import { Trip, TripDirection, SkiResort } from '@/types/trip';
 import { X, Calendar, Clock, MapPin, DollarSign, Users, ShieldCheck, Car, Check, LogIn } from 'lucide-react';
 
 const InstagramIcon = ({ className = "w-3.5 h-3.5" }: { className?: string }) => (
@@ -39,6 +39,7 @@ interface PublishModalProps {
   defaultDestination?: SkiResort;
   defaultDate?: string;
   isTourActive?: boolean;
+  tripToEdit?: Trip | null;
 }
 
 export default function PublishModal({
@@ -50,6 +51,7 @@ export default function PublishModal({
   defaultDestination = 'FARELLONES',
   defaultDate = '',
   isTourActive,
+  tripToEdit,
 }: PublishModalProps) {
   const supabase = createClient();
 
@@ -119,21 +121,34 @@ export default function PublishModal({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose]);
 
-  const [prevIsOpen, setPrevIsOpen] = useState(isOpen);
+  // Sync defaults or tripToEdit when modal opens
+  useEffect(() => {
+    if (!isOpen) return;
 
-  // Sync defaults when modal opens
-  if (isOpen !== prevIsOpen) {
-    setPrevIsOpen(isOpen);
-    if (isOpen) {
+    if (tripToEdit) {
+      setDirection(tripToEdit.direction);
+      setDestination(tripToEdit.destination);
+      setOrigin(tripToEdit.origin);
+      setDepartureDate(tripToEdit.departure_date);
+      setDepartureTime(tripToEdit.departure_time);
+      setSeatsAvailable(tripToEdit.seats_available);
+      setPricePerSeat(tripToEdit.price_per_seat);
+      setHas4x4(tripToEdit.has_4x4);
+      setHasChains(tripToEdit.has_chains);
+      setHasRack(tripToEdit.has_rack);
+      setWhatsappNumber(tripToEdit.whatsapp_number);
+      setInstagramHandle(tripToEdit.instagram_handle || '');
+      setNotes(tripToEdit.notes || '');
+    } else {
       setDirection(defaultDirection);
       if (defaultDestination) setDestination(defaultDestination);
       if (defaultDate) setDepartureDate(defaultDate);
     }
-  }
+  }, [isOpen, tripToEdit, defaultDirection, defaultDestination, defaultDate]);
 
-  // Auto-fill WhatsApp & Instagram from profile when modal opens
+  // Auto-fill WhatsApp & Instagram from profile when modal opens if creating new
   useEffect(() => {
-    if (!isOpen || !user) return;
+    if (!isOpen || !user || tripToEdit) return;
 
     const fetchProfileContact = async () => {
       try {
@@ -153,7 +168,7 @@ export default function PublishModal({
     };
 
     fetchProfileContact();
-  }, [isOpen, user, supabase]);
+  }, [isOpen, user, tripToEdit, supabase]);
 
   if (!isOpen) return null;
 
@@ -177,7 +192,7 @@ export default function PublishModal({
       setError('Por favor selecciona la fecha del viaje.');
       return;
     }
-    if (departureDate < todayStr) {
+    if (departureDate < todayStr && !tripToEdit) {
       setError('La fecha del viaje no puede ser en el pasado.');
       return;
     }
@@ -201,27 +216,49 @@ export default function PublishModal({
     setSubmitting(true);
 
     try {
-      const { error: insertError } = await supabase.from('trips').insert({
-        user_id: user.id,
-        driver_name: user.user_metadata?.full_name || user.email?.split('@')[0] || 'Conductor',
-        driver_avatar: user.user_metadata?.avatar_url || null,
-        direction,
-        destination,
-        origin: origin.trim(),
-        departure_date: departureDate,
-        departure_time: departureTime,
-        seats_available: Number(seatsAvailable),
-        price_per_seat: pricePerSeat !== '' ? Number(pricePerSeat) : 10000,
-        has_4x4: has4x4,
-        has_chains: hasChains,
-        has_rack: hasRack,
-        notes: notes.trim() || null,
-        whatsapp_number: cleanPhone,
-        instagram_handle: cleanInstagram || null,
-      });
+      if (tripToEdit) {
+        const { error: updateError } = await supabase
+          .from('trips')
+          .update({
+            direction,
+            destination,
+            origin: origin.trim(),
+            departure_date: departureDate,
+            departure_time: departureTime,
+            seats_available: Number(seatsAvailable),
+            price_per_seat: pricePerSeat !== '' ? Number(pricePerSeat) : 10000,
+            has_4x4: has4x4,
+            has_chains: hasChains,
+            has_rack: hasRack,
+            notes: notes.trim() || null,
+            whatsapp_number: cleanPhone,
+            instagram_handle: cleanInstagram || null,
+          })
+          .eq('id', tripToEdit.id)
+          .eq('user_id', user.id);
 
-      if (insertError) {
-        throw insertError;
+        if (updateError) throw updateError;
+      } else {
+        const { error: insertError } = await supabase.from('trips').insert({
+          user_id: user.id,
+          driver_name: user.user_metadata?.full_name || user.email?.split('@')[0] || 'Conductor',
+          driver_avatar: user.user_metadata?.avatar_url || null,
+          direction,
+          destination,
+          origin: origin.trim(),
+          departure_date: departureDate,
+          departure_time: departureTime,
+          seats_available: Number(seatsAvailable),
+          price_per_seat: pricePerSeat !== '' ? Number(pricePerSeat) : 10000,
+          has_4x4: has4x4,
+          has_chains: hasChains,
+          has_rack: hasRack,
+          notes: notes.trim() || null,
+          whatsapp_number: cleanPhone,
+          instagram_handle: cleanInstagram || null,
+        });
+
+        if (insertError) throw insertError;
       }
 
       // Upsert profile data for contact auto-fill on future publishes
@@ -238,7 +275,7 @@ export default function PublishModal({
       onClose();
     } catch (err: unknown) {
       console.error(err);
-      const message = err instanceof Error ? err.message : 'Error al publicar el viaje. Intenta nuevamente.';
+      const message = err instanceof Error ? err.message : 'Error al guardar el viaje. Intenta nuevamente.';
       setError(message);
     } finally {
       setSubmitting(false);
@@ -265,7 +302,7 @@ export default function PublishModal({
         <div className="flex items-center justify-between pb-3 border-b border-white/20 shrink-0">
           <div>
             <h2 id="publish-modal-title" className="text-lg sm:text-xl font-black text-white flex items-center gap-2 drop-shadow-xs">
-              <Car className="w-5 h-5 text-[#38BDF8]" aria-hidden="true" /> Publicar Viaje
+              <Car className="w-5 h-5 text-[#38BDF8]" aria-hidden="true" /> {tripToEdit ? 'Editar Viaje' : 'Publicar Viaje'}
             </h2>
           </div>
           <button
@@ -605,7 +642,13 @@ export default function PublishModal({
                 disabled={submitting}
                 className="w-full bg-[#38BDF8] hover:bg-[#0284C7] disabled:opacity-50 text-[#0F2942] hover:text-white font-black text-sm py-3.5 px-4 rounded-2xl shadow-md transition-all duration-200 active:scale-95 cursor-pointer border border-white/40"
               >
-                {submitting ? 'Publicando viaje...' : 'Publicar Viaje'}
+                {submitting
+                  ? tripToEdit
+                    ? 'Guardando cambios...'
+                    : 'Publicando viaje...'
+                  : tripToEdit
+                  ? 'Guardar Cambios'
+                  : 'Publicar Viaje'}
               </button>
             </div>
           </form>
