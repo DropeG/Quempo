@@ -14,7 +14,7 @@ import MountainStatusPill from '@/components/MountainStatusPill';
 import { useOnboardingTour } from '@/components/onboarding/useOnboardingTour';
 import OnboardingWelcomeModal from '@/components/onboarding/OnboardingWelcomeModal';
 import SpotlightTourOverlay from '@/components/onboarding/SpotlightTourOverlay';
-import { Mountain, Plus, Sparkles, ArrowLeftRight, MapPin } from 'lucide-react';
+import { Mountain, Plus, Sparkles, ArrowUpDown } from 'lucide-react';
 
 export default function Home() {
   const supabase = createClient();
@@ -84,9 +84,9 @@ export default function Home() {
     onboarding.finishTour();
   }, [onboarding]);
 
-  // Filters state (Default date is Today, Default resort is Farellones)
+  // Filters state (Default date is Today)
   const [selectedDirection, setSelectedDirection] = useState<TripDirection | 'ALL'>('SUBIDA');
-  const [selectedResort, setSelectedResort] = useState<SkiResort | 'ALL'>('FARELLONES');
+  const [selectedResort, setSelectedResort] = useState<SkiResort | 'ALL'>('ALL');
   const [filterDate, setFilterDate] = useState<string>(getTodayStr());
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [swapRotation, setSwapRotation] = useState(0);
@@ -229,18 +229,19 @@ export default function Home() {
   };
 
   // Helper render for ski resort selector
-  const renderResortDropdown = () => (
+  const renderResortDropdown = (isCompact = false) => (
     <select
       value={selectedResort}
       onChange={(e) => setSelectedResort(e.target.value as SkiResort | 'ALL')}
-      aria-label="Seleccionar Centro de Ski"
-      className="bg-white/90 text-[#0F2942] font-black text-sm sm:text-base border border-sky-200 rounded-lg px-2 py-1 focus:outline-none focus:border-[#38BDF8] cursor-pointer w-full shadow-xs truncate text-center"
+      className={`bg-white/90 text-[#0F2942] font-bold border border-sky-200 rounded-xl focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-sky-200 cursor-pointer w-full shadow-xs truncate ${
+        isCompact ? 'text-[11px] px-1.5 py-1 mt-0.5' : 'text-xs sm:text-sm px-2.5 py-1.5 mt-1'
+      }`}
     >
-      <option value="FARELLONES">❄️ Farellones</option>
-      <option value="EL_COLORADO">⛷️ El Colorado</option>
-      <option value="LA_PARVA">🏂 La Parva</option>
-      <option value="VALLE_NEVADO">🏔️ Valle Nevado</option>
-      <option value="ALL">🎿 Todos</option>
+      <option value="ALL">{isCompact ? '🏔️ Todos' : '🏔️ Todos los Centros'}</option>
+      <option value="EL_COLORADO">El Colorado</option>
+      <option value="LA_PARVA">La Parva</option>
+      <option value="VALLE_NEVADO">Valle Nevado</option>
+      <option value="FARELLONES">Farellones</option>
     </select>
   );
 
@@ -277,13 +278,119 @@ export default function Home() {
           {/* Left Column / Control Sidebar */}
           <aside className="lg:col-span-4 space-y-4">
             <div className="flex flex-col gap-3 lg:sticky lg:top-20 lg:min-h-[calc(100vh-120px)] lg:justify-start lg:gap-4">
-              {/* Panel 1: Botón Destacado de Publicar Viaje (Conductor) */}
+              {/* Panel 1: Selector de Ruta (Horizontal Ultra-Compacto en Mobile / Vertical en Desktop) */}
+              <div data-tour="direction-switch" className="glass-card rounded-3xl p-3 sm:p-4 lg:p-5 space-y-2.5 lg:space-y-3.5">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-black text-white uppercase tracking-wider flex items-center gap-1.5 drop-shadow-xs">
+                    📍 Ruta de Viaje
+                  </span>
+                  <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full border ${selectedDirection === 'SUBIDA' ? 'bg-sky-400/20 border-sky-300/40 text-sky-200' : 'bg-blue-500/20 border-blue-300/40 text-blue-200'}`}>
+                    {selectedDirection === 'SUBIDA' ? '⬆️ Subida' : selectedDirection === 'BAJADA' ? '⬇️ Bajada' : '🏔️ Todas'}
+                  </span>
+                </div>
+
+                {/* Mobile Ultra-Compact Row (< lg) */}
+                <div className="lg:hidden bg-white/10 backdrop-blur-md rounded-2xl p-2.5 border border-white/20 flex items-center justify-between gap-2">
+                  <div className="flex-1 min-w-0">
+                    <span className="text-[9px] font-bold text-sky-200/90 uppercase tracking-wider block truncate">
+                      📍 Origen
+                    </span>
+                    {selectedDirection === 'SUBIDA' ? (
+                      <div className="text-xs font-extrabold text-white truncate py-0.5">
+                        Santiago (RM)
+                      </div>
+                    ) : (
+                      <div className="pt-0.5">{renderResortDropdown(true)}</div>
+                    )}
+                  </div>
+
+                  <button
+                    onClick={toggleDirectionSwap}
+                    title="Intercambiar Origen y Destino"
+                    className="p-2 rounded-full bg-white/20 hover:bg-white/30 text-white border border-white/40 shadow-sm backdrop-blur-md transition-all active:scale-90 shrink-0 cursor-pointer"
+                  >
+                    <ArrowUpDown
+                      className="w-3.5 h-3.5 text-white transition-transform duration-500 ease-in-out"
+                      style={{ transform: `rotate(${swapRotation}deg)` }}
+                    />
+                  </button>
+
+                  <div className="flex-1 min-w-0 text-right">
+                    <span className="text-[9px] font-bold text-sky-200/90 uppercase tracking-wider block truncate">
+                      🏔️ Destino
+                    </span>
+                    {selectedDirection === 'SUBIDA' ? (
+                      <div className="pt-0.5">{renderResortDropdown(true)}</div>
+                    ) : (
+                      <div className="text-xs font-extrabold text-white truncate py-0.5">
+                        Santiago (RM)
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Desktop Vertical Layout (≥ lg) */}
+                <div className="hidden lg:block space-y-3">
+                  {/* Origen Box (Arriba) */}
+                  <div className="bg-white/10 backdrop-blur-md rounded-2xl p-3 border border-white/20 space-y-1">
+                    <span className="text-[10px] font-bold text-sky-200/90 uppercase tracking-wider block">
+                      📍 Origen (Salida)
+                    </span>
+                    {selectedDirection === 'SUBIDA' ? (
+                      <div className="text-sm font-extrabold text-white flex items-center gap-2 py-1">
+                        <span>📍 Santiago (RM)</span>
+                      </div>
+                    ) : (
+                      <div className="space-y-1 pt-0.5">
+                        <div className="text-xs font-semibold text-sky-200">🏔️ Centro de Ski</div>
+                        {renderResortDropdown()}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Central Swap Divider & Animated Button */}
+                  <div className="relative flex items-center justify-center my-1">
+                    <div className="absolute inset-0 flex items-center">
+                      <div className="w-full border-t border-white/30"></div>
+                    </div>
+                    <button
+                      onClick={toggleDirectionSwap}
+                      title="Intercambiar Origen y Destino"
+                      className="relative z-10 p-2.5 rounded-full bg-white/20 hover:bg-white/30 text-white hover:text-sky-200 border border-white/40 shadow-md backdrop-blur-md transition-all duration-300 active:scale-90 cursor-pointer group"
+                    >
+                      <ArrowUpDown
+                        className="w-4 h-4 text-white group-hover:text-sky-200 transition-transform duration-500 ease-in-out"
+                        style={{ transform: `rotate(${swapRotation}deg)` }}
+                      />
+                    </button>
+                  </div>
+
+                  {/* Destino Box (Abajo) */}
+                  <div className="bg-white/10 backdrop-blur-md rounded-2xl p-3 border border-white/20 space-y-1">
+                    <span className="text-[10px] font-bold text-sky-200/90 uppercase tracking-wider block">
+                      🏔️ Destino (Llegada)
+                    </span>
+                    {selectedDirection === 'SUBIDA' ? (
+                      <div className="space-y-1 pt-0.5">
+                        <div className="text-xs font-semibold text-sky-200">🏔️ Centro de Ski</div>
+                        {renderResortDropdown()}
+                      </div>
+                    ) : (
+                      <div className="text-sm font-extrabold text-white flex items-center gap-2 py-1">
+                        <span>📍 Santiago (RM)</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Panel 2: Botón Destacado de Publicar Viaje (Conductor) */}
               <div className="glass-card rounded-3xl p-3.5 sm:p-4 lg:p-5 space-y-2.5 lg:space-y-3.5">
                 <div className="flex items-center justify-between text-xs font-bold text-white">
                   <span className="flex items-center gap-1.5 text-white font-black sm:text-sm">
                     <Sparkles className="w-4 h-4 text-[#38BDF8]" /> ¿Conduces a la cordillera?
                   </span>
-                  <span className="text-xs bg-sky-400/20 text-sky-200 px-2.5 py-0.5 rounded-full border border-sky-300/40 font-extrabold">
+                  <span className="text-[10px] bg-sky-400/20 text-sky-200 px-2.5 py-0.5 rounded-full border border-sky-300/40 font-extrabold">
                     $0 costo
                   </span>
                 </div>
@@ -298,48 +405,6 @@ export default function Home() {
                   <Plus className="w-5 h-5 stroke-[3] text-[#0F2942] group-hover:text-white transition-colors" />
                   <span>Publicar Mi Viaje</span>
                 </button>
-              </div>
-
-              {/* Panel 2: Selector de Ruta Ultra-Compacto Estilo Surfari (Sin etiquetas, grande y sintético) */}
-              <div data-tour="direction-switch" className="glass-card rounded-2xl p-2 sm:p-2.5">
-                <div className="flex items-center justify-between gap-2">
-                  {/* Origen Box */}
-                  <div className="flex-1 min-w-0 bg-white/10 backdrop-blur-md rounded-xl px-2.5 py-1.5 border border-white/20 flex items-center justify-center text-center">
-                    {selectedDirection === 'SUBIDA' ? (
-                      <span className="text-sm sm:text-base font-black text-white flex items-center justify-center gap-1.5 py-0.5">
-                        <MapPin className="w-4 h-4 text-sky-300 shrink-0" />
-                        <span>Santiago</span>
-                      </span>
-                    ) : (
-                      <div className="w-full">{renderResortDropdown()}</div>
-                    )}
-                  </div>
-
-                  {/* Central Swap Button */}
-                  <button
-                    onClick={toggleDirectionSwap}
-                    aria-label="Intercambiar origen y destino de viaje"
-                    title="Intercambiar Origen y Destino"
-                    className="p-2 sm:p-2.5 rounded-full bg-[#38BDF8] hover:bg-[#0284C7] text-[#0F2942] hover:text-white border border-white/40 shadow-md transition-all duration-300 active:scale-90 cursor-pointer shrink-0 flex items-center justify-center"
-                  >
-                    <ArrowLeftRight
-                      className="w-4 h-4 transition-transform duration-500 ease-in-out"
-                      style={{ transform: `rotate(${swapRotation}deg)` }}
-                    />
-                  </button>
-
-                  {/* Destino Box */}
-                  <div className="flex-1 min-w-0 bg-white/10 backdrop-blur-md rounded-xl px-2.5 py-1.5 border border-white/20 flex items-center justify-center text-center">
-                    {selectedDirection === 'SUBIDA' ? (
-                      <div className="w-full">{renderResortDropdown()}</div>
-                    ) : (
-                      <span className="text-sm sm:text-base font-black text-white flex items-center justify-center gap-1.5 py-0.5">
-                        <MapPin className="w-4 h-4 text-sky-300 shrink-0" />
-                        <span>Santiago</span>
-                      </span>
-                    )}
-                  </div>
-                </div>
               </div>
             </div>
 
@@ -362,7 +427,7 @@ export default function Home() {
                 {filterDate && (
                   <button
                     onClick={() => setFilterDate('')}
-                    className="text-xs font-semibold text-sky-200 hover:text-white transition cursor-pointer underline"
+                    className="text-[10px] font-semibold text-sky-200 hover:text-white transition cursor-pointer underline"
                   >
                     Ver todas las fechas
                   </button>
@@ -377,14 +442,17 @@ export default function Home() {
                     setFilterDate('');
                     setShowDatePicker(false);
                   }}
-                  className={`flex flex-col items-center justify-center py-2.5 px-3.5 rounded-2xl min-w-[76px] sm:min-w-[84px] min-h-[48px] transition-all duration-300 cursor-pointer border ${
+                  className={`flex flex-col items-center justify-center p-2.5 rounded-2xl min-w-[78px] sm:min-w-[86px] transition-all duration-300 cursor-pointer border ${
                     filterDate === '' && !showDatePicker
                       ? 'bg-[#38BDF8] text-[#0F2942] font-black shadow-md scale-105 border-white/60'
                       : 'bg-white/10 backdrop-blur-md border-white/20 text-slate-100 hover:bg-white/20 hover:border-white/40'
                   }`}
                 >
-                  <span className="text-xs font-black uppercase tracking-wider">Todas</span>
-                  <span className="text-xs font-extrabold opacity-80 mt-0.5">Fechas</span>
+                  <span className="text-[10px] font-extrabold uppercase tracking-wider">Todas</span>
+                  <span className="text-xs font-black mt-0.5">🏔️ Rutas</span>
+                  <span className={`text-[9px] mt-0.5 font-bold ${filterDate === '' && !showDatePicker ? 'text-[#0F2942] font-black' : 'text-sky-200'}`}>
+                    Ver todo
+                  </span>
                 </button>
 
                 {/* Micro-Cards de Días */}
@@ -397,14 +465,19 @@ export default function Home() {
                         setFilterDate(item.dateStr);
                         setShowDatePicker(false);
                       }}
-                      className={`flex flex-col items-center justify-center py-2.5 px-3.5 rounded-2xl min-w-[76px] sm:min-w-[84px] min-h-[48px] transition-all duration-300 cursor-pointer border ${
+                      className={`flex flex-col items-center justify-center p-2.5 rounded-2xl min-w-[78px] sm:min-w-[86px] transition-all duration-300 cursor-pointer border ${
                         isSelected
                           ? 'bg-[#38BDF8] text-[#0F2942] font-black shadow-md scale-105 border-white/60'
                           : 'bg-white/10 backdrop-blur-md border-white/20 text-slate-100 hover:bg-white/20 hover:border-white/40'
                       }`}
                     >
-                      <span className="text-xs font-black uppercase tracking-wider">{item.tag}</span>
-                      <span className="text-xs font-extrabold mt-0.5 opacity-90">{item.dayNumber}</span>
+                      <span className="text-[10px] font-extrabold uppercase tracking-wider flex items-center gap-0.5">
+                        <span>{item.icon}</span> {item.tag}
+                      </span>
+                      <span className="text-xs font-black mt-0.5">{item.dayNumber}</span>
+                      <span className={`text-[9px] mt-0.5 font-bold ${isSelected ? 'text-[#0F2942] font-extrabold' : 'text-sky-200'}`}>
+                        {isSelected ? 'Seleccionado' : 'Disponible'}
+                      </span>
                     </button>
                   );
                 })}
@@ -412,14 +485,17 @@ export default function Home() {
                 {/* Micro-Card: Elegir Fecha Personalizada */}
                 <button
                   onClick={() => setShowDatePicker(!showDatePicker)}
-                  className={`flex flex-col items-center justify-center py-2.5 px-3.5 rounded-2xl min-w-[76px] sm:min-w-[84px] min-h-[48px] transition-all duration-300 cursor-pointer border ${
+                  className={`flex flex-col items-center justify-center p-2.5 rounded-2xl min-w-[78px] sm:min-w-[86px] transition-all duration-300 cursor-pointer border ${
                     showDatePicker || (filterDate && !quickDates.some((q) => q.dateStr === filterDate))
                       ? 'bg-[#0284C7] text-white font-black shadow-md scale-105 border-white/60'
                       : 'bg-white/10 backdrop-blur-md border-white/20 text-slate-100 hover:bg-white/20 hover:border-white/40'
                   }`}
                 >
-                  <span className="text-xs font-black uppercase tracking-wider">📅 Más</span>
-                  <span className="text-xs font-extrabold mt-0.5 opacity-80">Fecha</span>
+                  <span className="text-[10px] font-extrabold uppercase tracking-wider">📅 Más</span>
+                  <span className="text-xs font-black mt-0.5">Fecha</span>
+                  <span className={`text-[9px] mt-0.5 font-bold ${showDatePicker || (filterDate && !quickDates.some((q) => q.dateStr === filterDate)) ? 'text-sky-100' : 'text-slate-300'}`}>
+                    Calendario
+                  </span>
                 </button>
               </div>
 

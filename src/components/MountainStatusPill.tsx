@@ -156,7 +156,7 @@ export default function MountainStatusPill({ isSidebar = true }: MountainStatusP
               href="https://open-meteo.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs font-bold text-sky-200 bg-white/10 hover:bg-white/20 px-2.5 py-1 rounded-lg border border-white/20 transition flex items-center gap-1 cursor-pointer active:scale-95"
+              className="text-[10px] font-bold text-sky-200 bg-white/10 hover:bg-white/20 px-2.5 py-1 rounded-lg border border-white/20 transition flex items-center gap-1 cursor-pointer active:scale-95"
             >
               <span>Datos Clima: Open-Meteo</span>
               <ExternalLink className="w-2.5 h-2.5" />
@@ -190,7 +190,7 @@ export default function MountainStatusPill({ isSidebar = true }: MountainStatusP
           <div className="md:col-span-5 grid grid-cols-2 gap-3">
             {/* Stat 1: Temperature */}
             <div className="p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 flex flex-col justify-between space-y-2">
-              <span className="text-xs font-extrabold uppercase text-sky-200 tracking-wider">
+              <span className="text-[10px] font-extrabold uppercase text-sky-200 tracking-wider">
                 Temperatura
               </span>
               {loading ? (
@@ -208,7 +208,7 @@ export default function MountainStatusPill({ isSidebar = true }: MountainStatusP
 
             {/* Stat 2: Weather Sky Condition */}
             <div className="p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 flex flex-col justify-between space-y-2">
-              <span className="text-xs font-extrabold uppercase text-sky-200 tracking-wider">
+              <span className="text-[10px] font-extrabold uppercase text-sky-200 tracking-wider">
                 Condición
               </span>
               {loading ? (
@@ -231,7 +231,7 @@ export default function MountainStatusPill({ isSidebar = true }: MountainStatusP
             <ShieldCheck className="w-4 h-4 text-[#38BDF8] shrink-0" />
             <span>Porte de cadenas obligatorio (Control Carabineros La Ermita).</span>
           </div>
-          <span className="text-xs text-sky-300 font-normal">
+          <span className="text-[10px] text-sky-300 font-normal">
             Horario oficial de tránsito regulado por Delegación Presidencial y Carabineros de Chile.
           </span>
         </div>
@@ -252,7 +252,7 @@ export default function MountainStatusPill({ isSidebar = true }: MountainStatusP
             <h4 className="text-xs font-black text-white tracking-tight drop-shadow-xs flex items-center gap-1.5">
               <span>Estado Ruta G-21</span>
             </h4>
-            <p className="text-xs text-sky-200 font-medium">Camino a Farellones & Ski</p>
+            <p className="text-[10px] text-sky-200 font-medium">Camino a Farellones & Ski</p>
           </div>
         </div>
 
@@ -260,7 +260,7 @@ export default function MountainStatusPill({ isSidebar = true }: MountainStatusP
           href="https://open-meteo.com/"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-xs font-bold text-sky-200 bg-white/10 hover:bg-white/20 px-2 py-0.5 rounded-full border border-white/20 transition flex items-center gap-1 cursor-pointer active:scale-95"
+          className="text-[9px] sm:text-[10px] font-bold text-sky-200 bg-white/10 hover:bg-white/20 px-2 py-0.5 rounded-full border border-white/20 transition flex items-center gap-1 cursor-pointer active:scale-95"
           title="Ver fuente de datos meteorológicos"
         >
           <span>Open-Meteo</span>
@@ -276,7 +276,7 @@ export default function MountainStatusPill({ isSidebar = true }: MountainStatusP
               {roadInfo.badge}
             </span>
           </div>
-          <div className="flex items-center gap-1 text-xs font-extrabold text-sky-200 bg-white/10 px-2 py-0.5 rounded-lg border border-white/20">
+          <div className="flex items-center gap-1 text-[11px] font-extrabold text-sky-200 bg-white/10 px-2 py-0.5 rounded-lg border border-white/20">
             <Clock className="w-3 h-3 text-[#38BDF8]" />
             <span>{roadInfo.schedule}</span>
           </div>
@@ -291,7 +291,7 @@ export default function MountainStatusPill({ isSidebar = true }: MountainStatusP
       <div className="grid grid-cols-2 gap-2.5">
         {/* Stat 1: Temperature */}
         <div className="p-3 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 flex flex-col justify-between space-y-1">
-          <span className="text-xs font-extrabold uppercase text-sky-200 tracking-wider">
+          <span className="text-[10px] font-extrabold uppercase text-sky-200 tracking-wider">
             Temp.
           </span>
           {loading ? (
@@ -309,7 +309,7 @@ export default function MountainStatusPill({ isSidebar = true }: MountainStatusP
 
         {/* Stat 2: Sky Condition */}
         <div className="p-3 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 flex flex-col justify-between space-y-1">
-          <span className="text-xs font-extrabold uppercase text-sky-200 tracking-wider">
+          <span className="text-[10px] font-extrabold uppercase text-sky-200 tracking-wider">
             Cielo
           </span>
           {loading ? (
@@ -326,7 +326,7 @@ export default function MountainStatusPill({ isSidebar = true }: MountainStatusP
       </div>
 
       {/* Safety Alert Footer */}
-      <div className="flex flex-col gap-1 p-2.5 rounded-xl bg-white/10 border border-white/15 text-xs text-sky-200 font-semibold leading-tight">
+      <div className="flex flex-col gap-1 p-2.5 rounded-xl bg-white/10 border border-white/15 text-[10px] text-sky-200 font-semibold leading-tight">
         <div className="flex items-center gap-1.5">
           <ShieldCheck className="w-3.5 h-3.5 text-[#38BDF8] shrink-0" />
           <span>Porte de cadenas obligatorio (Control La Ermita).</span>

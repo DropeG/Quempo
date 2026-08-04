@@ -89,7 +89,7 @@ export default function Navbar({ onRestartTour, onOpenMyTrips, onProfileUpdated 
                 Quempo
               </span>
             </div>
-            <p className="hidden sm:block text-xs text-white/90 font-medium mt-1 drop-shadow-sm">
+            <p className="hidden sm:block text-[11px] sm:text-xs text-white/90 font-medium mt-1 drop-shadow-sm">
               Conecta viajes a Farellones, El Colorado, La Parva y Valle Nevado en segundos
             </p>
           </div>
@@ -117,7 +117,7 @@ export default function Navbar({ onRestartTour, onOpenMyTrips, onProfileUpdated 
                       <div className="text-xs font-bold text-white truncate max-w-[100px] drop-shadow-xs">
                         {user.user_metadata?.full_name?.split(' ')[0] || user.email?.split('@')[0]}
                       </div>
-                      <div className="text-xs font-semibold text-sky-200 flex items-center gap-1">
+                      <div className="text-[10px] font-semibold text-sky-200 flex items-center gap-1">
                         <span className="w-1.5 h-1.5 rounded-full bg-sky-300 animate-pulse" /> Activo
                       </div>
                     </div>
@@ -132,7 +132,7 @@ export default function Navbar({ onRestartTour, onOpenMyTrips, onProfileUpdated 
                       <p className="text-xs font-black text-white truncate drop-shadow-xs">
                         {user.user_metadata?.full_name || 'Usuario'}
                       </p>
-                      <p className="text-xs font-medium text-sky-200 truncate mt-0.5">
+                      <p className="text-[11px] font-medium text-sky-200 truncate mt-0.5">
                         {user.email}
                       </p>
                     </div>
