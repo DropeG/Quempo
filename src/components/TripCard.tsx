@@ -19,15 +19,9 @@ const DESTINATION_NAMES: Record<string, string> = {
   VALLE_NEVADO: 'Valle Nevado',
 };
 
-
-
 export default function TripCard({ trip, onSelectTrip }: TripCardProps) {
   // Format currency CLP
-  const formattedPrice = new Intl.NumberFormat('es-CL', {
-    style: 'currency',
-    currency: 'CLP',
-    maximumFractionDigits: 0,
-  }).format(trip.price_per_seat);
+  const formattedPrice = `$${trip.price_per_seat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`;
 
   const destName = DESTINATION_NAMES[trip.destination] || trip.destination;
 
@@ -50,9 +44,11 @@ export default function TripCard({ trip, onSelectTrip }: TripCardProps) {
             <span className="font-extrabold text-sm sm:text-base text-white truncate max-w-[120px] sm:max-w-[160px] group-hover:text-sky-300 transition-colors drop-shadow-xs">
               {trip.driver_name}
             </span>
+
             <span title="Verificado con Google" className="flex-shrink-0">
               <ShieldCheck className="w-4 h-4 text-[#38BDF8]" />
             </span>
+
             <span className="text-xs font-bold text-sky-200 bg-white/10 border border-white/20 px-2 py-0.5 rounded-md flex items-center gap-1">
               <Clock className="w-3 h-3 text-[#38BDF8]" />
               {trip.departure_time.slice(0, 5)} hrs
@@ -68,7 +64,7 @@ export default function TripCard({ trip, onSelectTrip }: TripCardProps) {
       {/* Price + Seats + Arrow */}
       <div className="flex items-center gap-3 flex-shrink-0 text-right">
         <div>
-          <div className="text-base sm:text-lg font-black text-white">{formattedPrice}</div>
+          <div className="text-base sm:text-lg font-display font-black text-white">{formattedPrice}</div>
           <div className="text-xs font-semibold text-sky-200 flex items-center justify-end gap-1">
             <Users className="w-3 h-3 text-[#38BDF8]" />
             {trip.seats_available} cupo{trip.seats_available > 1 ? 's' : ''}
@@ -82,4 +78,3 @@ export default function TripCard({ trip, onSelectTrip }: TripCardProps) {
     </div>
   );
 }
-

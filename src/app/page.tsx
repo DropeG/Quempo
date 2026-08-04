@@ -174,11 +174,11 @@ export default function Home() {
   }, [fetchTrips]);
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      setUser(user);
+    supabase.auth.getUser().then((res: any) => {
+      setUser(res.data.user);
     });
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event: any, session: any) => {
       setUser(session?.user ?? null);
     });
 
@@ -447,7 +447,7 @@ export default function Home() {
               </div>
 
               {/* Tira de Mini-Tarjetas de Fecha */}
-              <div data-tour="date-filters" className="flex items-center gap-2 overflow-x-auto scrollbar-none py-1 px-0.5">
+              <div data-tour="date-filters" suppressHydrationWarning className="flex items-center gap-2 overflow-x-auto scrollbar-none py-1 px-0.5">
                 {/* Micro-Card 1: Todos los Días */}
                 <button
                   onClick={() => {

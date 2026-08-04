@@ -2,8 +2,13 @@ import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 
 export async function GET(request: Request) {
-  const { searchParams, origin } = new URL(request.url);
-  const code = searchParams.get('code');
+  const requestUrl = new URL(request.url);
+  const code = requestUrl.searchParams.get('code');
+  const errorParam = requestUrl.searchParams.get('error_description') || requestUrl.searchParams.get('error');
+
+  if (errorParam) {
+    console.error('Auth callback error from provider:', errorParam);
+  }
 
   if (code) {
     const supabase = await createClient();
@@ -13,5 +18,5 @@ export async function GET(request: Request) {
     }
   }
 
-  return NextResponse.redirect(`${origin}`);
+  return NextResponse.redirect(`${requestUrl.origin}`);
 }
