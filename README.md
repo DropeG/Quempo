@@ -1,6 +1,6 @@
-# Faredeo 🏔️🚗
+# Quempo 🏔️🚗
 
-**Faredeo** es la plataforma de viajes compartidos (carpooling) especializada para la comunidad de montaña y deportes de nieve en Santiago de Chile. Conecta a conductores que suben a los centros de ski (Farellones, El Colorado, La Parva, Valle Nevado) con pasajeros que buscan subir y bajar de la cordillera de forma rápida, cómoda y segura.
+**Quempo** es la plataforma de viajes compartidos (carpooling) especializada para la comunidad de montaña y deportes de nieve en Santiago de Chile. Conecta a conductores que suben a los centros de ski (Farellones, El Colorado, La Parva, Valle Nevado) con pasajeros que buscan subir y bajar de la cordillera de forma rápida, cómoda y segura.
 
 ---
 
