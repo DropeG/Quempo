@@ -1,6 +1,6 @@
 ## Why
 
-Subir a esquiar o hacer snowboard a los centros de ski en Santiago (Farellones, El Colorado, La Parva, Valle Nevado) es logísticamente complejo, peligroso y costoso para personas sin vehículo 4x4 o apto para la cordillera. Por otro lado, muchos conductores suben solos o con asientos vacíos y buscan compartir los gastos de gasolina y peaje.
+Subir a esquiar o hacer snowboard a los centros de ski en Santiago (Farellones, El Colorado, La Parva, Valle Nevado) es logísticamente complejo, peligroso y costoso para personas sin vehículo 4x4 o apto para la cordillera. Por otro lado, muchos conductores suben solos o con asientos vacíos y buscan compartir los gastos de gasolina.
 
 Faredeo resuelve esta problemática conectando conductores y pasajeros para viajes compartidos de subida y bajada a los centros de ski de Santiago, ofreciendo una solución segura, rápida, bi-direccional y 100% gratuita de operar (usando Vercel, Supabase y WhatsApp).
 

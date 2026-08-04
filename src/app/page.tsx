@@ -66,23 +66,11 @@ export default function Home() {
     setIsPublishModalOpen(true);
   }, []);
 
-  // Dynamic tour step change handler to open modals during tour walkthrough
+  // Dynamic tour step change handler optimized for Option 1 inline mini-demos
   const handleTourStepChange = useCallback((stepIndex: number) => {
-    if (stepIndex === 3) {
-      // Step 4 (WhatsApp & Details): Open TripDetailModal
-      const targetTrip = trips.length > 0 ? trips[0] : DEMO_TRIP;
-      setSelectedTrip(targetTrip);
-      setIsPublishModalOpen(false);
-    } else if (stepIndex === 4) {
-      // Step 5 (Publish Trip): Open PublishModal
-      setSelectedTrip(null);
-      handleOpenNewPublish();
-    } else {
-      // Close open tour modals for all other steps
-      setSelectedTrip(null);
-      setIsPublishModalOpen(false);
-    }
-  }, [trips, DEMO_TRIP, handleOpenNewPublish]);
+    setSelectedTrip(null);
+    setIsPublishModalOpen(false);
+  }, []);
 
   const handleTourClose = useCallback(() => {
     setSelectedTrip(null);
@@ -407,7 +395,7 @@ export default function Home() {
                   </span>
                 </div>
                 <p className="text-xs text-slate-200 leading-relaxed font-medium hidden lg:block">
-                  Publica tus asientos libres en 30 segundos y comparte gastos de combustible y peajes con esquiadores de la comunidad.
+                  Publica tus asientos libres en 30 segundos y comparte gastos de combustible con esquiadores de la comunidad.
                 </p>
                 <button
                   data-tour="publish-btn"

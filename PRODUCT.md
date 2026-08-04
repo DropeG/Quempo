@@ -8,7 +8,7 @@ web
 
 ## Users
 
-**Conductores** — esquiadores o dueños de vehículos aptos para la cordillera (4x4, cadenas, porta-ski) que suben con asientos vacíos y quieren amortizar el costo de combustible y peajes. Publican el viaje en segundos desde el celular, antes o durante el ascenso.
+**Conductores** — esquiadores o dueños de vehículos aptos para la cordillera (4x4, cadenas, porta-ski) que suben con asientos vacíos y quieren amortizar el costo de combustible. Publican el viaje en segundos desde el celular, antes o durante el ascenso.
 
 **Pasajeros / Esquiadores / Snowboarders** — deportistas sin vehículo apto o que prefieren no conducir en caminos nevados. Necesitan encontrar cupo de forma rápida, frecuentemente el mismo día o la noche anterior.
 

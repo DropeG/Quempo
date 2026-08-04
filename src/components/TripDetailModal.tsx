@@ -276,12 +276,12 @@ export default function TripDetailModal({
     <div
       onClick={onClose}
       className={`fixed inset-0 flex items-center justify-center p-3 sm:p-4 animate-fadeIn ${
-        isTourActive ? 'z-[220] bg-transparent pointer-events-none' : 'z-50 bg-slate-950/70 backdrop-blur-md'
+        isTourActive ? 'z-[210] bg-transparent pointer-events-none' : 'z-50 bg-slate-950/70 backdrop-blur-md'
       }`}
     >
       <div
         data-tour="trip-detail-modal"
-        className="glass-card w-full max-w-lg rounded-3xl overflow-hidden relative max-h-[85vh] flex flex-col text-white pointer-events-auto shadow-2xl border border-white/30"
+        className="glass-card w-full max-w-lg rounded-3xl overflow-hidden relative flex flex-col text-white pointer-events-auto shadow-2xl border border-white/30 max-h-[82vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
