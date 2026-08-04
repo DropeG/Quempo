@@ -1,6 +1,6 @@
 'use client';
 
-import { Mountain, Sparkles, X, ArrowRight, Zap } from 'lucide-react';
+import { X, ArrowRight, Zap } from 'lucide-react';
 
 interface OnboardingWelcomeModalProps {
   isOpen: boolean;
@@ -28,22 +28,22 @@ export default function OnboardingWelcomeModal({
         {/* Top Close Button (Fast Skip) */}
         <button
           onClick={onSkip}
-          className="absolute top-4 right-4 p-2 rounded-xl bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white border border-white/20 transition cursor-pointer"
+          className="!absolute top-4 right-4 z-20 p-2 rounded-xl bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white border border-white/20 transition cursor-pointer"
           title="Omitir tutorial"
+          aria-label="Cerrar"
         >
           <X className="w-4 h-4" />
         </button>
 
         {/* Hero Icon */}
-        <div className="mx-auto w-16 h-16 rounded-2xl bg-sky-400/20 border border-white/30 flex items-center justify-center shadow-lg relative group backdrop-blur-xs">
-          <Mountain className="w-8 h-8 text-[#38BDF8] stroke-[2.5]" />
-          <Sparkles className="w-4 h-4 text-sky-200 absolute -top-1 -right-1 animate-pulse" />
+        <div className="mx-auto h-20 w-auto flex items-center justify-center relative group">
+          <img src="/logo/logo_quempo.svg" alt="Quempo Logo" className="h-full w-auto object-contain drop-shadow-lg" />
         </div>
 
         {/* Content */}
         <div className="space-y-2">
           <span className="text-[11px] font-black text-sky-200 uppercase tracking-widest bg-sky-400/20 px-3 py-1 rounded-full border border-sky-300/40 inline-flex items-center gap-1.5 shadow-xs">
-            <Zap className="w-3.5 h-3.5 text-[#38BDF8] fill-[#38BDF8]" /> Tu primera vez en Faredeo
+            <Zap className="w-3.5 h-3.5 text-[#38BDF8] fill-[#38BDF8]" /> Tu primera vez en Quempo
           </span>
           <h2 className="text-xl sm:text-2xl font-black text-white leading-snug drop-shadow-xs">
             {firstName ? `¡Hola, ${firstName}! 🏔️` : '¡Bienvenido a la Montaña! 🏔️'}

@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { User } from '@supabase/supabase-js';
 
-const STORAGE_KEY = 'faredeo_onboarding_completed_v1';
+const STORAGE_KEY = 'quempo_onboarding_completed_v1';
 
 export function useOnboardingTour(user: User | null) {
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);

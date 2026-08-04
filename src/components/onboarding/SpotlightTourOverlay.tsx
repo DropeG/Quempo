@@ -168,7 +168,7 @@ export default function SpotlightTourOverlay({
           <div className="space-y-1.5">
             <h3 className="text-xl font-black text-white drop-shadow-xs">¡Todo listo para la nieve! ⛷️</h3>
             <p className="text-xs text-slate-200 font-medium leading-relaxed">
-              Ya conoces las herramientas clave de Faredeo. ¡Nos vemos en la cordillera!
+              Ya conoces las herramientas clave de Quempo. ¡Nos vemos en la cordillera!
             </p>
           </div>
           <button
