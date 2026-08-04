@@ -349,17 +349,19 @@ export default function MyTripsDrawer({
                         <span className="text-[11px] text-slate-300">{formatDateDisplay(trip.departure_date)}</span>
                       </div>
 
-                      <div className="flex items-center justify-between pt-1 text-[11px] text-slate-300">
+                      <div className="flex items-center justify-between pt-1.5 text-[11px] text-slate-300">
                         <span>${trip.price_per_seat.toLocaleString('es-CL')} / asiento</span>
-                        <button
-                          type="button"
-                          disabled={deletingTripId === trip.id}
-                          onClick={() => handleDeleteTrip(trip.id)}
-                          className="text-rose-400 hover:text-rose-300 text-[11px] font-bold flex items-center gap-1 transition cursor-pointer"
-                        >
-                          <Trash2 className="w-3 h-3" />
-                          <span>Eliminar del historial</span>
-                        </button>
+                        <div className="flex items-center gap-2">
+                          <button
+                            type="button"
+                            disabled={deletingTripId === trip.id}
+                            onClick={() => handleDeleteTrip(trip.id)}
+                            className="text-rose-400 hover:text-rose-300 text-[11px] font-bold flex items-center gap-1 transition cursor-pointer"
+                          >
+                            <Trash2 className="w-3 h-3" />
+                            <span>Eliminar del historial</span>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   ))}
@@ -369,6 +371,8 @@ export default function MyTripsDrawer({
           )}
         </div>
       </div>
+
+
     </div>
   );
 }

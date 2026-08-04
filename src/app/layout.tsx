@@ -18,7 +18,7 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Faredeo | Viajes Compartidos a la Cordillera",
+  title: "Quempo | Viajes Compartidos a la Cordillera",
   description: "Conecta viajes a Farellones, El Colorado, La Parva y Valle Nevado",
 };
 

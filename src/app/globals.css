@@ -8,6 +8,8 @@
    ========================================================================== */
 :root {
   --font-primary: var(--font-dm-sans), system-ui, sans-serif;
+  --font-display: var(--font-outfit), system-ui, sans-serif;
+  --font-body: var(--font-dm-sans), system-ui, sans-serif;
   --background: #091a2c;
   --foreground: #FFFFFF;
   --card-bg: rgba(160, 190, 215, 0.22);
@@ -19,6 +21,19 @@
   --accent-ice: #E0F2FE;
   --title-color: #FFFFFF;
   --text-secondary: #94A3B8;
+}
+
+/* Typography Font Classes */
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+.font-jakarta {
+  font-family: var(--font-plus-jakarta-sans), system-ui, sans-serif;
 }
 
 /* Theme Dynamic Accent Utilities */

@@ -42,7 +42,7 @@ export default function TripCardAccordion({ trip, currentUser, onDeleteTrip }: T
   
   const destName = DESTINATION_NAMES[trip.destination] || trip.destination;
 
-  const defaultMsg = `Hola ${trip.driver_name}! Vi tu viaje de ${directionText} a ${destName} en Faredeo para el ${trip.departure_date}. ¿Aún tienes cupo disponible?`;
+  const defaultMsg = `Hola ${trip.driver_name}! Vi tu viaje de ${directionText} a ${destName} en Quempo para el ${trip.departure_date}. ¿Aún tienes cupo disponible?`;
   const encodedMsg = encodeURIComponent(defaultMsg);
   
   // Format clean phone for whatsapp

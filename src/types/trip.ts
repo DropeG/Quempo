@@ -21,3 +21,4 @@ export interface Trip {
   instagram_handle?: string;
   created_at: string;
 }
+

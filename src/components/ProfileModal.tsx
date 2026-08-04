@@ -208,7 +208,7 @@ export default function ProfileModal({ isOpen, onClose, user, onRestartTour, onP
               </div>
               <div>
                 <div className="text-xs font-black text-white">Viajes Publicados</div>
-                <div className="text-xs text-sky-200 font-medium">Histórico en Faredeo</div>
+                <div className="text-xs text-sky-200 font-medium">Histórico en Quempo</div>
               </div>
             </div>
             <div className="text-2xl font-black text-white drop-shadow-xs">
@@ -219,6 +219,7 @@ export default function ProfileModal({ isOpen, onClose, user, onRestartTour, onP
               )}
             </div>
           </div>
+
 
           {/* Contact Edit Form */}
           <form onSubmit={handleSave} className="space-y-4">

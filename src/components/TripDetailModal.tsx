@@ -303,73 +303,78 @@ export default function TripDetailModal({
         {/* Modal Body */}
         <div className="p-4 sm:p-5 space-y-4 overflow-y-auto custom-scrollbar flex-1">
           {/* Driver Card Info */}
-          <div className="relative z-20 flex items-center justify-between bg-white/10 backdrop-blur-md p-3.5 rounded-2xl border border-white/20 shadow-xs">
-            <div className="flex items-center gap-3">
-              <UserAvatar
-                src={trip.driver_avatar}
-                name={trip.driver_name}
-                size="lg"
-              />
-              <div>
-                <h3 className="font-black text-sm sm:text-base text-white flex items-center gap-1.5 flex-wrap drop-shadow-xs">
-                  {trip.driver_name}
-                  <span title="Verificado con Google">
-                    <ShieldCheck className="w-4 h-4 text-[#38BDF8]" />
-                  </span>
+          <div className="relative z-20 flex flex-col gap-3 bg-white/10 backdrop-blur-md p-3.5 rounded-2xl border border-white/20 shadow-xs">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <UserAvatar
+                  src={trip.driver_avatar}
+                  name={trip.driver_name}
+                  size="lg"
+                />
+                <div>
+                  <h3 className="font-black text-sm sm:text-base text-white flex items-center gap-1.5 flex-wrap drop-shadow-xs">
+                    {trip.driver_name}
+                    <span title="Verificado con Google">
+                      <ShieldCheck className="w-4 h-4 text-[#38BDF8]" />
+                    </span>
 
-                  {trip.instagram_handle && (
-                    <div className="relative group inline-block ml-1">
-                      <a
-                        href={`https://instagram.com/${trip.instagram_handle}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="p-1 rounded-full bg-white/20 hover:bg-white text-sky-200 hover:text-[#0F2942] border border-white/30 transition flex items-center justify-center cursor-pointer"
-                        title={`@${trip.instagram_handle} en Instagram`}
-                      >
-                        <InstagramIcon className="w-3.5 h-3.5" />
-                      </a>
-
-                      {/* Hover Card Preview */}
-                      <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 hidden group-hover:flex flex-col items-center bg-[#0F2942] border border-sky-300/40 p-3 rounded-2xl shadow-2xl z-50 min-w-[210px] text-center animate-fadeIn pointer-events-none group-hover:pointer-events-auto">
-                        <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-[#0F2942] border-t border-l border-sky-300/40 rotate-45"></div>
-
-                        <div className="flex items-center gap-2 mb-2 w-full text-left">
-                          <div className="p-2 rounded-full bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 text-white shrink-0">
-                            <InstagramIcon className="w-4 h-4" />
-                          </div>
-                          <div className="overflow-hidden">
-                            <p className="text-xs font-bold text-white truncate">@{trip.instagram_handle}</p>
-                            <p className="text-[10px] text-sky-200">Perfil de Instagram</p>
-                          </div>
-                        </div>
-
+                    {trip.instagram_handle && (
+                      <div className="relative group inline-block ml-1">
                         <a
                           href={`https://instagram.com/${trip.instagram_handle}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           onClick={(e) => e.stopPropagation()}
-                          className="w-full text-center bg-[#38BDF8] hover:bg-[#0284C7] text-[#0F2942] hover:text-white font-black text-[11px] py-1.5 px-3 rounded-xl transition flex items-center justify-center gap-1.5"
+                          className="p-1 rounded-full bg-white/20 hover:bg-white text-sky-200 hover:text-[#0F2942] border border-white/30 transition flex items-center justify-center cursor-pointer"
+                          title={`@${trip.instagram_handle} en Instagram`}
                         >
-                          Ver en Instagram <ExternalLink className="w-3 h-3" />
+                          <InstagramIcon className="w-3.5 h-3.5" />
                         </a>
+
+                        {/* Hover Card Preview */}
+                        <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 hidden group-hover:flex flex-col items-center bg-[#0F2942] border border-sky-300/40 p-3 rounded-2xl shadow-2xl z-50 min-w-[210px] text-center animate-fadeIn pointer-events-none group-hover:pointer-events-auto">
+                          <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-[#0F2942] border-t border-l border-sky-300/40 rotate-45"></div>
+
+                          <div className="flex items-center gap-2 mb-2 w-full text-left">
+                            <div className="p-2 rounded-full bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 text-white shrink-0">
+                              <InstagramIcon className="w-4 h-4" />
+                            </div>
+                            <div className="overflow-hidden">
+                              <p className="text-xs font-bold text-white truncate">@{trip.instagram_handle}</p>
+                              <p className="text-[10px] text-sky-200">Perfil de Instagram</p>
+                            </div>
+                          </div>
+
+                          <a
+                            href={`https://instagram.com/${trip.instagram_handle}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            className="w-full text-center bg-[#38BDF8] hover:bg-[#0284C7] text-[#0F2942] hover:text-white font-black text-[11px] py-1.5 px-3 rounded-xl transition flex items-center justify-center gap-1.5"
+                          >
+                            Ver en Instagram <ExternalLink className="w-3 h-3" />
+                          </a>
+                        </div>
                       </div>
-                    </div>
-                  )}
-                </h3>
-                <p className="text-xs text-sky-200 flex items-center gap-1 font-semibold">
-                  <span className="w-2 h-2 rounded-full bg-[#38BDF8] inline-block animate-pulse"></span>
-                  Conductor Verificado
-                </p>
+                    )}
+                  </h3>
+
+                  {/* Rating & Conductor Verificado */}
+                  <div className="flex items-center gap-2 mt-0.5">
+                    <p className="text-xs text-sky-200 flex items-center gap-1 font-semibold">
+                      <span className="w-2 h-2 rounded-full bg-[#38BDF8] inline-block animate-pulse"></span>
+                      Conductor Verificado
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="text-right">
+                <div className="text-base sm:text-lg font-black text-white">{formattedPrice}</div>
+                <div className="text-[10px] text-sky-200 uppercase tracking-wider font-extrabold">por cupo</div>
               </div>
             </div>
-
-            <div className="text-right">
-              <div className="text-base sm:text-lg font-black text-white">{formattedPrice}</div>
-              <div className="text-[10px] text-sky-200 uppercase tracking-wider font-extrabold">por cupo</div>
-            </div>
           </div>
-
           {/* Route Box */}
           <div className="relative z-10 bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20 space-y-3 shadow-xs">
             <div className="text-xs font-black text-white uppercase tracking-wider flex items-center gap-1.5">
