@@ -1,9 +1,6 @@
 # mobile-aside-compact-row Specification
 
-## Purpose
-Especificación del layout responsivo para el aside de controles de ruta y publicación de viaje en la página principal.
-
-## Requirements
+## MODIFIED Requirements
 
 ### Requirement: Aside panels en fila compacta y selector ultra-compacto en mobile
 En viewports menores a 1024px, el Panel 1 (Ruta de Viaje) y el Panel 2 (Conduces a la cordillera) SHALL mostrarse apilados en filas verticales (`flex flex-col`), y el Panel 1 SHALL integrar los controles de Origen y Destino en un selector horizontal ultra-compacto de reducida altura vertical.

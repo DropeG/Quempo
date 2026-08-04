@@ -39,7 +39,7 @@ export default function Home() {
     return `${year}-${month}-${day}`;
   }, []);
 
-  // Demo trip for tour walkthrough when opening details modal
+  // Demo trips for testing reputation & badges
   const DEMO_TRIP = useMemo<Trip>(() => ({
     id: 'demo-tour-trip',
     user_id: 'demo-driver',
@@ -157,6 +157,7 @@ export default function Home() {
 
       const { data, error } = await query;
       if (error) throw error;
+
       setTrips(data || []);
     } catch (err) {
       console.error('Error fetching trips:', err);
@@ -240,13 +241,15 @@ export default function Home() {
   };
 
   // Helper render for ski resort selector
-  const renderResortDropdown = () => (
+  const renderResortDropdown = (isCompact = false) => (
     <select
       value={selectedResort}
       onChange={(e) => setSelectedResort(e.target.value as SkiResort | 'ALL')}
-      className="bg-white/80 text-[#0F2942] font-bold text-xs sm:text-sm border border-sky-200 rounded-xl px-2.5 py-1.5 focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-sky-200 cursor-pointer w-full mt-1 shadow-xs"
+      className={`bg-white/90 text-[#0F2942] font-bold border border-sky-200 rounded-xl focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-sky-200 cursor-pointer w-full shadow-xs truncate ${
+        isCompact ? 'text-[11px] px-1.5 py-1 mt-0.5' : 'text-xs sm:text-sm px-2.5 py-1.5 mt-1'
+      }`}
     >
-      <option value="ALL">🏔️ Todos los Centros</option>
+      <option value="ALL">{isCompact ? '🏔️ Todos' : '🏔️ Todos los Centros'}</option>
       <option value="EL_COLORADO">El Colorado</option>
       <option value="LA_PARVA">La Parva</option>
       <option value="VALLE_NEVADO">Valle Nevado</option>
@@ -286,9 +289,9 @@ export default function Home() {
           
           {/* Left Column / Control Sidebar */}
           <aside className="lg:col-span-4 space-y-4">
-            <div className="grid grid-cols-2 gap-3 lg:flex lg:flex-col lg:sticky lg:top-20 lg:min-h-[calc(100vh-120px)] lg:justify-start lg:gap-4">
-              {/* Panel 1: Selector de Ruta Vertical con Animación de Intercambio */}
-              <div data-tour="direction-switch" className="glass-card rounded-3xl p-3 lg:p-5 space-y-2.5 lg:space-y-3.5">
+            <div className="flex flex-col gap-3 lg:sticky lg:top-20 lg:min-h-[calc(100vh-120px)] lg:justify-start lg:gap-4">
+              {/* Panel 1: Selector de Ruta (Horizontal Ultra-Compacto en Mobile / Vertical en Desktop) */}
+              <div data-tour="direction-switch" className="glass-card rounded-3xl p-3 sm:p-4 lg:p-5 space-y-2.5 lg:space-y-3.5">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-black text-white uppercase tracking-wider flex items-center gap-1.5 drop-shadow-xs">
                     📍 Ruta de Viaje
@@ -298,62 +301,105 @@ export default function Home() {
                   </span>
                 </div>
 
-                {/* Origen Box (Arriba) */}
-                <div className="bg-white/10 backdrop-blur-md rounded-2xl p-3 border border-white/20 space-y-1">
-                  <span className="text-[10px] font-bold text-sky-200/90 uppercase tracking-wider block">
-                    📍 Origen (Salida)
-                  </span>
-                  {selectedDirection === 'SUBIDA' ? (
-                    <div className="text-sm font-extrabold text-white flex items-center gap-2 py-1">
-                      <span>📍 Santiago (RM)</span>
-                    </div>
-                  ) : (
-                    <div className="space-y-1 pt-0.5">
-                      <div className="text-xs font-semibold text-sky-200">🏔️ Centro de Ski</div>
-                      {renderResortDropdown()}
-                    </div>
-                  )}
-                </div>
-
-                {/* Central Swap Divider & Animated Button */}
-                <div className="relative flex items-center justify-center my-1">
-                  <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-white/30"></div>
+                {/* Mobile Ultra-Compact Row (< lg) */}
+                <div className="lg:hidden bg-white/10 backdrop-blur-md rounded-2xl p-2.5 border border-white/20 flex items-center justify-between gap-2">
+                  <div className="flex-1 min-w-0">
+                    <span className="text-[9px] font-bold text-sky-200/90 uppercase tracking-wider block truncate">
+                      📍 Origen
+                    </span>
+                    {selectedDirection === 'SUBIDA' ? (
+                      <div className="text-xs font-extrabold text-white truncate py-0.5">
+                        Santiago (RM)
+                      </div>
+                    ) : (
+                      <div className="pt-0.5">{renderResortDropdown(true)}</div>
+                    )}
                   </div>
+
                   <button
                     onClick={toggleDirectionSwap}
                     title="Intercambiar Origen y Destino"
-                    className="relative z-10 p-2.5 rounded-full bg-white/20 hover:bg-white/30 text-white hover:text-sky-200 border border-white/40 shadow-md backdrop-blur-md transition-all duration-300 active:scale-90 cursor-pointer group"
+                    className="p-2 rounded-full bg-white/20 hover:bg-white/30 text-white border border-white/40 shadow-sm backdrop-blur-md transition-all active:scale-90 shrink-0 cursor-pointer"
                   >
                     <ArrowUpDown
-                      className="w-4 h-4 text-white group-hover:text-sky-200 transition-transform duration-500 ease-in-out"
+                      className="w-3.5 h-3.5 text-white transition-transform duration-500 ease-in-out"
                       style={{ transform: `rotate(${swapRotation}deg)` }}
                     />
                   </button>
+
+                  <div className="flex-1 min-w-0 text-right">
+                    <span className="text-[9px] font-bold text-sky-200/90 uppercase tracking-wider block truncate">
+                      🏔️ Destino
+                    </span>
+                    {selectedDirection === 'SUBIDA' ? (
+                      <div className="pt-0.5">{renderResortDropdown(true)}</div>
+                    ) : (
+                      <div className="text-xs font-extrabold text-white truncate py-0.5">
+                        Santiago (RM)
+                      </div>
+                    )}
+                  </div>
                 </div>
 
-                {/* Destino Box (Abajo) */}
-                <div className="bg-white/10 backdrop-blur-md rounded-2xl p-3 border border-white/20 space-y-1">
-                  <span className="text-[10px] font-bold text-sky-200/90 uppercase tracking-wider block">
-                    🏔️ Destino (Llegada)
-                  </span>
-                  {selectedDirection === 'SUBIDA' ? (
-                    <div className="space-y-1 pt-0.5">
-                      <div className="text-xs font-semibold text-sky-200">🏔️ Centro de Ski</div>
-                      {renderResortDropdown()}
+                {/* Desktop Vertical Layout (≥ lg) */}
+                <div className="hidden lg:block space-y-3">
+                  {/* Origen Box (Arriba) */}
+                  <div className="bg-white/10 backdrop-blur-md rounded-2xl p-3 border border-white/20 space-y-1">
+                    <span className="text-[10px] font-bold text-sky-200/90 uppercase tracking-wider block">
+                      📍 Origen (Salida)
+                    </span>
+                    {selectedDirection === 'SUBIDA' ? (
+                      <div className="text-sm font-extrabold text-white flex items-center gap-2 py-1">
+                        <span>📍 Santiago (RM)</span>
+                      </div>
+                    ) : (
+                      <div className="space-y-1 pt-0.5">
+                        <div className="text-xs font-semibold text-sky-200">🏔️ Centro de Ski</div>
+                        {renderResortDropdown()}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Central Swap Divider & Animated Button */}
+                  <div className="relative flex items-center justify-center my-1">
+                    <div className="absolute inset-0 flex items-center">
+                      <div className="w-full border-t border-white/30"></div>
                     </div>
-                  ) : (
-                    <div className="text-sm font-extrabold text-white flex items-center gap-2 py-1">
-                      <span>📍 Santiago (RM)</span>
-                    </div>
-                  )}
+                    <button
+                      onClick={toggleDirectionSwap}
+                      title="Intercambiar Origen y Destino"
+                      className="relative z-10 p-2.5 rounded-full bg-white/20 hover:bg-white/30 text-white hover:text-sky-200 border border-white/40 shadow-md backdrop-blur-md transition-all duration-300 active:scale-90 cursor-pointer group"
+                    >
+                      <ArrowUpDown
+                        className="w-4 h-4 text-white group-hover:text-sky-200 transition-transform duration-500 ease-in-out"
+                        style={{ transform: `rotate(${swapRotation}deg)` }}
+                      />
+                    </button>
+                  </div>
+
+                  {/* Destino Box (Abajo) */}
+                  <div className="bg-white/10 backdrop-blur-md rounded-2xl p-3 border border-white/20 space-y-1">
+                    <span className="text-[10px] font-bold text-sky-200/90 uppercase tracking-wider block">
+                      🏔️ Destino (Llegada)
+                    </span>
+                    {selectedDirection === 'SUBIDA' ? (
+                      <div className="space-y-1 pt-0.5">
+                        <div className="text-xs font-semibold text-sky-200">🏔️ Centro de Ski</div>
+                        {renderResortDropdown()}
+                      </div>
+                    ) : (
+                      <div className="text-sm font-extrabold text-white flex items-center gap-2 py-1">
+                        <span>📍 Santiago (RM)</span>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
 
               {/* Panel 2: Botón Destacado de Publicar Viaje (Conductor) */}
-              <div className="glass-card rounded-3xl p-3 lg:p-5 space-y-2.5 lg:space-y-3.5">
+              <div className="glass-card rounded-3xl p-3.5 sm:p-4 lg:p-5 space-y-2.5 lg:space-y-3.5">
                 <div className="flex items-center justify-between text-xs font-bold text-white">
-                  <span className="flex items-center gap-1.5 text-white font-black">
+                  <span className="flex items-center gap-1.5 text-white font-black sm:text-sm">
                     <Sparkles className="w-4 h-4 text-[#38BDF8]" /> ¿Conduces a la cordillera?
                   </span>
                   <span className="text-[10px] bg-sky-400/20 text-sky-200 px-2.5 py-0.5 rounded-full border border-sky-300/40 font-extrabold">
@@ -366,7 +412,7 @@ export default function Home() {
                 <button
                   data-tour="publish-btn"
                   onClick={handleOpenNewPublish}
-                  className="w-full inline-flex items-center justify-center gap-2 bg-[#38BDF8] hover:bg-[#0284C7] text-[#0F2942] hover:text-white font-black text-sm py-3.5 px-4 rounded-2xl shadow-md transition-all duration-200 cursor-pointer active:scale-95 border border-white/40 group"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-[#38BDF8] hover:bg-[#0284C7] text-[#0F2942] hover:text-white font-black text-sm py-3 px-4 rounded-2xl shadow-md transition-all duration-200 cursor-pointer active:scale-95 border border-white/40 group"
                 >
                   <Plus className="w-5 h-5 stroke-[3] text-[#0F2942] group-hover:text-white transition-colors" />
                   <span>Publicar Mi Viaje</span>
