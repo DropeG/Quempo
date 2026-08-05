@@ -4,9 +4,11 @@ let client: ReturnType<typeof createBrowserClient> | undefined;
 
 export function createClient() {
   if (client) return client;
-  client = createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co',
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key'
-  );
+  
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+
+  client = createBrowserClient(supabaseUrl, supabaseAnonKey);
   return client;
 }
+
