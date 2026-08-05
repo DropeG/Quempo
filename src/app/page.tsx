@@ -10,7 +10,6 @@ import PublishModal from '@/components/PublishModal';
 import PublishSuccessModal from '@/components/PublishSuccessModal';
 import TripDetailModal from '@/components/TripDetailModal';
 import MyTripsDrawer from '@/components/MyTripsDrawer';
-import MountainStatusPill from '@/components/MountainStatusPill';
 import { useOnboardingTour } from '@/components/onboarding/useOnboardingTour';
 import OnboardingWelcomeModal from '@/components/onboarding/OnboardingWelcomeModal';
 import SpotlightTourOverlay from '@/components/onboarding/SpotlightTourOverlay';
@@ -408,12 +407,6 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Panel 3: Estado Ruta G-21 & Clima Cordillerano (Desktop sidebar only when trips > 2) */}
-            {trips.length > 2 && (
-              <div className="pt-2 hidden lg:block">
-                <MountainStatusPill isSidebar={true} />
-              </div>
-            )}
           </aside>
 
           {/* Right Column / Trips List & Filters (Pasajero) */}
@@ -569,17 +562,6 @@ export default function Home() {
           </section>
         </div>
 
-        {/* Mobile: Estado Ruta G-21 siempre al final (debajo de Viajes Disponibles) */}
-        <div className="mt-8 block lg:hidden">
-          <MountainStatusPill isSidebar={false} />
-        </div>
-
-        {/* Desktop: Estado Ruta G-21 wide card solo cuando hay pocos viajes (≤2), ya que con más va en el sidebar */}
-        {trips.length <= 2 && (
-          <div className="mt-8 hidden lg:block">
-            <MountainStatusPill isSidebar={false} />
-          </div>
-        )}
       </main>
 
       {/* Publish Modal with defaults pre-filled */}
