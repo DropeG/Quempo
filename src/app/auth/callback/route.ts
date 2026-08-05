@@ -8,6 +8,7 @@ export async function GET(request: Request) {
 
   if (errorParam) {
     console.error('Auth callback error from provider:', errorParam);
+    return NextResponse.redirect(`${requestUrl.origin}?auth_error=${encodeURIComponent(errorParam)}`);
   }
 
   if (code) {
@@ -15,8 +16,10 @@ export async function GET(request: Request) {
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (error) {
       console.error('Error exchanging code for session:', error);
+      return NextResponse.redirect(`${requestUrl.origin}?auth_error=${encodeURIComponent(error.message)}`);
     }
   }
 
   return NextResponse.redirect(`${requestUrl.origin}`);
 }
+
