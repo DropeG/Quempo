@@ -13,7 +13,7 @@ import MyTripsDrawer from '@/components/MyTripsDrawer';
 import { useOnboardingTour } from '@/components/onboarding/useOnboardingTour';
 import OnboardingWelcomeModal from '@/components/onboarding/OnboardingWelcomeModal';
 import SpotlightTourOverlay from '@/components/onboarding/SpotlightTourOverlay';
-import { Mountain, Plus, Sparkles, ArrowUpDown } from 'lucide-react';
+import { Mountain, Plus, Sparkles, ArrowUpDown, ArrowLeftRight } from 'lucide-react';
 
 export default function Home() {
   const supabase = createClient();
@@ -292,7 +292,7 @@ export default function Home() {
                 <div className="lg:hidden bg-white/10 backdrop-blur-md rounded-2xl p-2.5 border border-white/20 flex items-center justify-between gap-2">
                   <div className="flex-1 min-w-0">
                     <span className="text-[9px] font-bold text-sky-200/90 uppercase tracking-wider block truncate">
-                      📍 Origen
+                      {selectedDirection === 'SUBIDA' ? '📍' : '🏔️'} Origen
                     </span>
                     {selectedDirection === 'SUBIDA' ? (
                       <div className="text-xs font-extrabold text-white truncate py-0.5">
@@ -308,7 +308,7 @@ export default function Home() {
                     title="Intercambiar Origen y Destino"
                     className="p-2 rounded-full bg-white/20 hover:bg-white/30 text-white border border-white/40 shadow-sm backdrop-blur-md transition-all active:scale-90 shrink-0 cursor-pointer"
                   >
-                    <ArrowUpDown
+                    <ArrowLeftRight
                       className="w-3.5 h-3.5 text-white transition-transform duration-500 ease-in-out"
                       style={{ transform: `rotate(${swapRotation}deg)` }}
                     />
@@ -316,7 +316,7 @@ export default function Home() {
 
                   <div className="flex-1 min-w-0 text-right">
                     <span className="text-[9px] font-bold text-sky-200/90 uppercase tracking-wider block truncate">
-                      🏔️ Destino
+                      {selectedDirection === 'SUBIDA' ? '🏔️' : '📍'} Destino
                     </span>
                     {selectedDirection === 'SUBIDA' ? (
                       <div className="pt-0.5">{renderResortDropdown(true)}</div>
@@ -333,15 +333,14 @@ export default function Home() {
                   {/* Origen Box (Arriba) */}
                   <div className="bg-white/10 backdrop-blur-md rounded-2xl p-3 border border-white/20 space-y-1">
                     <span className="text-[10px] font-bold text-sky-200/90 uppercase tracking-wider block">
-                      📍 Origen (Salida)
+                      {selectedDirection === 'SUBIDA' ? '📍' : '🏔️'} Origen (Salida)
                     </span>
                     {selectedDirection === 'SUBIDA' ? (
                       <div className="text-sm font-extrabold text-white flex items-center gap-2 py-1">
                         <span>📍 Santiago (RM)</span>
                       </div>
                     ) : (
-                      <div className="space-y-1 pt-0.5">
-                        <div className="text-xs font-semibold text-sky-200">🏔️ Centro de Ski</div>
+                      <div className="pt-0.5">
                         {renderResortDropdown()}
                       </div>
                     )}
@@ -367,11 +366,10 @@ export default function Home() {
                   {/* Destino Box (Abajo) */}
                   <div className="bg-white/10 backdrop-blur-md rounded-2xl p-3 border border-white/20 space-y-1">
                     <span className="text-[10px] font-bold text-sky-200/90 uppercase tracking-wider block">
-                      🏔️ Destino (Llegada)
+                      {selectedDirection === 'SUBIDA' ? '🏔️' : '📍'} Destino (Llegada)
                     </span>
                     {selectedDirection === 'SUBIDA' ? (
-                      <div className="space-y-1 pt-0.5">
-                        <div className="text-xs font-semibold text-sky-200">🏔️ Centro de Ski</div>
+                      <div className="pt-0.5">
                         {renderResortDropdown()}
                       </div>
                     ) : (

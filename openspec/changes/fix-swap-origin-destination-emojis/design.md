@@ -26,6 +26,7 @@ En `src/app/page.tsx`, actualizar las etiquetas `<span>` de los encabezados tant
 - Mobile Destino: `{selectedDirection === 'SUBIDA' ? '🏔️' : '📍'} Destino`
 - Desktop Origen: `{selectedDirection === 'SUBIDA' ? '📍' : '🏔️'} Origen (Salida)`
 - Desktop Destino: `{selectedDirection === 'SUBIDA' ? '🏔️' : '📍'} Destino (Llegada)`
+- Se elimina el subtítulo redundante `🏔️ Centro de Ski` dentro de las cajas desktop para que quede limpio el encabezado con las opciones del desplegable.
 
 *Alternativa considerada*: Crear variables helper `originEmoji` y `destinationEmoji`. Condicionar inline en JSX es directo, claro y evita variables de estado redundantes.
 
