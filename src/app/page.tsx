@@ -278,7 +278,7 @@ export default function Home() {
           <aside className="lg:col-span-4 space-y-4">
             <div className="flex flex-col gap-3 lg:sticky lg:top-20 lg:min-h-[calc(100vh-120px)] lg:justify-start lg:gap-4">
               {/* Panel 1: Selector de Ruta (Horizontal Ultra-Compacto en Mobile / Vertical en Desktop) */}
-              <div data-tour="direction-switch" className="glass-card rounded-3xl p-3 sm:p-4 lg:p-5 space-y-2.5 lg:space-y-3.5">
+              <div data-tour="direction-switch" className="glass-card rounded-3xl p-3 sm:p-4 lg:p-5 space-y-2.5 lg:space-y-3.5 order-2 lg:order-1">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-black text-white uppercase tracking-wider flex items-center gap-1.5 drop-shadow-xs">
                     📍 Ruta de Viaje
@@ -384,7 +384,7 @@ export default function Home() {
               </div>
 
               {/* Panel 2: Botón Destacado de Publicar Viaje (Conductor) */}
-              <div className="glass-card rounded-3xl p-3.5 sm:p-4 lg:p-5 space-y-2.5 lg:space-y-3.5">
+              <div className="glass-card rounded-3xl p-3.5 sm:p-4 lg:p-5 space-y-2.5 lg:space-y-3.5 order-1 lg:order-2">
                 <div className="flex items-center justify-between text-xs font-bold text-white">
                   <span className="flex items-center gap-1.5 text-white font-black sm:text-sm">
                     <Sparkles className="w-4 h-4 text-[#38BDF8]" /> ¿Conduces a la cordillera?
