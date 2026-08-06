@@ -21,6 +21,14 @@ const dmSans = DM_Sans({
 export const metadata: Metadata = {
   title: "Quempo | Viajes Compartidos a la Cordillera",
   description: "Conecta viajes a Farellones, El Colorado, La Parva y Valle Nevado",
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico", sizes: "32x32" },
+    ],
+    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
+  },
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({

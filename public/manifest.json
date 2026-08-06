@@ -1,0 +1,26 @@
+{
+  "name": "Quempo - Viajes Compartidos a la Cordillera",
+  "short_name": "Quempo",
+  "description": "Conecta viajes a Farellones, El Colorado, La Parva y Valle Nevado",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0F172A",
+  "theme_color": "#1A447E",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "32x32",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/apple-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}
