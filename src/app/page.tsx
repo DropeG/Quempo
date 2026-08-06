@@ -10,16 +10,12 @@ import PublishModal from '@/components/PublishModal';
 import PublishSuccessModal from '@/components/PublishSuccessModal';
 import TripDetailModal from '@/components/TripDetailModal';
 import MyTripsDrawer from '@/components/MyTripsDrawer';
-import { useOnboardingTour } from '@/components/onboarding/useOnboardingTour';
-import OnboardingWelcomeModal from '@/components/onboarding/OnboardingWelcomeModal';
-import SpotlightTourOverlay from '@/components/onboarding/SpotlightTourOverlay';
 import { Mountain, Plus, Sparkles, ArrowUpDown, ArrowLeftRight } from 'lucide-react';
 
 export default function Home() {
   const supabase = createClient();
 
   const [user, setUser] = useState<User | null>(null);
-  const onboarding = useOnboardingTour(user);
   const [trips, setTrips] = useState<Trip[]>([]);
   const [loading, setLoading] = useState(true);
   const [isPublishModalOpen, setIsPublishModalOpen] = useState(false);
@@ -38,50 +34,12 @@ export default function Home() {
     return `${year}-${month}-${day}`;
   }, []);
 
-  // Demo trips for testing reputation & badges
-  const DEMO_TRIP = useMemo<Trip>(() => ({
-    id: 'demo-tour-trip',
-    user_id: 'demo-driver',
-    driver_name: 'Mateo (Conductor)',
-    driver_avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
-    whatsapp_number: '+56912345678',
-    instagram_handle: 'mateo_skier',
-    direction: 'SUBIDA',
-    origin: 'Santiago (RM)',
-    destination: 'FARELLONES',
-    departure_date: getTodayStr(),
-    departure_time: '07:30',
-    price_per_seat: 8000,
-    seats_available: 3,
-    has_4x4: true,
-    has_chains: true,
-    has_rack: true,
-    notes: 'Salgo temprano desde Los Domínicos. Llevo porta-skis para 4 pares y cadenas para la cordillera.',
-    created_at: new Date().toISOString(),
-  }), [getTodayStr]);
 
   const handleOpenNewPublish = useCallback(() => {
     setTripToEdit(null);
     setIsPublishModalOpen(true);
   }, []);
 
-  // Dynamic tour step change handler optimized for Option 1 inline mini-demos
-  const handleTourStepChange = useCallback((stepIndex: number) => {
-    setSelectedTrip(null);
-    setIsPublishModalOpen(false);
-  }, []);
-
-  const handleTourClose = useCallback(() => {
-    setSelectedTrip(null);
-    setIsPublishModalOpen(false);
-    onboarding.skipTour();
-  }, [onboarding]);
-
-  const handleTourFinish = useCallback(() => {
-    setSelectedTrip(null);
-    setIsPublishModalOpen(false);
-    onboarding.finishTour();
-  }, [onboarding]);
 
   // Filters state (Default date is Today)
   const [selectedDirection, setSelectedDirection] = useState<TripDirection | 'ALL'>('SUBIDA');
@@ -266,7 +224,6 @@ export default function Home() {
 
       {/* Navigation */}
       <Navbar
-        onRestartTour={onboarding.restartTour}
         onOpenMyTrips={() => setIsMyTripsOpen(true)}
         onProfileUpdated={fetchTrips}
       />
@@ -278,7 +235,7 @@ export default function Home() {
           <aside className="lg:col-span-4 space-y-4">
             <div className="flex flex-col gap-3 lg:sticky lg:top-20 lg:min-h-[calc(100vh-120px)] lg:justify-start lg:gap-4">
               {/* Panel 1: Selector de Ruta (Horizontal Ultra-Compacto en Mobile / Vertical en Desktop) */}
-              <div data-tour="direction-switch" className="glass-card rounded-3xl p-3 sm:p-4 lg:p-5 space-y-2.5 lg:space-y-3.5 order-2 lg:order-1">
+              <div className="glass-card rounded-3xl p-3 sm:p-4 lg:p-5 space-y-2.5 lg:space-y-3.5 order-2 lg:order-1">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-black text-white uppercase tracking-wider flex items-center gap-1.5 drop-shadow-xs">
                     📍 Ruta de Viaje
@@ -395,7 +352,6 @@ export default function Home() {
                   Publica tus asientos libres en 30 segundos y comparte gastos de combustible con esquiadores de la comunidad.
                 </p>
                 <button
-                  data-tour="publish-btn"
                   onClick={handleOpenNewPublish}
                   className="w-full inline-flex items-center justify-center gap-2 bg-[#38BDF8] hover:bg-[#0284C7] text-[#0F2942] hover:text-white font-black text-sm py-3 px-4 rounded-2xl shadow-md transition-all duration-200 cursor-pointer active:scale-95 border border-white/40 group"
                 >
@@ -426,7 +382,7 @@ export default function Home() {
               </div>
 
               {/* Tira de Mini-Tarjetas de Fecha */}
-              <div data-tour="date-filters" suppressHydrationWarning className="flex items-center gap-2 overflow-x-auto scrollbar-none py-1 px-0.5">
+              <div suppressHydrationWarning className="flex items-center gap-2 overflow-x-auto scrollbar-none py-1 px-0.5">
                 {/* Micro-Card 1: Todos los Días */}
                 <button
                   onClick={() => {
@@ -520,7 +476,7 @@ export default function Home() {
                   <div key={i} className="h-44 glass-card rounded-2xl animate-pulse" />
                 ))}
               </div>
-            ) : trips.length === 0 && !onboarding.isTourActive ? (
+            ) : trips.length === 0 ? (
               <div className="glass-card rounded-2xl p-8 text-center space-y-3 border border-white/30">
                 <Mountain className="w-10 h-10 text-[#38BDF8] mx-auto" />
                 <h3 className="text-sm font-bold text-white">No hay viajes disponibles para este dia</h3>
@@ -536,16 +492,8 @@ export default function Home() {
               </div>
             ) : (
               <div className="space-y-3">
-                {trips.length === 0 && onboarding.isTourActive && (
-                  <div className="glass-card rounded-2xl p-3 text-center border border-white/30">
-                    <div className="flex items-center justify-center gap-2 text-sky-200 text-xs font-bold">
-                      <Sparkles className="w-4 h-4 text-[#38BDF8]" />
-                      <span>Modo Tutorial: Mostrando viaje de ejemplo</span>
-                    </div>
-                  </div>
-                )}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {(trips.length > 0 ? trips : [DEMO_TRIP]).map((trip) => (
+                  {trips.map((trip) => (
                     <TripCard
                       key={trip.id}
                       trip={trip}
@@ -581,7 +529,6 @@ export default function Home() {
         defaultDirection={selectedDirection === 'ALL' ? 'SUBIDA' : selectedDirection}
         defaultDestination={selectedResort === 'ALL' ? 'FARELLONES' : selectedResort}
         defaultDate={filterDate}
-        isTourActive={onboarding.isTourActive}
         tripToEdit={tripToEdit}
       />
 
@@ -611,29 +558,9 @@ export default function Home() {
         trip={selectedTrip}
         currentUser={user}
         onDeleteTrip={handleDeleteTrip}
-        isTourActive={onboarding.isTourActive}
       />
 
-      {/* Onboarding Welcome Prompt (First Login) */}
-      <OnboardingWelcomeModal
-        isOpen={onboarding.showWelcomeModal}
-        onStartTour={onboarding.startTour}
-        onSkip={handleTourClose}
-        userName={user?.user_metadata?.full_name || user?.email}
-      />
 
-      {/* Spotlight Tour Overlay */}
-      <SpotlightTourOverlay
-        isActive={onboarding.isTourActive}
-        currentStep={onboarding.currentStep}
-        onNext={onboarding.nextStep}
-        onPrev={onboarding.prevStep}
-        onSkip={handleTourClose}
-        onFinish={handleTourFinish}
-        isCompleted={onboarding.isCompleted}
-        onCloseCompleted={onboarding.closeCompletionModal}
-        onStepChange={handleTourStepChange}
-      />
     </div>
   );
 }

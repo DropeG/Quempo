@@ -38,7 +38,6 @@ interface PublishModalProps {
   defaultDirection?: TripDirection;
   defaultDestination?: SkiResort;
   defaultDate?: string;
-  isTourActive?: boolean;
   tripToEdit?: Trip | null;
 }
 
@@ -50,7 +49,6 @@ export default function PublishModal({
   defaultDirection = 'SUBIDA',
   defaultDestination = 'FARELLONES',
   defaultDate = '',
-  isTourActive,
   tripToEdit,
 }: PublishModalProps) {
   const supabase = createClient();
@@ -303,9 +301,7 @@ export default function PublishModal({
   return (
     <div
       onClick={onClose}
-      className={`fixed inset-0 flex items-center justify-center p-3 sm:p-4 overflow-y-auto ${
-        isTourActive ? 'z-[220] bg-transparent pointer-events-none' : 'z-50 bg-slate-950/70 backdrop-blur-md'
-      }`}
+      className="fixed inset-0 flex items-center justify-center p-3 sm:p-4 overflow-y-auto z-50 bg-slate-950/70 backdrop-blur-md"
     >
       <div
         ref={modalRef}
@@ -313,7 +309,6 @@ export default function PublishModal({
         role="dialog"
         aria-modal="true"
         aria-labelledby="publish-modal-title"
-        data-tour="publish-modal-content"
         className="relative w-full max-w-lg glass-card rounded-3xl shadow-2xl p-5 sm:p-6 my-auto text-white pointer-events-auto border border-white/30 max-h-[85vh] flex flex-col overflow-hidden"
       >
         {/* Header */}

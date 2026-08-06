@@ -26,11 +26,10 @@ interface ProfileModalProps {
   isOpen: boolean;
   onClose: () => void;
   user: User | null;
-  onRestartTour?: () => void;
   onProfileUpdated?: () => void;
 }
 
-export default function ProfileModal({ isOpen, onClose, user, onRestartTour, onProfileUpdated }: ProfileModalProps) {
+export default function ProfileModal({ isOpen, onClose, user, onProfileUpdated }: ProfileModalProps) {
   const supabase = createClient();
 
   const [whatsappNumber, setWhatsappNumber] = useState('');
@@ -292,19 +291,7 @@ export default function ProfileModal({ isOpen, onClose, user, onRestartTour, onP
               )}
             </button>
 
-            {onRestartTour && (
-              <button
-                type="button"
-                onClick={() => {
-                  onClose();
-                  onRestartTour();
-                }}
-                className="w-full py-2.5 px-4 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/30 font-extrabold text-xs transition cursor-pointer flex items-center justify-center gap-2 mt-3 shadow-xs"
-              >
-                <Sparkles className="w-4 h-4 text-[#38BDF8]" />
-                <span>Ver tutorial de inicio (Replay)</span>
-              </button>
-            )}
+
           </form>
         </div>
       </div>

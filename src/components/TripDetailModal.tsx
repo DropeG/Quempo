@@ -28,7 +28,6 @@ interface TripDetailModalProps {
   trip: Trip | null;
   currentUser: User | null;
   onDeleteTrip: (tripId: string) => void;
-  isTourActive?: boolean;
 }
 
 const DESTINATION_NAMES: Record<string, string> = {
@@ -50,7 +49,6 @@ export default function TripDetailModal({
   trip,
   currentUser,
   onDeleteTrip,
-  isTourActive,
 }: TripDetailModalProps) {
   if (!isOpen || !trip) return null;
 
@@ -275,12 +273,9 @@ export default function TripDetailModal({
   return (
     <div
       onClick={onClose}
-      className={`fixed inset-0 flex items-center justify-center p-3 sm:p-4 animate-fadeIn ${
-        isTourActive ? 'z-[210] bg-transparent pointer-events-none' : 'z-50 bg-slate-950/70 backdrop-blur-md'
-      }`}
+      className="fixed inset-0 flex items-center justify-center p-3 sm:p-4 animate-fadeIn z-50 bg-slate-950/70 backdrop-blur-md"
     >
       <div
-        data-tour="trip-detail-modal"
         className="glass-card w-full max-w-lg rounded-3xl overflow-hidden relative flex flex-col text-white pointer-events-auto shadow-2xl border border-white/30 max-h-[82vh]"
         onClick={(e) => e.stopPropagation()}
       >
@@ -501,7 +496,6 @@ export default function TripDetailModal({
           )}
 
           <a
-            data-tour="whatsapp-btn"
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
