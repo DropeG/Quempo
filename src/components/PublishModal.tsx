@@ -500,7 +500,7 @@ export default function PublishModal({
                     min={todayStr}
                     value={departureDate}
                     onChange={(e) => setDepartureDate(e.target.value)}
-                    className="w-full bg-slate-900/60 border border-white/30 rounded-xl pl-7 sm:pl-8 pr-1 sm:pr-3 py-2 text-xs text-white focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-[#38BDF8]/40 font-bold min-w-0"
+                    className="w-full bg-slate-900/60 border border-white/30 rounded-xl pl-6 sm:pl-7 pr-1 sm:pr-3 py-2 text-xs text-white focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-[#38BDF8]/40 font-bold min-w-0"
                   />
                 </div>
               </div>
@@ -514,7 +514,7 @@ export default function PublishModal({
                     type="time"
                     value={departureTime}
                     onChange={(e) => setDepartureTime(e.target.value)}
-                    className="w-full bg-slate-900/60 border border-white/30 rounded-xl pl-7 sm:pl-8 pr-1 sm:pr-3 py-2 text-xs text-white focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-[#38BDF8]/40 font-bold min-w-0"
+                    className="w-full bg-slate-900/60 border border-white/30 rounded-xl pl-6 sm:pl-7 pr-1 sm:pr-3 py-2 text-xs text-white focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-[#38BDF8]/40 font-bold min-w-0"
                   />
                 </div>
               </div>
@@ -551,7 +551,7 @@ export default function PublishModal({
                         else setSeatsAvailable(num);
                       }
                     }}
-                    className="w-full bg-slate-900/60 border border-white/30 rounded-xl pl-7 sm:pl-8 pr-2 sm:pr-3 py-2 text-xs text-white focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-[#38BDF8]/40 font-bold min-w-0"
+                    className="w-full bg-slate-900/60 border border-white/30 rounded-xl pl-6 sm:pl-7 pr-2 sm:pr-3 py-2 text-xs text-white focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-[#38BDF8]/40 font-bold min-w-0"
                   />
                 </div>
               </div>
@@ -570,7 +570,7 @@ export default function PublishModal({
                     placeholder="10000"
                     value={pricePerSeat}
                     onChange={(e) => setPricePerSeat(e.target.value)}
-                    className="w-full bg-slate-900/60 border border-white/30 rounded-xl pl-7 sm:pl-8 pr-2 sm:pr-3 py-2 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-[#38BDF8]/40 font-bold min-w-0"
+                    className="w-full bg-slate-900/60 border border-white/30 rounded-xl pl-6 sm:pl-7 pr-2 sm:pr-3 py-2 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-[#38BDF8]/40 font-bold min-w-0"
                   />
                 </div>
               </div>
