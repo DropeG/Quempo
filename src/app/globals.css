@@ -202,12 +202,22 @@ body {
   background: rgba(56, 189, 248, 0.8);
 }
 
-/* Fix iOS WebKit Safari Date & Time Native Inputs Internal Shadow DOM Alignment */
+/* Fix iOS WebKit Safari Date & Time Native Inputs Internal Shadow DOM Alignment & Capsule Pill Overlap */
+input[type="date"],
+input[type="time"] {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
 input[type="date"]::-webkit-date-and-time-value,
 input[type="time"]::-webkit-date-and-time-value {
   text-align: left;
   min-height: 1em;
+  background: transparent;
+  margin: 0;
+  padding: 0;
 }
+
 
 
 

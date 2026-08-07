@@ -172,7 +172,14 @@ export default function PublishModal({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user) return;
+    if (!user) {
+      if (process.env.NODE_ENV !== 'production') {
+        onTripPublished(undefined);
+        onClose();
+        return;
+      }
+      return;
+    }
     setError('');
 
     if (!origin.trim()) {
@@ -304,8 +311,8 @@ export default function PublishModal({
           </button>
         </div>
 
-        {/* Require Auth State */}
-        {!user ? (
+        {/* Require Auth State (Only enforced in Production) */}
+        {!user && process.env.NODE_ENV === 'production' ? (
           <div className="py-8 text-center space-y-4 flex-1 overflow-y-auto custom-scrollbar">
             <div className="w-12 h-12 rounded-2xl bg-sky-400/20 text-[#38BDF8] mx-auto flex items-center justify-center border border-sky-300/40 shadow-sm backdrop-blur-xs">
               <ShieldCheck className="w-6 h-6 text-[#38BDF8]" />
