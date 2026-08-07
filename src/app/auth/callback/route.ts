@@ -20,6 +20,7 @@ export async function GET(request: Request) {
     }
   }
 
-  return NextResponse.redirect(`${requestUrl.origin}`);
+  const next = requestUrl.searchParams.get('next') || '/';
+  return NextResponse.redirect(`${requestUrl.origin}${next}`);
 }
 

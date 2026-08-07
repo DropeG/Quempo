@@ -1,20 +1,33 @@
-import Link from 'next/link';
-import { MessageCircle, HelpCircle, FileText, Mountain } from 'lucide-react';
+'use client';
 
-const COMMUNITY_WHATSAPP_URL = process.env.NEXT_PUBLIC_WHATSAPP_GROUP_URL || 'https://chat.whatsapp.com/ESElGo2ZznuJoFw66kmp4r';
-const ADMIN_WHATSAPP_URL = 'https://wa.me/56959365527?text=Hola%20Quempo,%20tengo%20una%20consulta';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { MessageCircle, HelpCircle, FileText } from 'lucide-react';
+
+const COMMUNITY_WHATSAPP_URL =
+  process.env.NEXT_PUBLIC_WHATSAPP_GROUP_URL ||
+  'https://chat.whatsapp.com/ESElGo2ZznuJoFw66kmp4r';
+const ADMIN_WHATSAPP_URL =
+  'https://wa.me/56959365527?text=Hola%20Quempo,%20tengo%20una%20consulta';
 
 export default function Footer() {
+  const pathname = usePathname();
+
+  // Do not render footer on admin routes
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
+
   return (
     <footer className="w-full mt-auto bg-[#071321]/80 backdrop-blur-xl border-t border-white/15 text-white py-6 px-4 sm:px-6">
       <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
-        
         {/* Brand / Logo */}
         <div className="flex items-center gap-2">
-          <img 
-            src="/logo/logo_quempo.svg" 
-            alt="Quempo Logo" 
-            className="h-7 w-auto object-contain shrink-0 drop-shadow-sm" 
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/logo/logo_quempo.svg"
+            alt="Quempo Logo"
+            className="h-7 w-auto object-contain shrink-0 drop-shadow-sm"
           />
           <span className="font-jakarta font-extrabold text-lg text-white tracking-tight">
             Quempo
@@ -23,7 +36,7 @@ export default function Footer() {
 
         {/* Links Navigation */}
         <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-xs sm:text-sm font-semibold text-slate-300">
-          <a 
+          <a
             href={COMMUNITY_WHATSAPP_URL}
             target="_blank"
             rel="noopener noreferrer"
@@ -33,7 +46,7 @@ export default function Footer() {
             <span>Grupo de WhatsApp</span>
           </a>
 
-          <a 
+          <a
             href={ADMIN_WHATSAPP_URL}
             target="_blank"
             rel="noopener noreferrer"
@@ -43,8 +56,8 @@ export default function Footer() {
             <span>Contacto</span>
           </a>
 
-          <Link 
-            href="/terminos" 
+          <Link
+            href="/terminos"
             className="flex items-center gap-1.5 hover:text-sky-300 transition-colors"
           >
             <FileText className="w-4 h-4 text-sky-400" />
