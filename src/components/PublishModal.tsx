@@ -6,21 +6,6 @@ import { User } from '@supabase/supabase-js';
 import { Trip, TripDirection, SkiResort } from '@/types/trip';
 import { X, Calendar, Clock, MapPin, DollarSign, Users, ShieldCheck, Car, Check, LogIn } from 'lucide-react';
 
-const InstagramIcon = ({ className = "w-3.5 h-3.5" }: { className?: string }) => (
-  <svg
-    className={className}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
-    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
-  </svg>
-);
 
 const CITY_LOCATION_PRESETS = [
   'Shell Farellones',
@@ -64,7 +49,7 @@ export default function PublishModal({
   const [hasChains, setHasChains] = useState(true);
   const [hasRack, setHasRack] = useState(false);
   const [whatsappNumber, setWhatsappNumber] = useState('');
-  const [instagramHandle, setInstagramHandle] = useState('');
+  const [profileInstagramHandle, setProfileInstagramHandle] = useState<string | null>(null);
   const [notes, setNotes] = useState('');
 
   const [submitting, setSubmitting] = useState(false);
@@ -135,7 +120,7 @@ export default function PublishModal({
       setHasChains(tripToEdit.has_chains);
       setHasRack(tripToEdit.has_rack);
       setWhatsappNumber(tripToEdit.whatsapp_number);
-      setInstagramHandle(tripToEdit.instagram_handle || '');
+      setProfileInstagramHandle(tripToEdit.instagram_handle || null);
       setNotes(tripToEdit.notes || '');
     } else {
       setDirection(defaultDirection);
@@ -152,9 +137,9 @@ export default function PublishModal({
     }
   }, [isOpen, tripToEdit, defaultDirection, defaultDestination, defaultDate]);
 
-  // Auto-fill WhatsApp & Instagram from profile when modal opens if creating new
+  // Auto-fill WhatsApp & inherit Instagram from profile when modal opens
   useEffect(() => {
-    if (!isOpen || !user || tripToEdit) return;
+    if (!isOpen || !user) return;
 
     const fetchProfileContact = async () => {
       try {
@@ -165,8 +150,8 @@ export default function PublishModal({
           .maybeSingle();
 
         if (profile) {
-          if (profile.whatsapp_number) setWhatsappNumber(profile.whatsapp_number);
-          if (profile.instagram_handle) setInstagramHandle(profile.instagram_handle);
+          if (!tripToEdit && profile.whatsapp_number) setWhatsappNumber(profile.whatsapp_number);
+          if (profile.instagram_handle) setProfileInstagramHandle(profile.instagram_handle);
         }
       } catch (err) {
         console.error('Error fetching profile contact:', err);
@@ -210,19 +195,11 @@ export default function PublishModal({
     // Clean phone number (keep digits and optional plus)
     const cleanPhone = whatsappNumber.replace(/[^0-9+]/g, '');
 
-    // Clean instagram handle (remove @, url prefixes, query params)
-    const cleanInstagram = instagramHandle
-      .trim()
-      .replace(/^https?:\/\/(www\.)?instagram\.com\//i, '')
-      .replace(/^instagram\.com\//i, '')
-      .replace(/^@+/, '')
-      .split('/')[0]
-      .split('?')[0];
-
     setSubmitting(true);
 
     try {
       let savedTrip: Trip | null = null;
+      const inheritedInstagram = profileInstagramHandle || tripToEdit?.instagram_handle || null;
 
       if (tripToEdit) {
         const { data: updatedData, error: updateError } = await supabase
@@ -240,7 +217,7 @@ export default function PublishModal({
             has_rack: hasRack,
             notes: notes.trim() || null,
             whatsapp_number: cleanPhone,
-            instagram_handle: cleanInstagram || null,
+            instagram_handle: inheritedInstagram,
           })
           .eq('id', tripToEdit.id)
           .eq('user_id', user.id)
@@ -268,7 +245,7 @@ export default function PublishModal({
             has_rack: hasRack,
             notes: notes.trim() || null,
             whatsapp_number: cleanPhone,
-            instagram_handle: cleanInstagram || null,
+            instagram_handle: inheritedInstagram,
           })
           .select()
           .single();
@@ -283,7 +260,7 @@ export default function PublishModal({
         full_name: user.user_metadata?.full_name || user.email?.split('@')[0] || 'Conductor',
         avatar_url: user.user_metadata?.avatar_url || null,
         whatsapp_number: cleanPhone,
-        instagram_handle: cleanInstagram || null,
+        ...(inheritedInstagram ? { instagram_handle: inheritedInstagram } : {}),
         updated_at: new Date().toISOString(),
       });
 
@@ -301,7 +278,7 @@ export default function PublishModal({
   return (
     <div
       onClick={onClose}
-      className="fixed inset-0 flex items-center justify-center p-3 sm:p-4 overflow-y-auto z-50 bg-slate-950/70 backdrop-blur-md"
+      className="fixed inset-0 overscroll-x-none touch-pan-y flex items-center justify-center p-3 sm:p-4 overflow-y-auto z-50 bg-slate-950/70 backdrop-blur-md"
     >
       <div
         ref={modalRef}
@@ -636,23 +613,6 @@ export default function PublishModal({
               />
             </div>
 
-            {/* Instagram (Opcional) */}
-            <div>
-              <label htmlFor="publish-instagram" className="block text-xs font-bold text-sky-200 mb-1 flex items-center gap-1.5">
-                <InstagramIcon className="w-3.5 h-3.5 text-[#38BDF8]" /> Usuario de Instagram <span className="text-slate-300 font-normal">(Opcional)</span>
-              </label>
-              <div className="relative">
-                <span className="absolute left-3 top-2 text-xs text-slate-400 font-semibold">@</span>
-                <input
-                  id="publish-instagram"
-                  type="text"
-                  placeholder="usuario_instagram"
-                  value={instagramHandle}
-                  onChange={(e) => setInstagramHandle(e.target.value)}
-                  className="w-full bg-slate-900/60 border border-white/30 rounded-xl pl-7 pr-3 py-2 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-[#38BDF8]/40 font-bold"
-                />
-              </div>
-            </div>
 
             {/* Notas opcionales */}
             <div>

@@ -4,11 +4,15 @@
 TBD - created by archiving change add-instagram-driver-profile. Update Purpose after archive.
 ## Requirements
 ### Requirement: Captura de Instagram al Publicar Viaje
-El formulario de publicar viaje (`PublishModal`) SHALL incluir un campo opcional para ingresar el usuario de Instagram del conductor. El sistema MUST sanitizar la entrada removiendo el símbolo `@` inicial, espacios y cualquier prefijo de URL `https://instagram.com/`.
+El formulario de publicar viaje (`PublishModal`) NO SHALL incluir un campo de entrada para el usuario de Instagram. En su lugar, el sistema MUST obtener y asociar automáticamente el `instagram_handle` registrado en el perfil del usuario (`profiles.instagram_handle`) al insertar o actualizar un viaje en la base de datos.
 
-#### Scenario: Usuario ingresa handle con @ o URL completa
-- **WHEN** el conductor ingresa `@pedro_skier` o `https://www.instagram.com/pedro_skier/` en el campo de Instagram
-- **THEN** el sistema debe almacenar únicamente `pedro_skier` en la base de datos de Supabase.
+#### Scenario: Publicación de viaje por usuario con Instagram en su perfil
+- **WHEN** un usuario que tiene su Instagram registrado en su perfil guarda un nuevo viaje
+- **THEN** el viaje se registra asignando automáticamente su `instagram_handle` desde el perfil sin mostrar ningún campo de Instagram en el modal.
+
+#### Scenario: Publicación de viaje por usuario sin Instagram en su perfil
+- **WHEN** un usuario que no tiene su Instagram registrado en su perfil guarda un nuevo viaje
+- **THEN** el viaje se registra con `instagram_handle` en nulo sin solicitar información de Instagram en el formulario.
 
 ### Requirement: Visualización de Instagram en el Modal de Detalle
 El modal de detalles del viaje (`TripDetailModal`) SHALL mostrar el ícono de Instagram a la derecha del nombre del conductor únicamente si el viaje posee un `instagram_handle` válido registrado.

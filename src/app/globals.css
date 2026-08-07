@@ -202,6 +202,14 @@ body {
   background: rgba(56, 189, 248, 0.8);
 }
 
+/* Fix iOS WebKit Safari Date & Time Native Inputs Internal Shadow DOM Alignment */
+input[type="date"]::-webkit-date-and-time-value,
+input[type="time"]::-webkit-date-and-time-value {
+  text-align: left;
+  min-height: 1em;
+}
+
+
 
 
 
