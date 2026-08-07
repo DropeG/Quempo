@@ -4,7 +4,7 @@
 Permitir a los conductores publicar viajes compartidos a la cordillera.
 ## Requirements
 ### Requirement: Dynamic direction selection and origin/destination behavior
-The trip publishing form SHALL allow selecting only between SUBIDA and BAJADA directions, dynamically updating the origin and destination inputs based on the selected direction.
+The trip publishing form SHALL allow selecting only between SUBIDA and BAJADA directions, dynamically updating the origin and destination inputs based on the selected direction. In mobile viewports (< 640px / sm breakpoint), direction buttons SHALL render compact labels ("⬆️ Subida" and "⬇️ Bajada") omitting full route subtitles to optimize horizontal space.
 
 #### Scenario: User selects Subida
 - **WHEN** the driver selects "Subida"
@@ -17,6 +17,17 @@ The trip publishing form SHALL allow selecting only between SUBIDA and BAJADA di
 #### Scenario: Absence of Round Trip option
 - **WHEN** the driver views the trip publishing form
 - **THEN** the "Ida y Vuelta" button is not visible.
+
+#### Scenario: Mobile direction button label compactness
+- **WHEN** the driver views the trip publishing form on mobile viewports (< 640px)
+- **THEN** the Subida and Bajada buttons display simplified text ("⬆️ Subida" and "⬇️ Bajada") without trailing "(Santiago ➔ Ski)" route subtitles.
+
+### Requirement: Horizontal overflow containment in Publish Modal
+The trip publishing modal container and form elements SHALL strictly prevent horizontal scrolling and content clipping on mobile viewports down to 320px screen width.
+
+#### Scenario: Rendering PublishModal on narrow mobile screens
+- **WHEN** a user opens the publish modal on a mobile screen width between 320px and 400px
+- **THEN** the modal form fits within 100% of the viewport width without triggering horizontal scrollbars, equipment options shrink or wrap cleanly using `min-w-0`, and form inputs adapt fluidly.
 
 ### Requirement: Single-row horizontal layout for vehicle equipment
 The trip publishing form SHALL render vehicle equipment options (4x4, Chains, Rack) in a single-row 3-column grid layout without text wrapping to a second line.
@@ -56,4 +67,3 @@ The trip publishing form SHALL ensure that the "Asientos Disponibles" input fiel
 #### Scenario: User clears seat input
 - **WHEN** the driver clears the content of the "Asientos Disponibles" field
 - **THEN** the input handles empty state gracefully without sticking at `0` or resulting in double digits upon typing next input.
-
