@@ -4,10 +4,10 @@
 TBD - created by archiving change remove-instagram-from-trip-share. Update Purpose after archive.
 ## Requirements
 ### Requirement: Simplified Trip Sharing Options
-The system SHALL provide simplified trip sharing options in the trip detail modal (`TripDetailModal`), containing exclusively the options to share to a WhatsApp group and copy the trip link.
+El sistema SHALL proveer opciones simplificadas de compartir viaje y generar un mensaje formateado para WhatsApp que use "Publicado en:" antes del enlace del sitio oficial.
 
 #### Scenario: Display share options in trip detail modal
-- **WHEN** a user opens the trip detail modal
-- **THEN** the "Compartir & Difundir Viaje" section SHALL display only "En Grupo WhatsApp" and "Copiar Link" buttons in a balanced 2-column responsive layout
-- **THEN** no option for downloading an Instagram Story or Instagram story branding SHALL be present in the share section
+- **WHEN** un usuario difunde un viaje a WhatsApp desde el modal de éxito o detalle de viaje
+- **THEN** el mensaje generado incluye la llamada a la acción con el formato `👉 *Publicado en:* https://quempo-gilt.vercel.app/` en lugar de "Reservar o contactar"
+- **THEN** la sección "Compartir & Difundir Viaje" muestra los botones "En Grupo WhatsApp" y "Copiar Link" en un diseño responsivo sin marcas ni descargas de Instagram Story
 

@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/client';
 import { User } from '@supabase/supabase-js';
 import { X, Car, Phone, Check, AlertCircle, Loader2, Sparkles } from 'lucide-react';
 import UserAvatar from './UserAvatar';
+import PhoneInput from './PhoneInput';
 
 const InstagramIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
   <svg
@@ -33,6 +34,7 @@ export default function ProfileModal({ isOpen, onClose, user, onProfileUpdated }
   const supabase = createClient();
 
   const [whatsappNumber, setWhatsappNumber] = useState('');
+  const [isPhoneValid, setIsPhoneValid] = useState(false);
   const [instagramHandle, setInstagramHandle] = useState('');
   const [tripsCount, setTripsCount] = useState<number | null>(null);
 
@@ -101,8 +103,12 @@ export default function ProfileModal({ isOpen, onClose, user, onProfileUpdated }
     setSuccessMessage('');
     setErrorMessage('');
 
-    // Clean phone number
-    const cleanPhone = whatsappNumber.replace(/[^0-9+]/g, '');
+    if (!whatsappNumber.trim() || !isPhoneValid) {
+      setErrorMessage('Por favor ingresa un número de WhatsApp válido.');
+      return;
+    }
+
+    const cleanPhone = whatsappNumber;
 
     // Clean instagram handle
     const cleanInstagram = instagramHandle
@@ -226,22 +232,14 @@ export default function ProfileModal({ isOpen, onClose, user, onProfileUpdated }
               <label className="block text-xs font-bold text-sky-200 mb-1.5">
                 Número de WhatsApp (Contacto)
               </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                  <Phone className="w-4 h-4 text-[#38BDF8]" />
-                </div>
-                <input
-                  type="text"
-                  value={whatsappNumber}
-                  onChange={(e) => setWhatsappNumber(e.target.value)}
-                  placeholder="+56 9 1234 5678"
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-900/60 border border-white/30 text-white placeholder-slate-400 text-xs sm:text-sm focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-[#38BDF8]/40 transition font-bold"
-                  required
-                />
-              </div>
-              <p className="text-[11px] text-slate-300 mt-1 font-medium">
-                Se guardará para rellenarse automáticamente al publicar nuevos viajes.
-              </p>
+              <PhoneInput
+                id="profile-whatsapp"
+                value={whatsappNumber}
+                onChange={(normalized, isValid) => {
+                  setWhatsappNumber(normalized);
+                  setIsPhoneValid(isValid);
+                }}
+              />
             </div>
 
             <div>

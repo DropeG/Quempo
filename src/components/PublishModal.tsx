@@ -5,6 +5,8 @@ import { createClient } from '@/lib/supabase/client';
 import { User } from '@supabase/supabase-js';
 import { Trip, TripDirection, SkiResort } from '@/types/trip';
 import { X, Calendar, Clock, MapPin, DollarSign, Users, ShieldCheck, Car, Check, LogIn } from 'lucide-react';
+import PhoneInput from './PhoneInput';
+import { validateAndNormalizePhone, formatPhoneInput } from '@/lib/phoneUtils';
 
 
 const CITY_LOCATION_PRESETS = [
@@ -49,6 +51,7 @@ export default function PublishModal({
   const [hasChains, setHasChains] = useState(true);
   const [hasRack, setHasRack] = useState(false);
   const [whatsappNumber, setWhatsappNumber] = useState('');
+  const [isPhoneValid, setIsPhoneValid] = useState(false);
   const [profileInstagramHandle, setProfileInstagramHandle] = useState<string | null>(null);
   const [notes, setNotes] = useState('');
 
@@ -194,13 +197,12 @@ export default function PublishModal({
       setError('La fecha del viaje no puede ser en el pasado.');
       return;
     }
-    if (!whatsappNumber.trim()) {
-      setError('Por favor ingresa tu número de WhatsApp.');
+    if (!whatsappNumber.trim() || !isPhoneValid) {
+      setError('Por favor ingresa un número de WhatsApp válido.');
       return;
     }
 
-    // Clean phone number (keep digits and optional plus)
-    const cleanPhone = whatsappNumber.replace(/[^0-9+]/g, '');
+    const cleanPhone = whatsappNumber;
 
     setSubmitting(true);
 
@@ -610,13 +612,13 @@ export default function PublishModal({
               <label htmlFor="publish-whatsapp" className="block text-xs font-bold text-sky-200 mb-1">
                 Número de WhatsApp (para coordinar)
               </label>
-              <input
+              <PhoneInput
                 id="publish-whatsapp"
-                type="tel"
-                placeholder="+56912345678"
                 value={whatsappNumber}
-                onChange={(e) => setWhatsappNumber(e.target.value)}
-                className="w-full bg-slate-900/60 border border-white/30 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-[#38BDF8]/40 font-bold"
+                onChange={(normalized, isValid) => {
+                  setWhatsappNumber(normalized);
+                  setIsPhoneValid(isValid);
+                }}
               />
             </div>
 
