@@ -57,10 +57,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title,
       description,
       type: 'website',
-      url: `https://quempo.cl/v/${id}`,
+      url: `https://quempo.tech/v/${id}`,
       images: [
         {
-          url: 'https://quempo.cl/plomo/desktop/plomoDesktop2.webp',
+          url: 'https://quempo.tech/plomo/desktop/plomoDesktop2.webp',
           width: 1200,
           height: 630,
           alt: 'Quempo - Carpooling a Farellones y centros de ski',

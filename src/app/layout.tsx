@@ -19,8 +19,10 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://quempo.tech"),
   title: "Quempo | Viajes Compartidos a la Cordillera",
-  description: "Conecta viajes a Farellones, El Colorado, La Parva y Valle Nevado",
+  description: "Conecta viajes a Farellones, El Colorado, La Parva y Valle Nevado. Rápido, directo por WhatsApp y sin comisiones.",
+  keywords: ["carpool ski", "carpooling farellones", "valle nevado subida", "el colorado viajes", "quempo cordillera"],
   icons: {
     icon: [
       { url: "/icon.svg", type: "image/svg+xml" },
@@ -31,6 +33,28 @@ export const metadata: Metadata = {
     ],
   },
   manifest: "/manifest.json",
+  openGraph: {
+    title: "Quempo 🏔️ | Carpooling a la Cordillera",
+    description: "Encuentra u ofrece cupos a Farellones, El Colorado, La Parva y Valle Nevado. Contacto directo por WhatsApp en 2 segundos.",
+    url: "https://quempo.tech",
+    siteName: "Quempo",
+    locale: "es_CL",
+    type: "website",
+    images: [
+      {
+        url: "/plomo/desktop/plomoDesktop2.webp",
+        width: 1200,
+        height: 630,
+        alt: "Quempo - Viajes Compartidos a la Cordillera",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Quempo 🏔️ | Viajes Compartidos a la Cordillera",
+    description: "Encuentra u ofrece cupos a Farellones, El Colorado, La Parva y Valle Nevado.",
+    images: ["/plomo/desktop/plomoDesktop2.webp"],
+  },
 };
 
 export default function RootLayout({

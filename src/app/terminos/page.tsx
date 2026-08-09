@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { ArrowLeft, ShieldCheck, Users, Lock, Mountain, HeartHandshake } from 'lucide-react';
-import Navbar from '@/components/Navbar';
 
 export const metadata = {
   title: 'Términos y Privacidad | Quempo',
@@ -10,19 +9,34 @@ export const metadata = {
 export default function TerminosPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#0B1E36] via-[#091728] to-[#050C15] text-white flex flex-col">
-      <Navbar />
+      {/* Sticky Dedicated Glassmorphism Header */}
+      <header className="sticky top-0 z-50 bg-[#091a2c]/85 backdrop-blur-xl border-b border-white/10 shadow-lg">
+        <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
+          {/* Brand Logo & Name */}
+          <Link href="/" className="flex items-center gap-2.5 group">
+            <img
+              src="/logo/logo_quempo.svg"
+              alt="Quempo Logo"
+              className="h-10 sm:h-12 w-auto object-contain drop-shadow-md shrink-0 transition-transform group-hover:scale-105"
+            />
+            <span className="font-jakarta font-extrabold text-xl sm:text-2xl tracking-tight text-white flex items-center gap-0.5 leading-none drop-shadow-md">
+              Quempo
+            </span>
+          </Link>
 
-      <main className="flex-1 max-w-4xl mx-auto px-4 py-8 sm:py-12 w-full">
-        {/* Back Link */}
-        <div className="mb-6">
+          {/* Back Button */}
           <Link
             href="/"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-xs sm:text-sm font-bold text-white transition-all backdrop-blur-md"
+            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-xs sm:text-sm font-bold text-white transition-all backdrop-blur-md active:scale-95"
           >
             <ArrowLeft className="w-4 h-4 text-sky-400" />
             <span>Volver a Quempo</span>
           </Link>
         </div>
+      </header>
+
+      <main className="flex-1 max-w-4xl mx-auto px-4 py-8 sm:py-12 w-full">
+
 
         {/* Hero Card */}
         <div className="bg-[#091a2c]/90 backdrop-blur-xl border border-white/20 rounded-3xl p-6 sm:p-10 shadow-2xl space-y-8">

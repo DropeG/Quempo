@@ -1,9 +1,5 @@
-# legal-terms Specification
+## MODIFIED Requirements
 
-## Purpose
-Establecer y garantizar la presentación clara, accesible y sin solapamientos visuales de la página de términos de servicio y políticas de privacidad en `/terminos`.
-
-## Requirements
 ### Requirement: Accessible Legal Terms Page
 The system SHALL provide a dedicated `/terminos` page detailing the terms of service and privacy practices of Quempo with a dedicated glassmorphism sticky header that includes a button to return to the main page and prevents text scroll overlap.
 
