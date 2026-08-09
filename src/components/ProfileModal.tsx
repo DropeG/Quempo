@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { User } from '@supabase/supabase-js';
-import { X, Car, Phone, Check, AlertCircle, Loader2, Sparkles } from 'lucide-react';
+import { X, Car, Phone, Check, AlertCircle, Loader2, Sparkles, Bug } from 'lucide-react';
 import UserAvatar from './UserAvatar';
 import PhoneInput from './PhoneInput';
 
@@ -28,9 +28,10 @@ interface ProfileModalProps {
   onClose: () => void;
   user: User | null;
   onProfileUpdated?: () => void;
+  onOpenFeedback?: () => void;
 }
 
-export default function ProfileModal({ isOpen, onClose, user, onProfileUpdated }: ProfileModalProps) {
+export default function ProfileModal({ isOpen, onClose, user, onProfileUpdated, onOpenFeedback }: ProfileModalProps) {
   const supabase = createClient();
 
   const [whatsappNumber, setWhatsappNumber] = useState('');
@@ -288,9 +289,31 @@ export default function ProfileModal({ isOpen, onClose, user, onProfileUpdated }
                 <span>Guardar Perfil</span>
               )}
             </button>
-
-
           </form>
+
+          {/* Feedback Section */}
+          <div className="pt-2 border-t border-white/15">
+            <div className="p-3.5 rounded-2xl bg-white/5 border border-white/15 flex items-center justify-between gap-3">
+              <div className="flex items-center gap-2.5">
+                <Bug className="w-4 h-4 text-sky-400 shrink-0" />
+                <div>
+                  <div className="text-xs font-bold text-white">¿Encontraste un problema?</div>
+                  <div className="text-[11px] text-sky-200">Envíanos tu feedback o reporte de error</div>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  onClose();
+                  if (onOpenFeedback) onOpenFeedback();
+                  window.dispatchEvent(new CustomEvent('open-quempo-feedback'));
+                }}
+                className="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold text-sky-300 border border-sky-300/30 transition cursor-pointer shrink-0"
+              >
+                Reportar
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

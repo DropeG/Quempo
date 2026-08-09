@@ -18,22 +18,41 @@ export interface PhoneInputProps {
 }
 
 export default function PhoneInput({ value, onChange, id = 'whatsapp-phone-input', errorText }: PhoneInputProps) {
-  const [selectedCountryCode, setSelectedCountryCode] = useState<string>(DEFAULT_COUNTRY_CODE);
-  const [localNumber, setLocalNumber] = useState<string>('');
+  const initialParsed = parseStoredPhone(value);
+  const [selectedCountryCode, setSelectedCountryCode] = useState<string>(initialParsed.countryCode);
+  const [localNumber, setLocalNumber] = useState<string>(initialParsed.localNumber);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isInitialized, setIsInitialized] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
+  const prevValueRef = useRef<string>(value);
 
-  // Initialize state once from parent value
+  // Sync state whenever prop `value` updates asynchronously from parent (e.g. Supabase profile fetch)
   useEffect(() => {
-    if (!isInitialized) {
-      const parsed = parseStoredPhone(value);
-      setSelectedCountryCode(parsed.countryCode);
-      setLocalNumber(parsed.localNumber);
-      setIsInitialized(true);
+    if (prevValueRef.current !== value) {
+      const currentValidation = validatePhoneInput(selectedCountryCode, localNumber);
+      const currentNormalized = currentValidation.isValid ? currentValidation.normalized : localNumber;
+
+      if (value !== currentNormalized) {
+        const parsed = parseStoredPhone(value);
+        setSelectedCountryCode(parsed.countryCode);
+        setLocalNumber(parsed.localNumber);
+
+        const result = validatePhoneInput(parsed.countryCode, parsed.localNumber);
+        onChange(result.isValid ? result.normalized : parsed.localNumber, result.isValid);
+      }
+      prevValueRef.current = value;
     }
-  }, [value, isInitialized]);
+  }, [value, selectedCountryCode, localNumber, onChange]);
+
+  // Sync validation status on initial mount if value is already populated
+  useEffect(() => {
+    if (value) {
+      const parsed = parseStoredPhone(value);
+      const result = validatePhoneInput(parsed.countryCode, parsed.localNumber);
+      onChange(result.isValid ? result.normalized : parsed.localNumber, result.isValid);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Click outside & Escape key handler to close dropdown
   useEffect(() => {
@@ -96,12 +115,12 @@ export default function PhoneInput({ value, onChange, id = 'whatsapp-phone-input
         <button
           type="button"
           onClick={() => setIsDropdownOpen((prev) => !prev)}
-          className="flex items-center gap-1.5 px-3 py-2.5 bg-slate-800/90 hover:bg-slate-800 border border-white/30 border-r-0 rounded-l-xl text-xs sm:text-sm font-bold text-white transition shrink-0 focus:outline-none focus:ring-2 focus:ring-[#38BDF8]/40"
+          className="flex items-center gap-1.5 px-3 py-2.5 bg-slate-800/90 hover:bg-slate-800 border border-white/30 border-r-0 rounded-l-xl text-base sm:text-xs font-bold text-white transition shrink-0 focus:outline-none focus:ring-2 focus:ring-[#38BDF8]/40"
           aria-expanded={isDropdownOpen}
           aria-label="Seleccionar país"
         >
           <span className="text-base leading-none">{currentCountry.flag}</span>
-          <span className="text-sky-200 font-semibold">{currentCountry.dialCode}</span>
+          <span className="text-sky-200 font-semibold text-base sm:text-xs">{currentCountry.dialCode}</span>
           <ChevronDown className={`w-3.5 h-3.5 text-slate-400 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
         </button>
 

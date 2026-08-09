@@ -3,17 +3,17 @@
 import { useEffect, useState, useRef } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { User as SupabaseUser } from '@supabase/supabase-js';
-import { Mountain, LogIn, LogOut, User as UserIcon, ChevronDown, Car } from 'lucide-react';
+import { Mountain, LogIn, LogOut, User as UserIcon, ChevronDown, Car, Bug } from 'lucide-react';
 import ProfileModal from './ProfileModal';
 import UserAvatar from './UserAvatar';
 
 interface NavbarProps {
-
   onOpenMyTrips?: () => void;
   onProfileUpdated?: () => void;
+  onOpenFeedback?: () => void;
 }
 
-export default function Navbar({ onOpenMyTrips, onProfileUpdated }: NavbarProps) {
+export default function Navbar({ onOpenMyTrips, onProfileUpdated, onOpenFeedback }: NavbarProps) {
   const [user, setUser] = useState<SupabaseUser | null>(null);
   const [loading, setLoading] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -155,6 +155,18 @@ export default function Navbar({ onOpenMyTrips, onProfileUpdated }: NavbarProps)
                       <span>Mi perfil</span>
                     </button>
 
+                    <button
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        if (onOpenFeedback) onOpenFeedback();
+                        window.dispatchEvent(new CustomEvent('open-quempo-feedback'));
+                      }}
+                      className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-extrabold text-white hover:bg-white/15 transition cursor-pointer text-left group"
+                    >
+                      <Bug className="w-4 h-4 text-sky-400 group-hover:scale-110 transition-transform" />
+                      <span>Reportar error</span>
+                    </button>
+
                     <div className="h-px bg-white/20 my-1" />
 
                     <button
@@ -187,8 +199,8 @@ export default function Navbar({ onOpenMyTrips, onProfileUpdated }: NavbarProps)
         isOpen={isProfileModalOpen}
         onClose={() => setIsProfileModalOpen(false)}
         user={user}
-
         onProfileUpdated={onProfileUpdated}
+        onOpenFeedback={onOpenFeedback}
       />
     </>
   );

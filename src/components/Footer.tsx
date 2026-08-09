@@ -2,7 +2,8 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { MessageCircle, HelpCircle, FileText } from 'lucide-react';
+import { MessageCircle, HelpCircle, FileText, Bug } from 'lucide-react';
+import FeedbackModal from './FeedbackModal';
 
 const COMMUNITY_WHATSAPP_URL =
   process.env.NEXT_PUBLIC_WHATSAPP_GROUP_URL ||
@@ -10,7 +11,11 @@ const COMMUNITY_WHATSAPP_URL =
 const ADMIN_WHATSAPP_URL =
   'https://wa.me/56959365527?text=Hola%20Quempo,%20tengo%20una%20consulta';
 
-export default function Footer() {
+interface FooterProps {
+  onOpenFeedback?: () => void;
+}
+
+export default function Footer({ onOpenFeedback }: FooterProps) {
   const pathname = usePathname();
 
   // Do not render footer on admin routes
@@ -19,7 +24,8 @@ export default function Footer() {
   }
 
   return (
-    <footer className="w-full mt-auto bg-[#071321]/80 backdrop-blur-xl border-t border-white/15 text-white py-6 px-4 sm:px-6">
+    <>
+      <footer className="w-full mt-auto bg-[#071321]/80 backdrop-blur-xl border-t border-white/15 text-white py-6 px-4 sm:px-6">
       <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
         {/* Brand / Logo */}
         <div className="flex items-center gap-2">
@@ -56,6 +62,18 @@ export default function Footer() {
             <span>Contacto</span>
           </a>
 
+          <button
+            type="button"
+            onClick={() => {
+              if (onOpenFeedback) onOpenFeedback();
+              window.dispatchEvent(new CustomEvent('open-quempo-feedback'));
+            }}
+            className="flex items-center gap-1.5 hover:text-sky-300 transition-colors cursor-pointer"
+          >
+            <Bug className="w-4 h-4 text-sky-400" />
+            <span>Reportar Problema</span>
+          </button>
+
           <Link
             href="/terminos"
             className="flex items-center gap-1.5 hover:text-sky-300 transition-colors"
@@ -71,5 +89,7 @@ export default function Footer() {
         </div>
       </div>
     </footer>
+    <FeedbackModal />
+    </>
   );
 }

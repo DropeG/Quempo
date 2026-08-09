@@ -24,6 +24,7 @@ export default function Home() {
   const [tripToEdit, setTripToEdit] = useState<Trip | null>(null);
   const [recentlyPublishedTrip, setRecentlyPublishedTrip] = useState<Trip | null>(null);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
 
   // Helper to format date YYYY-MM-DD
   const getTodayStr = useCallback(() => {
@@ -559,8 +560,6 @@ export default function Home() {
         currentUser={user}
         onDeleteTrip={handleDeleteTrip}
       />
-
-
     </div>
   );
 }

@@ -1,4 +1,6 @@
-## ADDED Requirements
+# whatsapp-country-selector Specification
+
+## Requirements
 
 ### Requirement: Selector de País con Banderas y Opción Manual
 El sistema SHALL proveer un componente de entrada de teléfono con selector de país desplegable que incluya banderas, códigos de área y una opción manual "🌐 Otro país".
