@@ -61,8 +61,7 @@ export default function PublishSuccessModal({
 
   const handleShareToGroup = async () => {
     if (typeof window === 'undefined') return;
-    const shareUrl = getShareUrl();
-    const shareText = `🏔️ *¡Viaje disponible a la cordillera en Quempo!*\n\n🚗 *Ruta:* ${trip.origin} ➔ ${destName}\n📅 *Fecha:* ${trip.departure_date}\n🕒 *Hora:* ${trip.departure_time.slice(0, 5)} hrs\n💺 *Cupos:* ${trip.seats_available} asientos libres\n💰 *Aporte:* ${formattedPrice} CLP\n\n👉 *Ver viaje:* ${shareUrl}`;
+    const shareText = `🏔️ *¡Viaje disponible a la cordillera en Quempo!*\n\n🚗 *Ruta:* ${trip.origin} ➔ ${destName}\n📅 *Fecha:* ${trip.departure_date}\n🕒 *Hora:* ${trip.departure_time.slice(0, 5)} hrs\n💺 *Cupos:* ${trip.seats_available} asientos libres\n💰 *Aporte:* ${formattedPrice} CLP\n\nPublicado en: https://www.quempo.tech`;
 
     try {
       await navigator.clipboard.writeText(shareText);

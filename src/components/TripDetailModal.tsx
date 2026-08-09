@@ -87,8 +87,7 @@ export default function TripDetailModal({
 
   const handleShareWhatsAppGroup = async () => {
     if (typeof window === 'undefined') return;
-    const shareUrl = getShareUrl();
-    const shareText = `🏔️ *¡Viaje a la cordillera en Quempo!*\n\n🚗 *Ruta:* ${trip.origin} ➔ ${destName}\n📅 *Fecha:* ${trip.departure_date}\n🕒 *Hora:* ${trip.departure_time.slice(0, 5)} hrs\n💺 *Cupos:* ${trip.seats_available} asientos disponibles\n💰 *Aporte:* ${formattedPrice} CLP\n\n👉 *Ver viaje:* ${shareUrl}`;
+    const shareText = `🏔️ *¡Viaje a la cordillera en Quempo!*\n\n🚗 *Ruta:* ${trip.origin} ➔ ${destName}\n📅 *Fecha:* ${trip.departure_date}\n🕒 *Hora:* ${trip.departure_time.slice(0, 5)} hrs\n💺 *Cupos:* ${trip.seats_available} asientos disponibles\n💰 *Aporte:* ${formattedPrice} CLP\n\nPublicado en: https://www.quempo.tech`;
 
     try {
       await navigator.clipboard.writeText(shareText);

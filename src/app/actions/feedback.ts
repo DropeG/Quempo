@@ -22,7 +22,10 @@ async function sendTelegramNotification(params: {
   const token = process.env.TELEGRAM_BOT_TOKEN;
   const chatId = process.env.TELEGRAM_CHAT_ID;
 
-  if (!token || !chatId) return;
+  if (!token || !chatId) {
+    console.warn('Telegram env vars (TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID) missing.');
+    return;
+  }
 
   const categoryLabel =
     params.category === 'bug' ? '🐛 BUG' : params.category === 'suggestion' ? '💡 SUGERENCIA' : '❓ OTRO';
@@ -35,7 +38,7 @@ async function sendTelegramNotification(params: {
     (params.screenSize ? `📱 *Pantalla:* ${params.screenSize}\n` : '');
 
   try {
-    await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+    const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -44,6 +47,11 @@ async function sendTelegramNotification(params: {
         parse_mode: 'Markdown',
       }),
     });
+
+    if (!res.ok) {
+      const errText = await res.text();
+      console.error('Telegram API error:', res.status, errText);
+    }
   } catch (err) {
     console.error('Error sending Telegram notification:', err);
   }
@@ -81,8 +89,8 @@ export async function submitFeedbackAction(params: SubmitFeedbackParams) {
       };
     }
 
-    // Try sending notification in background asynchronously
-    sendTelegramNotification({
+    // Await Telegram notification so Vercel Serverless doesn't kill execution prematurely
+    await sendTelegramNotification({
       category: params.category,
       message: params.message.trim(),
       contact: params.contact?.trim(),
