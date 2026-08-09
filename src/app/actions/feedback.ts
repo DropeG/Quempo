@@ -11,6 +11,44 @@ export interface SubmitFeedbackParams {
   screenSize?: string;
 }
 
+async function sendTelegramNotification(params: {
+  category: string;
+  message: string;
+  contact?: string;
+  userEmail?: string;
+  pageUrl?: string;
+  screenSize?: string;
+}) {
+  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
+
+  if (!token || !chatId) return;
+
+  const categoryLabel =
+    params.category === 'bug' ? '🐛 BUG' : params.category === 'suggestion' ? '💡 SUGERENCIA' : '❓ OTRO';
+
+  const text = `🚨 *Nuevo Reporte en Quempo* (${categoryLabel})\n\n` +
+    `📝 *Mensaje:* ${params.message}\n` +
+    (params.contact ? `📞 *Contacto:* \`${params.contact}\`\n` : '') +
+    (params.userEmail ? `👤 *Usuario:* \`${params.userEmail}\`\n` : '') +
+    (params.pageUrl ? `📍 *URL:* ${params.pageUrl}\n` : '') +
+    (params.screenSize ? `📱 *Pantalla:* ${params.screenSize}\n` : '');
+
+  try {
+    await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text,
+        parse_mode: 'Markdown',
+      }),
+    });
+  } catch (err) {
+    console.error('Error sending Telegram notification:', err);
+  }
+}
+
 export async function submitFeedbackAction(params: SubmitFeedbackParams) {
   try {
     if (!params.message || params.message.trim().length < 5) {
@@ -42,6 +80,16 @@ export async function submitFeedbackAction(params: SubmitFeedbackParams) {
         error: 'No se pudo guardar el reporte. Por favor reintenta.',
       };
     }
+
+    // Try sending notification in background asynchronously
+    sendTelegramNotification({
+      category: params.category,
+      message: params.message.trim(),
+      contact: params.contact?.trim(),
+      userEmail: user?.email,
+      pageUrl: params.pageUrl,
+      screenSize: params.screenSize,
+    });
 
     return { success: true };
   } catch (err: unknown) {
