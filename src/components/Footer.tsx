@@ -7,7 +7,7 @@ import FeedbackModal from './FeedbackModal';
 
 const COMMUNITY_WHATSAPP_URL =
   process.env.NEXT_PUBLIC_WHATSAPP_GROUP_URL ||
-  'https://chat.whatsapp.com/ESElGo2ZznuJoFw66kmp4r';
+  'https://chat.whatsapp.com/HSYkGEhRxGgCpPsd6S4Rid';
 const ADMIN_WHATSAPP_URL =
   'https://wa.me/56959365527?text=Hola%20Quempo,%20tengo%20una%20consulta';
 

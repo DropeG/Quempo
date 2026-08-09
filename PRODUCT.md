@@ -66,7 +66,7 @@ Ningún vecino directo combina: especialización en rutas de cordillera + datos 
 - Codebase completo en `/Users/pedro/Documents/Pedro/projects/quempo/` con todos los componentes implementados.
 - Foto de fondo real del Cerro Plomo: `/public/plomo/desktop/plomoDesktop2.webp`.
 - Base de datos Supabase activa con viajes reales y sistema de reseñas operativo.
-- Grupo de WhatsApp comunitario activo: `https://chat.whatsapp.com/ESElGo2ZznuJoFw66kmp4r`.
+- Grupo de WhatsApp comunitario activo: `https://chat.whatsapp.com/HSYkGEhRxGgCpPsd6S4Rid`.
 - No hay testimonios de usuarios, métricas de uso ni press disponibles actualmente.
 
 ## Product Principles

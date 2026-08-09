@@ -22,6 +22,6 @@ The system SHALL provide working direct links to the official WhatsApp community
 - **THEN** the system opens a direct WhatsApp chat window with `https://wa.me/56959365527` pre-filled with a greeting message
 
 #### Scenario: User clicks Comunidad link
-- **WHEN** a user clicks on the "Comunidad" link in the footer
-- **THEN** the system redirects to the official Quempo WhatsApp group `https://chat.whatsapp.com/ESElGo2ZznuJoFw66kmp4r`
+- **WHEN** a user clicks on the "Comunidad" or "Grupo de WhatsApp" link in the footer
+- **THEN** the system redirects to the official Quempo WhatsApp group `https://chat.whatsapp.com/HSYkGEhRxGgCpPsd6S4Rid`
 

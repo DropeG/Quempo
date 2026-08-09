@@ -19,7 +19,7 @@ const DESTINATION_NAMES: Record<string, string> = {
 };
 
 // Default Official WhatsApp Group link for Quempo community
-const DEFAULT_WHATSAPP_GROUP_URL = process.env.NEXT_PUBLIC_WHATSAPP_GROUP_URL || 'https://chat.whatsapp.com/ESElGo2ZznuJoFw66kmp4r';
+const DEFAULT_WHATSAPP_GROUP_URL = process.env.NEXT_PUBLIC_WHATSAPP_GROUP_URL || 'https://chat.whatsapp.com/HSYkGEhRxGgCpPsd6S4Rid';
 
 export default function PublishSuccessModal({
   isOpen,
