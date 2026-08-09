@@ -173,7 +173,7 @@ export default function PhoneInput({ value, onChange, id = 'whatsapp-phone-input
         ) : (
           <p className="text-[11px] text-slate-400 font-medium">
             {selectedCountryCode === 'CL'
-              ? 'Ingresa tus 9 dígitos locales (ej: 9 5936 5527).'
+              ? 'Ingresa tus 9 dígitos locales (ej: 9 1234 5678).'
               : selectedCountryCode === 'OTHER'
               ? 'Ingresa tu número completo con el signo + y código de país.'
               : `Ingresa el número para ${currentCountry.name} (${currentCountry.dialCode}).`}

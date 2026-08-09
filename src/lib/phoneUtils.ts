@@ -14,7 +14,7 @@ export interface CountryConfig {
 export const DEFAULT_COUNTRY_CODE = 'CL';
 
 export const COUNTRIES: CountryConfig[] = [
-  { code: 'CL', name: 'Chile', flag: '🇨🇱', dialCode: '+56', digitsCount: 9, placeholder: '9 5936 5527' },
+  { code: 'CL', name: 'Chile', flag: '🇨🇱', dialCode: '+56', digitsCount: 9, placeholder: '9 1234 5678' },
   { code: 'BR', name: 'Brasil', flag: '🇧🇷', dialCode: '+55', digitsCount: 11, placeholder: '11 91234 5678' },
   { code: 'AR', name: 'Argentina', flag: '🇦🇷', dialCode: '+54', digitsCount: 10, placeholder: '9 11 1234 5678' },
   { code: 'US', name: 'Estados Unidos / Canadá', flag: '🇺🇸', dialCode: '+1', digitsCount: 10, placeholder: '202 555 0123' },
@@ -33,7 +33,7 @@ export interface PhoneParseResult {
 }
 
 /**
- * Parses a raw phone string from DB (e.g., '+56959365527', '56959365527', '959365527', '+61412345678')
+ * Parses a raw phone string from DB (e.g., '+56912345678', '56912345678', '912345678', '+61412345678')
  * into a matching country code and local number for the UI.
  */
 export function parseStoredPhone(rawPhone: string | null | undefined): PhoneParseResult {
@@ -76,8 +76,8 @@ export function parseStoredPhone(rawPhone: string | null | undefined): PhonePars
 
 export interface ValidationOutput {
   isValid: boolean;
-  normalized: string; // Clean E.164 string for DB (e.g. +56959365527)
-  displayFormatted: string; // Human friendly format (e.g. +56 9 5936 5527)
+  normalized: string; // Clean E.164 string for DB (e.g. +56912345678)
+  displayFormatted: string; // Human friendly format (e.g. +56 9 1234 5678)
   error: string | null;
 }
 
