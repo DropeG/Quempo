@@ -43,7 +43,7 @@ export default function PublishSuccessModal({
     const origin = typeof window !== 'undefined' ? window.location.origin : '';
     const baseUrl = (origin && !origin.includes('localhost') && !origin.includes('127.0.0.1'))
       ? origin
-      : (process.env.NEXT_PUBLIC_APP_URL || 'https://quempo-gilt.vercel.app');
+      : (process.env.NEXT_PUBLIC_APP_URL || 'https://quempo.tech');
     return `${baseUrl}/v/${trip.id}`;
   };
 
@@ -62,7 +62,7 @@ export default function PublishSuccessModal({
   const handleShareToGroup = async () => {
     if (typeof window === 'undefined') return;
     const shareUrl = getShareUrl();
-    const shareText = `🏔️ *¡Viaje disponible a la cordillera en Quempo!*\n\n🚗 *Ruta:* ${trip.origin} ➔ ${destName}\n📅 *Fecha:* ${trip.departure_date}\n🕒 *Hora:* ${trip.departure_time.slice(0, 5)} hrs\n💺 *Cupos:* ${trip.seats_available} asientos libres\n💰 *Aporte:* ${formattedPrice} CLP\n\n👉 *Publicado en:* https://quempo-gilt.vercel.app/`;
+    const shareText = `🏔️ *¡Viaje disponible a la cordillera en Quempo!*\n\n🚗 *Ruta:* ${trip.origin} ➔ ${destName}\n📅 *Fecha:* ${trip.departure_date}\n🕒 *Hora:* ${trip.departure_time.slice(0, 5)} hrs\n💺 *Cupos:* ${trip.seats_available} asientos libres\n💰 *Aporte:* ${formattedPrice} CLP\n\n👉 *Ver viaje:* ${shareUrl}`;
 
     try {
       await navigator.clipboard.writeText(shareText);
