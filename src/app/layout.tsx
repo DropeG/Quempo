@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Outfit, DM_Sans } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
 import Footer from "@/components/Footer";
 import "./globals.css";
 
@@ -70,7 +71,9 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         {children}
         <Footer />
+        <Analytics />
       </body>
     </html>
   );
 }
+
