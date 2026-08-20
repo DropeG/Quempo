@@ -175,14 +175,6 @@ export default function PublishModal({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user) {
-      if (process.env.NODE_ENV !== 'production') {
-        onTripPublished(undefined);
-        onClose();
-        return;
-      }
-      return;
-    }
     setError('');
 
     if (!origin.trim()) {
@@ -203,6 +195,35 @@ export default function PublishModal({
     }
 
     const cleanPhone = whatsappNumber;
+
+    if (!user) {
+      if (process.env.NODE_ENV !== 'production') {
+        const mockTrip: Trip = {
+          id: 'dev-demo-trip-id',
+          user_id: 'dev-user-id',
+          driver_name: 'Conductor Demo',
+          driver_avatar: null,
+          direction,
+          destination,
+          origin: origin.trim(),
+          departure_date: departureDate,
+          departure_time: departureTime,
+          seats_available: Number(seatsAvailable) || 1,
+          price_per_seat: pricePerSeat !== '' ? Number(pricePerSeat) : 10000,
+          has_4x4: has4x4,
+          has_chains: hasChains,
+          has_rack: hasRack,
+          notes: notes.trim() || null,
+          whatsapp_number: cleanPhone,
+          instagram_handle: profileInstagramHandle || null,
+          created_at: new Date().toISOString(),
+        };
+        onTripPublished(mockTrip);
+        onClose();
+        return;
+      }
+      return;
+    }
 
     setSubmitting(true);
 
