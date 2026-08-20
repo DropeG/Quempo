@@ -6,7 +6,16 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "fb:check": "tsx scripts/facebook/check-connection.ts",
+    "fb:extract": "tsx scripts/facebook/extract-posts.ts",
+    "fb:classify": "tsx scripts/facebook/classify-trips.ts",
+    "fb:replies": "tsx scripts/facebook/generate-replies.ts",
+    "fb:pipeline": "tsx scripts/facebook/pipeline.ts",
+    "fb:review": "tsx scripts/facebook/copilot-review.ts",
+    "fb:bot": "tsx scripts/facebook/telegram-bot.ts",
+    "fb:test-tg": "tsx scripts/facebook/test-telegram.ts",
+    "fb:alerts": "tsx scripts/facebook/send-alerts.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.3",
@@ -24,7 +33,9 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.11",
+    "playwright": "^1.62.1",
     "tailwindcss": "^4",
+    "tsx": "^4.23.12",
     "typescript": "^5"
   }
 }
