@@ -202,7 +202,7 @@ export default function PublishModal({
           id: 'dev-demo-trip-id',
           user_id: 'dev-user-id',
           driver_name: 'Conductor Demo',
-          driver_avatar: null,
+          driver_avatar: undefined,
           direction,
           destination,
           origin: origin.trim(),
@@ -213,9 +213,9 @@ export default function PublishModal({
           has_4x4: has4x4,
           has_chains: hasChains,
           has_rack: hasRack,
-          notes: notes.trim() || null,
+          notes: notes.trim() || undefined,
           whatsapp_number: cleanPhone,
-          instagram_handle: profileInstagramHandle || null,
+          instagram_handle: profileInstagramHandle || undefined,
           created_at: new Date().toISOString(),
         };
         onTripPublished(mockTrip);
